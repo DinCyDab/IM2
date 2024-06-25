@@ -1,0 +1,43 @@
+<div>
+    <form name="addproduct" method="POST" class="add-product" id="add-product">
+    <button onclick="closeAddProduct()">Close</button>
+        Product Name<input type="text" name="product-name" required>
+        Product Description<input type="text" name="product-description">
+        Product Price<input type="number" name="product-price" min="0" max="9999999999">
+        Product Status
+        <select name="product-status">
+            <option>Active</option>
+            <option>Inactive</option>
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<script>
+    function closeAddProduct(){
+        document.getElementById("add-product").style.display = "none";
+    }
+</script>
+
+<?php
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        $productName = $_POST["product-name"];
+        $productDesc = $_POST["product-description"];
+        $productPrice = $_POST["product-price"];
+        $productStatus = $_POST["product-status"];
+
+        $conn = mysqli_connect("localhost","root","","mamaflors");
+
+        if($conn->connect_error){
+            die("ERROR". $conn->connect_error);
+        }
+        else{
+            $sql = "INSERT INTO product(product_name, product_description, product_price, product_status)
+                    VALUES('$productName', '$productDesc', $productPrice, '$productStatus')";
+            $conn->query($sql);
+
+        }
+
+        $conn->close();
+    }
+?>
