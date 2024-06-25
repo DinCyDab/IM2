@@ -1,7 +1,7 @@
-<div id="add-branch" class="add-branch">
-    <form method="post">
-        <button onclick="hideAddBranch()">Close</button>
-        Branch Name:        <input type="text" name="branchname">
+<div>
+    <form method="post" id="add-branch" class="add-branch">
+    <button onclick="hideAddBranch()">Close</button>
+        Branch Name:        <input type="text" name="branchname" required>
         Established Date:   <input type="date" name="establisheddate">
         Street Name:        <input type="text" name="streetname">
         Barangay:           <input type="text" name="barangay">

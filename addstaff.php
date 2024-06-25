@@ -1,6 +1,7 @@
 <div>
     <form method="POST" class="add-staff" id="add-staff">
         <button onclick="closeAddStaff()">Close</button>
+        Staff ID:       <input type="number" name="staff-ID" required>
         Last Name:      <input type="text" name="last-name" required>
         First Name:     <input type="text" name="first-name" required>
         Middle Name:    <input type="text" name="middle-name"required>
@@ -37,6 +38,7 @@
 
 <?php
     if($_SERVER["REQUEST_METHOD"] == "POST"){
+        $staffid = $_POST["staff-ID"];
         $lastname = $_POST["last-name"];
         $firstname = $_POST["first-name"];
         $middlename = $_POST["middle-name"];
@@ -65,6 +67,7 @@
         }
         else{
             $sql = "INSERT INTO staff(
+                staff_ID,
                 last_name,
                 first_name,
                 middle_name,
@@ -87,6 +90,7 @@
                 status
             )
             VALUES(
+                '$staffid',
                 '$lastname',
                 '$firstname',
                 '$middlename',

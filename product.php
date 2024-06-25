@@ -29,7 +29,7 @@
         <button>EDIT</button>
 
         <br>
-
+        
         <?php 
             include "addproduct.php";
         ?>
@@ -70,22 +70,24 @@
     else{
         //retrieve list of products
         $sql = "SELECT * FROM product";
+        //Create Table
+        if(isset($_GET["sort"])){
+            $sortColumn = $_GET["sort"];
+            $sql .= " ORDER BY $sortColumn";
+        }
         $result = $conn->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
-        //Create Table
-        //Add Design
         if($result->num_rows > 0){
             echo "
                 <table>
                     <tr>
                         <th></th>
-                        <th>Product ID</th>
-                        <th>Product Name</th>
-                        <th style='width:500px'>Product Description</th>
-                        <th>Product Price</th>
-                        <th>Product Status</th>
-                    </tr>
-                    ";
+                        <th><a href='?sort=product_ID'>Product ID</a></th>
+                        <th><a href='?sort=product_name'>Product Name</a></th>
+                        <th><a href='?sort=product_description'>Product Description</a></th>
+                        <th><a href='?sort=product_price'>Product Price</a></th>
+                        <th><a href='?sort=product_status'>Product Status</a></th>
+                    </tr>";
             for($x = 0; $x < sizeof($row); $x++){
                 echo "<tr>
                         <td><button class='remove-product' id='remove-product$x'>Remove</button></td>
