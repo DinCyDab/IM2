@@ -128,11 +128,12 @@
                 echo "<tr>
                         <td>
                             <form method='get'>
-                                <input type='hidden' value='".($x+1)."' name='edit'>
+                                <input type='hidden' value='".($row[$x]['product_ID'])."' name='edit'>
                                 <button class='edit-product-row' id='edit-product-row$x' type='submit'>EDIT</button>
                             </form>
                         </td>
-                        <td><form>
+                        <td><form method='get'>
+                                <input type='hidden' value='".($row[$x]['product_ID'])."' name='remove'>
                                 <button class='remove-product' id='remove-product$x'>Remove</button>
                             </form>
                         </td>
@@ -150,4 +151,21 @@
         }
     }
     $conn->close(); //close db connection
+?>
+
+<?php 
+    if(isset($_GET["remove"])){
+        $removevalue = $_GET["remove"];
+        $conn = mysqli_connect("localhost","root","","mamaflors");
+        if($conn->connect_error){
+            die("ERROR". $conn->connect_error);
+        }
+        else{
+            $sql = "DELETE FROM product
+                    WHERE product_ID = $removevalue";
+            $conn->query($sql);
+        }
+        $conn->close();
+        echo "<a href='product.php'>Back To Product</a>";
+    }
 ?>
