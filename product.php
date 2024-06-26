@@ -132,7 +132,10 @@
                                 <button class='edit-product-row' id='edit-product-row$x' type='submit'>EDIT</button>
                             </form>
                         </td>
-                        <td><button class='remove-product' id='remove-product$x'>Remove</button></td>
+                        <td><form>
+                                <button class='remove-product' id='remove-product$x'>Remove</button>
+                            </form>
+                        </td>
                         <td>".$row[$x]["product_ID"]."</td>
                         <td>".$row[$x]['product_name']."</td>
                         <td>".$row[$x]['product_description']."</td>

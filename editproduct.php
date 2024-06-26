@@ -65,5 +65,7 @@
             $conn->query($sql);
         }
         $conn->close();
+        header("Location: product.php");
+        exit();
     }
 ?>
