@@ -9,7 +9,7 @@
             <option>Active</option>
             <option>Inactive</option>
         </select>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" name="Submit">
     </form>
 </div>
 
@@ -20,7 +20,7 @@
 </script>
 
 <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Submit"])){
         $productName = $_POST["product-name"];
         $productDesc = $_POST["product-description"];
         $productPrice = $_POST["product-price"];

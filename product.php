@@ -8,6 +8,13 @@
             .remove-product{
                 display: none;
             }
+            .edit-product{
+                display: block;
+            }
+            .edit-product-row{
+                display: none;
+            }
+            /* table design */
             table{
                 border-collapse: collapse;
             }
@@ -26,20 +33,43 @@
 
         <button onclick="showAddProduct()">ADD</button>
         <button id="remover">REMOVE</button>
-        <button>EDIT</button>
+        <button id="editor">EDIT</button>
 
         <br>
         
         <?php 
             include "addproduct.php";
+            include "editproduct.php";
         ?>
     </body>
     <script>
-        var button = document.getElementById("remover");
-        button.addEventListener("click", showRemoveProduct);
+        //add onclick remove button
+        var remover = document.getElementById("remover");
+        remover.addEventListener("click", showRemoveProduct);
+
+        var editor = document.getElementById("editor");
+        editor.addEventListener("click", showEditProduct);
 
         function showAddProduct(){
             document.getElementById("add-product").style.display = "block";
+        }
+
+        function showEditProduct(){
+            var editButton = document.getElementsByClassName("edit-product-row");
+            for(var i = 0; i < editButton.length; i++){
+                document.getElementById("edit-product-row"+i).style.display = "block";
+            }
+            editor.removeEventListener("click", showEditProduct);
+            editor.addEventListener("click", hideEditProduct);
+        }
+
+        function hideEditProduct(){
+            var editButton = document.getElementsByClassName("edit-product-row");
+            for(var i = 0; i < editButton.length; i++){
+                document.getElementById("edit-product-row"+i).style.display = "none";
+            }
+            editor.removeEventListener("click", hideEditProduct);
+            editor.addEventListener("click", showEditProduct);
         }
 
         function showRemoveProduct(){
@@ -47,8 +77,8 @@
             for(var i = 0; i < removeButton.length; i++){
                 document.getElementById("remove-product"+i).style.display = "block";
             }
-            button.removeEventListener("click", showRemoveProduct);
-            button.addEventListener("click", hideRemoveProduct);
+            remover.removeEventListener("click", showRemoveProduct);
+            remover.addEventListener("click", hideRemoveProduct);
         }
 
         function hideRemoveProduct(){
@@ -56,8 +86,8 @@
             for(var i = 0; i < removeButton.length; i++){
                 document.getElementById("remove-product"+i).style.display = "none";
             }
-            button.removeEventListener("click", hideRemoveProduct);
-            button.addEventListener("click", showRemoveProduct);
+            remover.removeEventListener("click", hideRemoveProduct);
+            remover.addEventListener("click", showRemoveProduct);
         }
     </script>
 </html>
@@ -70,17 +100,23 @@
     else{
         //retrieve list of products
         $sql = "SELECT * FROM product";
-        //Create Table
+
+        //checks for user input
         if(isset($_GET["sort"])){
             $sortColumn = $_GET["sort"];
             $sql .= " ORDER BY $sortColumn";
         }
+
         $result = $conn->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
         if($result->num_rows > 0){
+            //Create Table
+            //a href='?' Sends a 'get' to server
+            //? in href refers to query
             echo "
                 <table>
                     <tr>
+                        <th></th>
                         <th></th>
                         <th><a href='?sort=product_ID'>Product ID</a></th>
                         <th><a href='?sort=product_name'>Product Name</a></th>
@@ -90,6 +126,12 @@
                     </tr>";
             for($x = 0; $x < sizeof($row); $x++){
                 echo "<tr>
+                        <td>
+                            <form method='get'>
+                                <input type='hidden' value='".($x+1)."' name='edit'>
+                                <button class='edit-product-row' id='edit-product-row$x' type='submit'>EDIT</button>
+                            </form>
+                        </td>
                         <td><button class='remove-product' id='remove-product$x'>Remove</button></td>
                         <td>".$row[$x]["product_ID"]."</td>
                         <td>".$row[$x]['product_name']."</td>
