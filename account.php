@@ -13,7 +13,9 @@
         <button>EDIT</button>
 
         <br>
-
+        <?php
+            include "addaccount.php";
+        ?>
     </body>
 </html>
 
@@ -28,7 +30,20 @@
         $result = $conn->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
         if(sizeof($row) > 0){
-            
+            echo "<table>
+                <tr>
+                    <tr>Account ID</tr>
+                    <tr>Created Date</tr>
+                    <tr>Created Time</tr>
+                    <tr>Password</tr>
+                    <tr>Role</tr>
+                    <tr>Account</tr>
+                </tr>
+            ";
+            for($x = 0; $x < sizeof($row); $x++){
+                
+            }
+            echo "</table>";
         }
         else{
             echo "EMPTY DATABASE";
