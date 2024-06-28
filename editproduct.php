@@ -15,7 +15,7 @@
                     <div id="edit-product" class="edit-product">
                         <button onclick="closeEditProduct()">Close</button>
                         <form method="post">
-                            Product Name:           <input type="text" name="productname" value="'.$row[0]["product_name"].'">
+                            Product Name:           <input type="text" name="productname" value="'.$row[0]["product_name"].'" required>
                             Product Description:    <input type="text" name="productdescription" value="'.$row[0]["product_description"].'">
                             Product Price:          <input type="number" name="productprice" value="'.$row[0]["product_price"].'">
                             Product Status:

@@ -153,7 +153,7 @@
     $conn->close(); //close db connection
 ?>
 
-<?php 
+<?php
     if(isset($_GET["remove"])){
         $removevalue = $_GET["remove"];
         $conn = mysqli_connect("localhost","root","","mamaflors");
@@ -166,6 +166,7 @@
             $conn->query($sql);
         }
         $conn->close();
+        //insert confirmation here
         echo "<a href='product.php'>Back To Product</a>";
     }
 ?>
