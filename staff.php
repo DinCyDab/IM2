@@ -53,6 +53,8 @@
             echo "
                 <table>
                     <tr>
+                        <th></th>
+                        <th></th>
                         <th>Staff ID</th>
                         <th>Last Name</th>
                         <th>First Name</th>
@@ -79,27 +81,38 @@
             for($x = 0; $x < sizeof($row); $x++){
                 echo "
                     <tr>
-                        <th>".$row[$x]['staff_ID']."</th>
-                        <th>".$row[$x]['last_name']."</th>
-                        <th>".$row[$x]['first_name']."</th>
-                        <th>".$row[$x]['middle_name']."</th>
-                        <th>".$row[$x]['house_number']."</th>
-                        <th>".$row[$x]['street_name']."</th>
-                        <th>".$row[$x]['barangay']."</th>
-                        <th>".$row[$x]['city']."</th>
-                        <th>".$row[$x]['province']."</th>
-                        <th>".$row[$x]['postal_code']."</th>
-                        <th>".$row[$x]['birth_date']."</th>
-                        <th>".$row[$x]['gender']."</th>
-                        <th>".$row[$x]['contact_1']."</th>
-                        <th>".$row[$x]['contact_2']."</th>
-                        <th>".$row[$x]['email']."</th>
-                        <th>".$row[$x]['SSN']."</th>
-                        <th>".$row[$x]['TIN']."</th>
-                        <th>".$row[$x]['position_title']."</th>
-                        <th>".$row[$x]['start_date']."</th>
-                        <th>".$row[$x]['salary']."</th>
-                        <th>".$row[$x]['status']."</th>
+                        <td>
+                            <form method='get'>
+                                <input type='hidden' value='".($row[$x]['staff_ID'])."' name='edit'>
+                                <button class='edit-product-row' id='edit-product-row$x' type='submit'>EDIT</button>
+                            </form>
+                        </td>
+                        <td><form method='get'>
+                                <input type='hidden' value='".($row[$x]['staff_ID'])."' name='remove'>
+                                <button class='remove-product' id='remove-product$x'>Remove</button>
+                            </form>
+                        </td>
+                        <td>".$row[$x]['staff_ID']."</td>
+                        <td>".$row[$x]['last_name']."</td>
+                        <td>".$row[$x]['first_name']."</td>
+                        <td>".$row[$x]['middle_name']."</td>
+                        <td>".$row[$x]['house_number']."</td>
+                        <td>".$row[$x]['street_name']."</td>
+                        <td>".$row[$x]['barangay']."</td>
+                        <td>".$row[$x]['city']."</td>
+                        <td>".$row[$x]['province']."</td>
+                        <td>".$row[$x]['postal_code']."</td>
+                        <td>".$row[$x]['birth_date']."</th>
+                        <td>".$row[$x]['gender']."</td>
+                        <td>".$row[$x]['contact_1']."</td>
+                        <td>".$row[$x]['contact_2']."</td>
+                        <td>".$row[$x]['email']."</td>
+                        <td>".$row[$x]['SSN']."</td>
+                        <td>".$row[$x]['TIN']."</td>
+                        <td>".$row[$x]['position_title']."</td>
+                        <td>".$row[$x]['start_date']."</td>
+                        <td>".$row[$x]['salary']."</td>
+                        <td>".$row[$x]['status']."</td>
                     </tr>
                 ";
             }

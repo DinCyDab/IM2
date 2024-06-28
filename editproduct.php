@@ -56,10 +56,11 @@
         }
         else{
             $sql = "UPDATE product
-                    SET product_name = '$productname',
-                    product_description = '$productdescription',
-                    product_price = '$productprice',
-                    product_status = '$productstatus'
+                    SET
+                        product_name = '$productname',
+                        product_description = '$productdescription',
+                        product_price = '$productprice',
+                        product_status = '$productstatus'
                     WHERE product_ID = $productid
                     ";
             $conn->query($sql);

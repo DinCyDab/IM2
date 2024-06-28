@@ -1,6 +1,6 @@
-<div>
-    <form name="addproduct" method="POST" class="add-product" id="add-product">
+<div class="add-product" id="add-product">
     <button onclick="closeAddProduct()">Close</button>
+    <form method="POST">
         Product Name        <input type="text" name="product-name" required>
         Product Description <input type="text" name="product-description">
         Product Price       <input type="number" name="product-price" min="0" max="9999999999">

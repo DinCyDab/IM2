@@ -6,13 +6,13 @@
                 display: none;
             }
             .remove-product{
-                display: none;
+                display: block;
             }
             .edit-product{
                 display: block;
             }
             .edit-product-row{
-                display: none;
+                display: block;
             }
             /* table design */
             table{

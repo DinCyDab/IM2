@@ -1,10 +1,3 @@
-<?php
-    session_start();
-    if(!isset($_SESSION["SORT"])){
-        $_SESSION["SORT"] = "DESC";
-    }
-?>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -34,8 +27,7 @@
         <br>
 
         <?php 
-            include "addbranch.php";
-            include "editbranch.php";
+            include "addbranch.php"
         ?>
         </table>
 
@@ -48,10 +40,6 @@
         function hideAddBranch(){
             document.getElementById("add-branch").style.display = "none";
         }
-
-        function hideEditBranch(){
-            document.getElementById("edit-branch").style.display = "none";
-        }
     </script>
 </html>
 
@@ -63,13 +51,7 @@
     else{
         $sql = "SELECT * FROM branch";
         if(isset($_GET["sort"])){
-            if($_SESSION["SORT"] == "DESC"){
-                $_SESSION["SORT"] = "ASC";
-            }
-            else{
-                $_SESSION["SORT"] = "DESC";
-            }
-            $sql .= " ORDER BY " . $_GET["sort"] . " " . $_SESSION["SORT"];
+            $sql .= " ORDER BY " .$_GET["sort"];
         }
         $result = $conn->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
@@ -123,21 +105,4 @@
         }
     }
     $conn->close();
-?>
-
-<?php 
-    if(isset($_GET["remove"])){
-        $valueToRemove = $_GET["remove"];
-        $conn = mysqli_connect("localhost","root","","mamaflors");
-        if($conn->connect_error){
-            die("ERROR". $conn->connect_error);
-        }
-        else{
-            $sql = "DELETE FROM branch
-                    WHERE branch_ID = $valueToRemove";
-            $conn->query($sql);
-        }
-        $conn->close();
-        echo "<a href='branch.php'>Back To Branch</a>";
-    }
 ?>

@@ -1,6 +1,6 @@
-<div>
-    <form method="post" id="add-branch" class="add-branch">
+<div id="add-branch" class="add-branch">
     <button onclick="hideAddBranch()">Close</button>
+    <form method="post">
         Branch Name:        <input type="text" name="branchname" required>
         Established Date:   <input type="date" name="establisheddate">
         Street Name:        <input type="text" name="streetname">
@@ -14,12 +14,12 @@
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
         </select>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" name="Submit">
     </form>
 </div>
 
 <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Submit"])){
         $branchname = $_POST["branchname"];
         $establisheddate = $_POST["establisheddate"];
         $streetname = $_POST["streetname"];
