@@ -32,16 +32,29 @@
         if(sizeof($row) > 0){
             echo "<table>
                 <tr>
-                    <tr>Account ID</tr>
-                    <tr>Created Date</tr>
-                    <tr>Created Time</tr>
-                    <tr>Password</tr>
-                    <tr>Role</tr>
-                    <tr>Account</tr>
+                    <th></th>
+                    <th></th>
+                    <th>Account ID</th>
+                    <th>Created Date</th>
+                    <th>Created Time</th>
+                    <th>Password</th>
+                    <th>Role</th>
+                    <th>Account Status</th>
                 </tr>
             ";
             for($x = 0; $x < sizeof($row); $x++){
-                
+                echo "
+                    <tr>
+                        <td>Remove</td>
+                        <td>Edit</td>
+                        <td>".$row[$x]["account_ID"]."</td>
+                        <td>".$row[$x]["created_date"]."</td>
+                        <td>".$row[$x]["created_time"]."</td>
+                        <td>".$row[$x]["password"]."</td>
+                        <td>".$row[$x]["role"]."</td>
+                        <td>".$row[$x]["account_status"]."</td>
+                    </tr>
+                ";
             }
             echo "</table>";
         }

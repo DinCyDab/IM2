@@ -8,7 +8,7 @@
         Password: <input type="password" name="pass" required>
         Role:
         <select name="role">
-            <option value="Regular">Regular</option> 
+            <option value="Regular">Regular</option>
             <option value="Administrator">Administrator</option>
         </select>
         Account Status:
