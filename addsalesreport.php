@@ -49,18 +49,19 @@
                         <form method='post'>
                             ".$rowProduct[0]['product_name']."
                             <br>
+                            <input type='hidden' name='productID' value='".$rowProduct[0]['product_ID']."'>
                             Cooked Quantity <input type='number' name='cookedqty'>
                             Reheat Quantity <input type='number' name='reheatqty'>
                             Total Display Quantity <input type='number' name='totaldisplayqty'>
                             Leftover Quantity <input type='number' name='leftoverqty'>
                             Total Sold Quantity <input type='number' name='totalsoldqty'>
-                            <input type='submit' value='Submit'>
+                            <input type='submit' value='Submit' name='submitReport'>
                         </form>
                     </div>
                 ";
             }
             else{
-                echo "Invalid Please Add a Branch or Product";
+                echo "Invalid Input Please Add a Branch or Product";
             }
         }
         $conn->close();
@@ -68,5 +69,41 @@
 ?>
 
 <?php
-    
+    if(isset($_POST["submitReport"])){
+        $productID = $_POST["productID"];
+        $cookedqty = $_POST["cookedqty"];
+        $reheatqty = $_POST["reheatqty"];
+        $totaldisplayqty = $_POST["totaldisplayqty"];
+        $leftoverqty = $_POST["leftoverqty"];
+        $totalsoldqty = $_POST["totalsoldqty"];
+
+        $conn = mysqli_connect("localhost","root","","mamaflors");
+        if($conn->connect_error){
+            die("ERROR". $conn->connect_error);
+        }
+        else{
+            $sql = "INSERT INTO salesreport(
+                account_ID,
+                branch_ID,
+                product_ID,
+                cooked_qty,
+                reheat_qty,
+                total_display_qty,
+                left_over_qty,
+                total_sold_qty
+            )
+            VALUES(
+                '0001',
+                '1',
+                '$productID',
+                '$cookedqty',
+                '$reheatqty',
+                '$totaldisplayqty',
+                '$leftoverqty',
+                '$totalsoldqty'
+            )";
+            $conn->query($sql);
+        }
+        $conn->close();
+    }
 ?>
