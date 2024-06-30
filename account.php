@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
+        <style>
+            table{
+                border-collapse: collapse;
+            }
+            th, tr{
+                border: 1px aqua solid;
+            }
+            tr:nth-child(even){
+                background-color: aqua;
+            }
+        </style>
     </head>
     <body>
         <a href="index.php">Home</a>
@@ -45,8 +55,17 @@
             for($x = 0; $x < sizeof($row); $x++){
                 echo "
                     <tr>
-                        <td>Remove</td>
-                        <td>Edit</td>
+                        <td>
+                            <form method='get'>
+                                <input type='hidden' value='".($row[$x]['account_ID'])."' name='edit'>
+                                <button class='edit-product-row' id='edit-product-row$x' type='submit'>EDIT</button>
+                            </form>
+                        </td>
+                        <td><form method='get'>
+                                <input type='hidden' value='".($row[$x]['account_ID'])."' name='remove'>
+                                <button class='remove-product' id='remove-product$x'>Remove</button>
+                            </form>
+                        </td>
                         <td>".$row[$x]["account_ID"]."</td>
                         <td>".$row[$x]["created_date"]."</td>
                         <td>".$row[$x]["created_time"]."</td>

@@ -118,8 +118,8 @@
                     total_sold_qty
                 )
                 VALUES(
-                    '0001',
-                    '1',
+                    '0002',
+                    '3',
                     '$productID',
                     '$cookedqty',
                     '$reheatqty',
@@ -130,7 +130,7 @@
                 $conn->query($sql);
             }
             $conn->close();
-            echo "<a href='index.php'>Daily Sales Report Submitted</a>";
         }
+        header("Location: salesreport.php");
     }
 ?>
