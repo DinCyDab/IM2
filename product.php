@@ -1,3 +1,13 @@
+<?php
+    if(!isset($_SESSION["session_started"])){
+        session_start();
+        $_SESSION["session_started"] = TRUE;
+    }
+    if(!isset($_SESSION["SORT"])){
+        $_SESSION["SORT"] = "DESC";
+    }
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,14 +15,14 @@
             .add-product{
                 display: none;
             }
-            .remove-product{
-                display: block;
+            .remove-row{
+                display: none;
             }
             .edit-product{
                 display: block;
             }
-            .edit-product-row{
-                display: block;
+            .edit-row{
+                display: none;
             }
             /* table design */
             table{
@@ -34,6 +44,7 @@
         <button onclick="showAddProduct()">ADD</button>
         <button id="remover">REMOVE</button>
         <button id="editor">EDIT</button>
+        <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Product...">
 
         <br>
         
@@ -42,54 +53,7 @@
             include "editproduct.php";
         ?>
     </body>
-    <script>
-        //add onclick remove button
-        var remover = document.getElementById("remover");
-        remover.addEventListener("click", showRemoveProduct);
-
-        var editor = document.getElementById("editor");
-        editor.addEventListener("click", showEditProduct);
-
-        function showAddProduct(){
-            document.getElementById("add-product").style.display = "block";
-        }
-
-        function showEditProduct(){
-            var editButton = document.getElementsByClassName("edit-product-row");
-            for(var i = 0; i < editButton.length; i++){
-                document.getElementById("edit-product-row"+i).style.display = "block";
-            }
-            editor.removeEventListener("click", showEditProduct);
-            editor.addEventListener("click", hideEditProduct);
-        }
-
-        function hideEditProduct(){
-            var editButton = document.getElementsByClassName("edit-product-row");
-            for(var i = 0; i < editButton.length; i++){
-                document.getElementById("edit-product-row"+i).style.display = "none";
-            }
-            editor.removeEventListener("click", hideEditProduct);
-            editor.addEventListener("click", showEditProduct);
-        }
-
-        function showRemoveProduct(){
-            var removeButton = document.getElementsByClassName("remove-product");
-            for(var i = 0; i < removeButton.length; i++){
-                document.getElementById("remove-product"+i).style.display = "block";
-            }
-            remover.removeEventListener("click", showRemoveProduct);
-            remover.addEventListener("click", hideRemoveProduct);
-        }
-
-        function hideRemoveProduct(){
-            var removeButton = document.getElementsByClassName("remove-product");
-            for(var i = 0; i < removeButton.length; i++){
-                document.getElementById("remove-product"+i).style.display = "none";
-            }
-            remover.removeEventListener("click", hideRemoveProduct);
-            remover.addEventListener("click", showRemoveProduct);
-        }
-    </script>
+    <script src="filtertable.js"></script>
 </html>
 
 <?php
@@ -100,11 +64,14 @@
     else{
         //retrieve list of products
         $sql = "SELECT * FROM product";
-
-        //checks for user input
         if(isset($_GET["sort"])){
-            $sortColumn = $_GET["sort"];
-            $sql .= " ORDER BY $sortColumn";
+            if($_SESSION["SORT"] == "DESC"){
+                $_SESSION["SORT"] = "ASC";
+            }
+            else{
+                $_SESSION["SORT"] = "DESC";
+            }
+            $sql .= " ORDER BY " . $_GET["sort"] . " " . $_SESSION["SORT"];
         }
 
         $result = $conn->query($sql);
@@ -114,7 +81,7 @@
             //a href='?' Sends a 'get' to server
             //? in href refers to query
             echo "
-                <table>
+                <table id='table'>
                     <tr>
                         <th></th>
                         <th></th>
@@ -129,12 +96,14 @@
                         <td>
                             <form method='get'>
                                 <input type='hidden' value='".($row[$x]['product_ID'])."' name='edit'>
-                                <button class='edit-product-row' id='edit-product-row$x' type='submit'>EDIT</button>
+                                <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
                             </form>
                         </td>
-                        <td><form method='get'>
-                                <input type='hidden' value='".($row[$x]['product_ID'])."' name='remove'>
-                                <button class='remove-product' id='remove-product$x'>Remove</button>
+                        <td><form method='get' action='remove.php'>
+                                <input type='hidden' value='".($row[$x]['product_ID'])."' name='removeID'>
+                                <input type='hidden' value='product' name='tableName'>
+                                <input type='hidden' value='product_ID' name='columnName'>
+                                <button class='remove-row' id='remove-row$x' name='remove'>Remove</button>
                             </form>
                         </td>
                         <td>".$row[$x]["product_ID"]."</td>
@@ -151,22 +120,4 @@
         }
     }
     $conn->close(); //close db connection
-?>
-
-<?php
-    if(isset($_GET["remove"])){
-        $removevalue = $_GET["remove"];
-        $conn = mysqli_connect("localhost","root","","mamaflors");
-        if($conn->connect_error){
-            die("ERROR". $conn->connect_error);
-        }
-        else{
-            $sql = "DELETE FROM product
-                    WHERE product_ID = $removevalue";
-            $conn->query($sql);
-        }
-        $conn->close();
-        //insert confirmation here
-        echo "<a href='product.php'>Back To Product</a>";
-    }
 ?>

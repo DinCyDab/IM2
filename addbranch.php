@@ -60,5 +60,7 @@
             $conn->query($sql);
         }
         $conn->close();
+        header("Location: branch.php");
+        exit();
     }
 ?>

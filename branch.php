@@ -1,5 +1,8 @@
 <?php
-    session_start();
+    if(!isset($_SESSION["session_started"])){
+        session_start();
+        $_SESSION["session_started"] = TRUE;
+    }
     if(!isset($_SESSION["SORT"])){
         $_SESSION["SORT"] = "DESC";
     }
@@ -10,6 +13,15 @@
     <head>
         <style>
             .add-branch{
+                display: none;
+            }
+            .remove-row{
+                display: none;
+            }
+            .edit-product{
+                display: block;
+            }
+            .edit-row{
                 display: none;
             }
             table{
@@ -28,14 +40,15 @@
         <br>
 
         <button onclick="showAddBranch()">ADD</button>
-        <button>REMOVE</button>
-        <button>EDIT</button>
-
+        <button id="remover">REMOVE</button>
+        <button id="editor">EDIT</button>
+        <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Branch...">
         <br>
 
         <?php 
             include "addbranch.php";
             include "editbranch.php";
+            include "remove.php";
         ?>
         </table>
 
@@ -53,6 +66,7 @@
             document.getElementById("edit-branch").style.display = "none";
         }
     </script>
+    <script src="filtertable.js"></script>
 </html>
 
 <?php
@@ -75,7 +89,7 @@
         $row = $result->fetch_all(MYSQLI_ASSOC);
         if(sizeof($row) > 0){
             echo "
-            <table>
+            <table id='table'>
                 <tr>
                     <th></th>
                     <th></th>
@@ -96,12 +110,13 @@
                         <td>
                             <form method='get'>
                                 <input type='hidden' value='".($row[$x]['branch_ID'])."' name='edit'>
-                                <button class='edit-product-row' id='edit-product-row$x' type='submit'>EDIT</button>
+                                <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
                             </form>
                         </td>
                         <td><form method='get'>
                                 <input type='hidden' value='".($row[$x]['branch_ID'])."' name='remove'>
-                                <button class='remove-product' id='remove-product$x'>Remove</button>
+                                <input type='hidden' value='branch' name='removeTable'>
+                                <button class='remove-row' id='remove-row$x'>Remove</button>
                             </form>
                         </td>
                         <td>".$row[$x]['branch_ID']."</td>
@@ -123,21 +138,4 @@
         }
     }
     $conn->close();
-?>
-
-<?php 
-    if(isset($_GET["remove"])){
-        $valueToRemove = $_GET["remove"];
-        $conn = mysqli_connect("localhost","root","","mamaflors");
-        if($conn->connect_error){
-            die("ERROR". $conn->connect_error);
-        }
-        else{
-            $sql = "DELETE FROM branch
-                    WHERE branch_ID = $valueToRemove";
-            $conn->query($sql);
-        }
-        $conn->close();
-        echo "<a href='branch.php'>Back To Branch</a>";
-    }
 ?>
