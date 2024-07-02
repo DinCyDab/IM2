@@ -39,7 +39,7 @@
         <a href="index.php">Home</a>
         <br>
 
-        <button onclick="showAddBranch()">ADD</button>
+        <button onclick="showAdd()">ADD</button>
         <button id="remover">REMOVE</button>
         <button id="editor">EDIT</button>
         <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Branch...">
@@ -53,19 +53,6 @@
         </table>
 
     </body>
-    <script>
-        function showAddBranch(){
-            document.getElementById("add-branch").style.display = "block";
-        }
-
-        function hideAddBranch(){
-            document.getElementById("add-branch").style.display = "none";
-        }
-
-        function hideEditBranch(){
-            document.getElementById("edit-branch").style.display = "none";
-        }
-    </script>
     <script src="filtertable.js"></script>
 </html>
 
@@ -114,9 +101,10 @@
                             </form>
                         </td>
                         <td><form method='get'>
-                                <input type='hidden' value='".($row[$x]['branch_ID'])."' name='remove'>
-                                <input type='hidden' value='branch' name='removeTable'>
-                                <button class='remove-row' id='remove-row$x'>Remove</button>
+                                <input type='hidden' value='".($row[$x]['branch_ID'])."' name='removeID'>
+                                <input type='hidden' value='branch' name='tableName'>
+                                <input type='hidden' value='branch_ID' name='columnName'>
+                                <button class='remove-row' id='remove-row$x' name='remove'>Remove</button>
                             </form>
                         </td>
                         <td>".$row[$x]['branch_ID']."</td>

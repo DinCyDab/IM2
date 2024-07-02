@@ -1,6 +1,6 @@
-<div>
-    <form method="POST" class="add-staff" id="add-staff">
-        <button onclick="closeAddStaff()">Close</button>
+<div class="add-staff" id="add">
+    <form method="POST">
+        <button onclick="hideAdd()">Close</button>
         Staff ID:       <input type="text" name="staff-ID" required>
         Last Name:      <input type="text" name="last-name" required>
         First Name:     <input type="text" name="first-name" required>

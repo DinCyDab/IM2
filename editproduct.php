@@ -12,8 +12,8 @@
             $row = $result->fetch_all(MYSQLI_ASSOC);
             if(sizeof($row)>0){
                 echo'
-                    <div id="edit-product" class="edit-product">
-                        <button onclick="closeEditProduct()">Close</button>
+                    <div id="edit" class="edit-product">
+                        <button onclick="hideEdit()">Close</button>
                         <form method="post">
                             Product Name:           <input type="text" name="productname" value="'.$row[0]["product_name"].'" required>
                             Product Description:    <input type="text" name="productdescription" value="'.$row[0]["product_description"].'">
@@ -35,12 +35,6 @@
         $conn->close();
     }
 ?>
-
-<script>
-    function closeEditProduct(){
-        document.getElementById("edit-product").style.display = "none";
-    }
-</script>
 
 <?php
     // $productid = $_GET["test"];

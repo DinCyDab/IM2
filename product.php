@@ -41,7 +41,7 @@
 
         <br>
 
-        <button onclick="showAddProduct()">ADD</button>
+        <button onclick="showAdd()">ADD</button>
         <button id="remover">REMOVE</button>
         <button id="editor">EDIT</button>
         <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Product...">

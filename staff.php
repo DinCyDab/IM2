@@ -1,8 +1,24 @@
+<?php
+    if(!isset($_SESSION["session_started"])){
+        session_start();
+        $_SESSION["session_started"] = TRUE;
+    }
+    if(!isset($_SESSION["SORT"])){
+        $_SESSION["SORT"] = "DESC";
+    }
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
         <style>
             .add-staff{
+                display: none;
+            }
+            .edit-row{
+                display: none;
+            }
+            .remove-row{
                 display: none;
             }
             table{
@@ -21,21 +37,19 @@
 
         <br>
 
-        <button onclick="showAddStaff()">ADD</button>
-        <button>REMOVE</button>
-        <button>EDIT</button>
+        <button onclick="showAdd()">ADD</button>
+        <button id="remover">REMOVE</button>
+        <button id="editor">EDIT</button>
+        <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Staff...">
 
         <br>
 
         <?php 
-            include "addstaff.php"
+            include "addstaff.php";
+            include "editstaff.php";
         ?>
     </body>
-    <script>
-        function showAddStaff(){
-            document.getElementById("add-staff").style.display = "block";
-        }
-    </script>
+    <script src="filtertable.js"></script>
 </html>
 
 <?php 
@@ -47,35 +61,44 @@
     else{
         //Retrieve Data from staff table
         $sql = "SELECT * FROM staff";
+        if(isset($_GET["sort"])){
+            if($_SESSION["SORT"] == "DESC"){
+                $_SESSION["SORT"] = "ASC";
+            }
+            else{
+                $_SESSION["SORT"] = "DESC";
+            }
+            $sql .= " ORDER BY " . $_GET["sort"] . " " . $_SESSION["SORT"];
+        }
         $result = $conn->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
         if(sizeof($row) > 0){
             echo "
-                <table>
+                <table id='table'>
                     <tr>
                         <th></th>
                         <th></th>
-                        <th>Staff ID</th>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>House Number</th>
-                        <th>Street Name</th>
-                        <th>Barangay</th>
-                        <th>City</th>
-                        <th>Province</th>
-                        <th>Postal Code</th>
-                        <th>Birthdate</th>
-                        <th>Gender</th>
-                        <th>Contact Number(1)</th>
-                        <th>Contact Number(2)</th>
-                        <th>Email</th>
-                        <th>SSN</th>
-                        <th>TIN</th>
-                        <th>Position Title</th>
-                        <th>Start Date</th>
-                        <th>Salary</th>
-                        <th>Status</th>
+                        <th><a href='?sort=staff_ID'>Staff ID</a></th>
+                        <th><a href='?sort=last_name'>Last Name</a></th>
+                        <th><a href='?sort=first_name'>First Name</a></th>
+                        <th><a href='?sort=middle_name'>Middle Name</a></th>
+                        <th><a href='?sort=house_number'>House Number</a></th>
+                        <th><a href='?sort=street_name'>Street Name</a></th>
+                        <th><a href='?sort=barangay'>Barangay</a></th>
+                        <th><a href='?sort=city'>City</a></th>
+                        <th><a href='?sort=province'>Province</a></th>
+                        <th><a href='?sort=postal_code'>Postal Code</a></th>
+                        <th><a href='?sort=birth_date'>Birthdate</a></th>
+                        <th><a href='?sort=gender'>Gender</a></th>
+                        <th><a href='?sort=contact_1'>Contact Number(1)</a></th>
+                        <th><a href='?sort=contact_2'>Contact Number(2)</a></th>
+                        <th><a href='?sort=email'>Email</a></th>
+                        <th><a href='?sort=SSN'>SSN</a></th>
+                        <th><a href='?sort=TIN'>TIN</a></th>
+                        <th><a href='?sort=position_title'>Position Title</a></th>
+                        <th><a href='?sort=start_date'>Start Date</a></th>
+                        <th><a href='?sort=salary'>Salary</a></th>
+                        <th><a href='?sort=status'>Status</a></th>
                     </tr>
                 ";
             for($x = 0; $x < sizeof($row); $x++){
@@ -84,12 +107,15 @@
                         <td>
                             <form method='get'>
                                 <input type='hidden' value='".($row[$x]['staff_ID'])."' name='edit'>
-                                <button class='edit-product-row' id='edit-product-row$x' type='submit'>EDIT</button>
+                                <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
                             </form>
                         </td>
-                        <td><form method='get'>
-                                <input type='hidden' value='".($row[$x]['staff_ID'])."' name='remove'>
-                                <button class='remove-product' id='remove-product$x'>Remove</button>
+                        <td>
+                            <form method='get'>
+                                <input type='hidden' value='".($row[$x]['staff_ID'])."' name='removeID'>
+                                <input type='hidden' value='staff' name='tableName'>
+                                <input type='hidden' value='staff_ID' name='columnName'>
+                                <button class='remove-row' id='remove-row$x' name='remove'>Remove</button>
                             </form>
                         </td>
                         <td>".$row[$x]['staff_ID']."</td>

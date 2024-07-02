@@ -12,8 +12,8 @@
             $row = $result->fetch_all(MYSQLI_ASSOC);
             if(sizeof($row) > 0){
                 echo '
-                    <div id="edit-branch" class="edit-branch">
-                    <button onclick="hideEditBranch()">Close</button>
+                    <div id="edit" class="edit-branch">
+                    <button onclick="hideEdit()">Close</button>
                     <form method="post">
                         Branch Name:        <input type="text" value="'.$row[0]["branch_name"].'" name="branchname" required>
                         Established Date:   <input type="date" value="'.$row[0]["established_date"].'" name="establisheddate">

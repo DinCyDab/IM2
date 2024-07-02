@@ -12,47 +12,56 @@ function filterTable(){
     }
 }
 
+function showAdd(){
+    document.getElementById("add").style.display = "block";
+}
+
+function hideAdd(){
+    document.getElementById("add").style.display = "none";
+}
+
+function hideEdit(){
+    document.getElementById("edit").style.display = "none";
+}
+
 var remover = document.getElementById("remover");
-        remover.addEventListener("click", showRemove);
+remover.addEventListener("click", showRemoveColumn);
 
-        var editor = document.getElementById("editor");
-        editor.addEventListener("click", showEdit);
+var editor = document.getElementById("editor");
+editor.addEventListener("click", showEditColumn);
 
-        function showAddProduct(){
-            document.getElementById("add-product").style.display = "block";
-        }
-        function showEdit(){
-            var editButton = document.getElementsByClassName("edit-row");
-            for(var i = 0; i < editButton.length; i++){
-                document.getElementById("edit-row"+i).style.display = "block";
-            }
-            editor.removeEventListener("click", showEdit);
-            editor.addEventListener("click", hideEdit);
-        }
+function showEditColumn(){
+    var editButton = document.getElementsByClassName("edit-row");
+    for(var i = 0; i < editButton.length; i++){
+        document.getElementById("edit-row"+i).style.display = "block";
+    }
+    editor.removeEventListener("click", showEditColumn);
+    editor.addEventListener("click", hideEditColumn);
+}
 
-        function hideEdit(){
-            var editButton = document.getElementsByClassName("edit-row");
-            for(var i = 0; i < editButton.length; i++){
-                document.getElementById("edit-row"+i).style.display = "none";
-            }
-            editor.removeEventListener("click", hideEdit);
-            editor.addEventListener("click", showEdit);
-        }
+function hideEditColumn(){
+    var editButton = document.getElementsByClassName("edit-row");
+    for(var i = 0; i < editButton.length; i++){
+        document.getElementById("edit-row"+i).style.display = "none";
+    }
+    editor.removeEventListener("click", hideEditColumn);
+    editor.addEventListener("click", showEditColumn);
+}
 
-        function showRemove(){
-            var removeButton = document.getElementsByClassName("remove-row");
-            for(var i = 0; i < removeButton.length; i++){
-                document.getElementById("remove-row"+i).style.display = "block";
-            }
-            remover.removeEventListener("click", showRemove);
-            remover.addEventListener("click", hideRemove);
-        }
+function showRemoveColumn(){
+    var removeButton = document.getElementsByClassName("remove-row");
+    for(var i = 0; i < removeButton.length; i++){
+        document.getElementById("remove-row"+i).style.display = "block";
+    }
+    remover.removeEventListener("click", showRemoveColumn);
+    remover.addEventListener("click", hideRemoveColumn);
+}
 
-        function hideRemove(){
-            var removeButton = document.getElementsByClassName("remove-row");
-            for(var i = 0; i < removeButton.length; i++){
-                document.getElementById("remove-row"+i).style.display = "none";
-            }
-            remover.removeEventListener("click", hideRemove);
-            remover.addEventListener("click", showRemove);
-        }
+function hideRemoveColumn(){
+    var removeButton = document.getElementsByClassName("remove-row");
+    for(var i = 0; i < removeButton.length; i++){
+        document.getElementById("remove-row"+i).style.display = "none";
+    }
+    remover.removeEventListener("click", hideRemoveColumn);
+    remover.addEventListener("click", showRemoveColumn);
+}

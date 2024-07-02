@@ -1,5 +1,5 @@
-<div id="add-branch" class="add-branch">
-    <button onclick="hideAddBranch()">Close</button>
+<div id="add" class="add-branch">
+    <button onclick="hideAdd()">Close</button>
     <form method="post">
         Branch Name:        <input type="text" name="branchname" required>
         Established Date:   <input type="date" name="establisheddate">

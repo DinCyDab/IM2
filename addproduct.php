@@ -1,5 +1,5 @@
-<div class="add-product" id="add-product">
-    <button onclick="closeAddProduct()">Close</button>
+<div class="add-product" id="add">
+    <button onclick="hideAdd()">Close</button>
     <form method="POST">
         Product Name        <input type="text" name="product-name" required>
         Product Description <input type="text" name="product-description">
@@ -12,12 +12,6 @@
         <input type="submit" value="Submit" name="Submit">
     </form>
 </div>
-
-<script>
-    function closeAddProduct(){
-        document.getElementById("add-product").style.display = "none";
-    }
-</script>
 
 <?php
     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Submit"])){
