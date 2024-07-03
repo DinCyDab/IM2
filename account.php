@@ -1,3 +1,13 @@
+<?php
+    if(!isset($_SESSION["session_started"])){
+        session_start();
+        $_SESSION["session_started"] = TRUE;
+    }
+    if(!isset($_SESSION["SORT"])){
+        $_SESSION["SORT"] = "DESC";
+    }
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -62,6 +72,15 @@
                     account
                     INNER JOIN staff ON account.account_ID = staff.staff_ID
                 ";
+        if(isset($_GET["sort"])){
+            if($_SESSION["SORT"] == "DESC"){
+                $_SESSION["SORT"] = "ASC";
+            }
+            else{
+                $_SESSION["SORT"] = "DESC";
+            }
+            $sql .= " ORDER BY " . $_GET["sort"] . " " . $_SESSION["SORT"];
+        }
         $result = $conn->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
         if(sizeof($row) > 0){
@@ -69,15 +88,15 @@
                 <tr>
                     <th></th>
                     <th></th>
-                    <th>Account ID</th>
-                    <th>Last Name</th>
-                    <th>First Name</th>
-                    <th>Middle Name</th>
-                    <th>Created Date</th>
-                    <th>Created Time</th>
-                    <th>Password</th>
-                    <th>Role</th>
-                    <th>Account Status</th>
+                    <th><a href='?sort=account_ID'>Account ID</a></th>
+                    <th><a href='?sort=last_name'>Last Name</a></th>
+                    <th><a href='?sort=first_name'>First Name</a></th>
+                    <th><a href='?sort=middle_name'>Middle Name</a></th>
+                    <th><a href='?sort=created_date'>Created Date</a></th>
+                    <th><a href='?sort=created_time'>Created Time</a></th>
+                    <th><a href='?sort=password'>Password</a></th>
+                    <th><a href='?sort=role'>Role</a></th>
+                    <th><a href='?sort=account_status'>Account Status</a></th>
                 </tr>
             ";
             for($x = 0; $x < sizeof($row); $x++){

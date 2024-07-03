@@ -21,6 +21,15 @@
                     WHERE
                         assignment_date = DATE('$year/$month/$day')
                         ";
+            if(isset($_GET["sort"])){
+                if($_SESSION["SORT"] == "DESC"){
+                    $_SESSION["SORT"] = "ASC";
+                }
+                else{
+                    $_SESSION["SORT"] = "DESC";
+                }
+                $sql .= " ORDER BY " . $_GET["sort"] . " " . $_SESSION["SORT"];
+            }
                     
             $result = $conn->query($sql);
             $row = $result->fetch_all(MYSQLI_ASSOC);
@@ -29,14 +38,14 @@
                     <th></th>
                     <th></th>
                     <th>No.</th>
-                    <th>Staff ID</th>
-                    <th>Staff Name</th>
-                    <th>Branch ID</th>
-                    <th>Branch Name</th>
-                    <th>Time in</th>
-                    <th>Time out</th>
-                    <th>Note</th>
-                    <th>Status</th>
+                    <th><a href='?sort=staff_ID'>Staff ID</a></th>
+                    <th><a href='?sort=staff_name'>Staff Name</a></th>
+                    <th><a href='?sort=branch_ID'>Branch ID</a></th>
+                    <th><a href='?sort=branch_name'>Branch Name</a></th>
+                    <th><a href='?sort=time_in'>Time in</a></th>
+                    <th><a href='?sort=time_out'>Time out</a></th>
+                    <th><a href='?sort=note'>Note</a></th>
+                    <th><a href='?sort=assignment_status'>Status</a></th>
                 </tr>";
                 for($x = 0; $x < sizeof($row); $x++){
                     echo "<tr>

@@ -1,3 +1,13 @@
+<?php
+    if(!isset($_SESSION["session_started"])){
+        session_start();
+        $_SESSION["session_started"] = TRUE;
+    }
+    if(!isset($_SESSION["SORT"])){
+        $_SESSION["SORT"] = "DESC";
+    }
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
