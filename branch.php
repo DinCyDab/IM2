@@ -100,7 +100,8 @@
                                 <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
                             </form>
                         </td>
-                        <td><form method='get'>
+                        <td>
+                            <form method='get'>
                                 <input type='hidden' value='".($row[$x]['branch_ID'])."' name='removeID'>
                                 <input type='hidden' value='branch' name='tableName'>
                                 <input type='hidden' value='branch_ID' name='columnName'>
