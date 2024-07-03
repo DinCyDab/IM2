@@ -1,6 +1,7 @@
 <?php
     if(isset($_GET["edit"])){
         $valueToEdit = $_GET["edit"];
+        echo "$valueToEdit\n\n";
         $conn = mysqli_connect("localhost","root","","mamaflors");
         if($conn->connect_error) {
             die("ERROR". $conn->connect_error);
@@ -40,7 +41,7 @@
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
                         </select>
-                        <input type="submit" value="Submit">
+                        <input type="submit" value="Submit" name="Update">
                     </form>
                 </div>
                 ';
@@ -52,38 +53,62 @@
 
 <?php
     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Update"])){
-        $branchname = $_POST["branchname"];
-        $establisheddate = $_POST["establisheddate"];
-        $streetname = $_POST["streetname"];
+        $staffid = $_POST["staff-ID"];
+        $lastname = $_POST["last-name"];
+        $firstname = $_POST["first-name"];
+        $middlename = $_POST["middle-name"];
+        $housenumber = $_POST["house-number"];
+        $streetname = $_POST["street-name"];
         $barangay = $_POST["barangay"];
         $city = $_POST["city"];
         $province = $_POST["province"];
-        $postalcode = $_POST["postalcode"];
-        $contactnumber = $_POST["contactnumber"];
-        $branchstatus = $_POST["branch-status"];
+        $postalcode = $_POST["postal-code"];
+        $birthday = $_POST["birth-date"];
+        $gender = $_POST["gender"];
+        $contact1 = $_POST["contact-number-1"];
+        $contact2 = $_POST["contact-number-2"];
+        $email = $_POST["email"];
+        $ssn = $_POST["ssn"];
+        $tin = $_POST["tin"];
+        $position = $_POST["position"];
+        $startdate = $_POST["start-date"];
+        $salary = $_POST["salary"];
+        $status = $_POST["status"];
 
         $conn = mysqli_connect("localhost","root","","mamaflors");
         if($conn->connect_error){
             die("ERROR". $conn->connect_error);
         }
         else{
-            $sql = "UPDATE branch
+            $sql = "UPDATE staff
                     SET
-                        branch_name = '$branchname',
-                        established_date = '$establisheddate',
+                        staff_ID = '$staffid',
+                        last_name = '$lastname',
+                        first_name = '$firstname',
+                        middle_name = '$middlename',
+                        house_number = '$housenumber',
                         street_name = '$streetname',
                         barangay = '$barangay',
                         city = '$city',
                         province = '$province',
                         postal_code = '$postalcode',
-                        contact_number = '$contactnumber',
-                        branch_status = '$branchstatus'
-                    WHERE branch_ID = $valueToEdit;
+                        birth_date = '$birthday',
+                        gender = '$gender',
+                        contact_1 = '$contact1',
+                        contact_2 = '$contact2',
+                        email = '$email',
+                        SSN = '$ssn',
+                        TIN = '$tin',
+                        position_title = '$position',
+                        start_date = '$startdate',
+                        salary = '$salary',
+                        status = '$status'
+                    WHERE staff_ID = $valueToEdit;
             ";
             $conn->query($sql);
         }
         $conn->close();
-        header("Location: branch.php");
+        header("Location: staff.php");
         exit();
     }
 ?>

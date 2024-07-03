@@ -1,9 +1,29 @@
-<div>
+<div id="add" class="add-account">
+    <button onclick="hideAdd()">Close</button>
     <form method="post">
         Account ID:
         <select name="accountid" required>
-            <!-- for loop here -->
-            <option value="0002">0001</option>
+            <?php
+                $conn = mysqli_connect("localhost","root","","mamaflors");
+                if(!$conn->connect_error){
+                    $sql = "SELECT 
+                                staff_ID,
+                                CONCAT(last_name, ', ', first_name, ' ', middle_name) AS 'staff_name'
+                            FROM 
+                                staff
+                            WHERE
+                                status = 'Active'
+                            ";
+                    $result = $conn->query($sql);
+                    $row = $result->fetch_all(MYSQLI_ASSOC);
+                    if(sizeof($row) > 0){
+                        for($x = 0; $x < sizeof($row); $x++){
+                            echo "<option value='".$row[$x]['staff_ID']."'>".$row[$x]['staff_ID']." ".$row[$x]['staff_name']."</option>";
+                        }
+                    }
+                }
+                $conn->close();
+            ?>
         </select>
         Password: <input type="password" name="pass" required>
         Role:

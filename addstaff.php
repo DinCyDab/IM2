@@ -26,7 +26,7 @@
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
         </select>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" name="addstaff">
     </form>
 </div>
 
@@ -37,7 +37,7 @@
 </script>
 
 <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if(isset($_POST['addstaff'])){
         $staffid = $_POST["staff-ID"];
         $lastname = $_POST["last-name"];
         $firstname = $_POST["first-name"];
@@ -115,5 +115,7 @@
             $conn->query($sql);
         }
         $conn->close();
+        header("Location: staff.php");
+        exit();
     }
 ?>

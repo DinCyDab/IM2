@@ -37,7 +37,6 @@
 ?>
 
 <?php
-    // $productid = $_GET["test"];
     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Update"])){
         $productname = $_POST["productname"];
         $productdescription = $_POST["productdescription"];

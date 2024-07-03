@@ -44,9 +44,10 @@
 
         <br>
 
-        <?php 
-            include "addstaff.php";
+        <?php
             include "editstaff.php";
+            include "addstaff.php";
+            include "remove.php";
         ?>
     </body>
     <script src="filtertable.js"></script>
