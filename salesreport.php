@@ -77,9 +77,7 @@
             include "remove.php"
         ?>
     </body>
-    <?php
-        include "filtertable.php";
-    ?>
+    <script src="filtertable.js"></script>
 </html>
 
 <?php
