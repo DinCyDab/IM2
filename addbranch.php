@@ -1,4 +1,4 @@
-<div id="add" class="add-branch">
+<div class="add-branch" id="add">
     <button onclick="hideAdd()">Close</button>
     <form method="post">
         Branch Name:        <input type="text" name="branchname" required>

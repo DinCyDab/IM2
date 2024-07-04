@@ -1,3 +1,4 @@
+<script>
 function filterTable(){
     var input = document.getElementById("search").value.toUpperCase();
     var rows = document.getElementById("table").getElementsByTagName("tr");
@@ -65,3 +66,4 @@ function hideRemoveColumn(){
     remover.removeEventListener("click", hideRemoveColumn);
     remover.addEventListener("click", showRemoveColumn);
 }
+</script>

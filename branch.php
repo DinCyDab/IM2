@@ -1,7 +1,10 @@
 <?php
+    ob_start();
+    session_start();
     if(!isset($_SESSION["session_started"])){
-        session_start();
         $_SESSION["session_started"] = TRUE;
+        $_SESSION["showEdit"] = FALSE;
+        $_SESSION["showRemove"] = FALSE;
     }
     if(!isset($_SESSION["SORT"])){
         $_SESSION["SORT"] = "DESC";
@@ -16,13 +19,37 @@
                 display: none;
             }
             .remove-row{
-                display: none;
-            }
-            .edit-product{
-                display: block;
+                display: <?php
+                        if(isset($_SESSION["showRemove"])){
+                            if($_SESSION["showRemove"] == TRUE){
+                                echo "block";
+                            }
+                            else{
+                                echo "none";
+                            }
+                        }
+                        else{
+                            echo "none";
+                        }
+                    ?>;
             }
             .edit-row{
-                display: none;
+                display: <?php
+                        if(isset($_SESSION["showEdit"])){
+                            if($_SESSION["showEdit"] == TRUE){
+                                echo "block";
+                            }
+                            else{
+                                echo "none";
+                            }
+                        }
+                        else{
+                            echo "none";
+                        }
+                    ?>;
+            }
+            .edit-branch{
+                display: block;
             }
             table{
                 border-collapse: collapse;
@@ -40,8 +67,12 @@
         <br>
 
         <button onclick="showAdd()">ADD</button>
-        <button id="remover">REMOVE</button>
-        <button id="editor">EDIT</button>
+        <form method="post">
+            <button id="remover" name="removeButton" value="branch">REMOVE</button>
+        </form>
+        <form method="post">
+            <button id="editor" name="editButton" value="branch">EDIT</button>
+        </form>
         <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Branch...">
         <br>
 
@@ -51,9 +82,10 @@
             include "remove.php";
         ?>
         </table>
-
     </body>
-    <script src="filtertable.js"></script>
+    <?php
+        include "filtertable.php";
+    ?>
 </html>
 
 <?php
@@ -127,4 +159,32 @@
         }
     }
     $conn->close();
+?>
+
+<?php
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["editButton"])){
+        $pageName = $_POST["editButton"];
+        if($_SESSION["showEdit"] == FALSE){
+            $_SESSION["showEdit"] = TRUE;
+        }
+        else{
+            $_SESSION["showEdit"] = FALSE;
+        }
+        header("Location:$pageName.php");
+        exit();
+    }
+?>
+
+<?php
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["removeButton"])){
+        $pageName = $_POST["removeButton"];
+        if($_SESSION["showRemove"] == FALSE){
+            $_SESSION["showRemove"] = TRUE;
+        }
+        else{
+            $_SESSION["showRemove"] = FALSE;
+        }
+        header("Location:$pageName.php");
+        exit();
+    }
 ?>

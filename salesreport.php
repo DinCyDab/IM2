@@ -1,7 +1,50 @@
+<?php
+    ob_start();
+    session_start();
+    if(!isset($_SESSION["session_started"])){
+        $_SESSION["session_started"] = TRUE;
+        $_SESSION["showEdit"] = FALSE;
+        $_SESSION["showRemove"] = FALSE;
+    }
+    if(!isset($_SESSION["SORT"])){
+        $_SESSION["SORT"] = "DESC";
+    }
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
         <style>
+            .remove-row{
+                display: <?php
+                        if(isset($_SESSION["showRemove"])){
+                            if($_SESSION["showRemove"] == TRUE){
+                                echo "block";
+                            }
+                            else{
+                                echo "none";
+                            }
+                        }
+                        else{
+                            echo "none";
+                        }
+                    ?>;
+            }
+            .edit-row{
+                display: <?php
+                        if(isset($_SESSION["showEdit"])){
+                            if($_SESSION["showEdit"] == TRUE){
+                                echo "block";
+                            }
+                            else{
+                                echo "none";
+                            }
+                        }
+                        else{
+                            echo "none";
+                        }
+                    ?>;
+            }
             table{
                 border-collapse: collapse;
             }
@@ -18,14 +61,25 @@
 
         <br>
 
-        <button>ADD</button>
+        <button onclick="showAdd()">ADD</button>
+        <form method="post">
+            <button id="remover" name="removeButton" value="salesreport">REMOVE</button>
+        </form>
+        <form method="post">
+            <button id="editor" name="editButton" value="salesreport">EDIT</button>
+        </form>
+        <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Sales Report...">
 
         <br>
 
         <?php
             include "addsalesreport.php";
+            include "remove.php"
         ?>
     </body>
+    <?php
+        include "filtertable.php";
+    ?>
 </html>
 
 <?php
@@ -50,7 +104,7 @@
         $result = $conn->query( $sql );
         $row = $result->fetch_all(MYSQLI_ASSOC);
         if(sizeof($row) > 0){
-            echo "<table>
+            echo "<table id='table'>
                 <tr>
                     <th></th>
                     <th></th>
@@ -78,12 +132,15 @@
                     <td>
                         <form method='get'>
                             <input type='hidden' value='".($row[$x]['report_ID'])."' name='edit'>
-                            <button class='edit-product-row' id='edit-product-row$x' type='submit'>EDIT</button>
+                            <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
                         </form>
                     </td>
-                    <td><form method='get'>
-                            <input type='hidden' value='".($row[$x]['report_ID'])."' name='remove'>
-                            <button class='remove-product' id='remove-product$x'>Remove</button>
+                    <td>
+                        <form method='get'>
+                            <input type='hidden' value='".($row[$x]['report_ID'])."' name='removeID'>
+                            <input type='hidden' value='salesreport' name='tableName'>
+                            <input type='hidden' value='report_ID' name='columnName'>
+                            <button class='remove-row' id='remove-row$x' name='remove'>Remove</button>
                         </form>
                     </td>
                     <td>".$row[$x]['report_ID']."</td>
@@ -112,4 +169,32 @@
         }
     }
     $conn->close();
+?>
+
+<?php
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["editButton"])){
+        $pageName = $_POST["editButton"];
+        if($_SESSION["showEdit"] == FALSE){
+            $_SESSION["showEdit"] = TRUE;
+        }
+        else{
+            $_SESSION["showEdit"] = FALSE;
+        }
+        header("Location:$pageName.php");
+        exit();
+    }
+?>
+
+<?php
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["removeButton"])){
+        $pageName = $_POST["removeButton"];
+        if($_SESSION["showRemove"] == FALSE){
+            $_SESSION["showRemove"] = TRUE;
+        }
+        else{
+            $_SESSION["showRemove"] = FALSE;
+        }
+        header("Location:$pageName.php");
+        exit();
+    }
 ?>

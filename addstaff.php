@@ -1,6 +1,6 @@
 <div class="add-staff" id="add">
-    <form method="POST">
-        <button onclick="hideAdd()">Close</button>
+    <button onclick="hideAdd()">Close</button>
+    <form method="post">
         Staff ID:       <input type="text" name="staff-ID" required>
         Last Name:      <input type="text" name="last-name" required>
         First Name:     <input type="text" name="first-name" required>
@@ -26,18 +26,12 @@
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
         </select>
-        <input type="submit" value="Submit" name="addstaff">
+        <input type="submit" value="Submit" name="Submit">
     </form>
 </div>
 
-<script>
-    function closeAddStaff(){
-        document.getElementById("add-staff").style.display = "none";
-    }
-</script>
-
 <?php
-    if(isset($_POST['addstaff'])){
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['Submit'])){
         $staffid = $_POST["staff-ID"];
         $lastname = $_POST["last-name"];
         $firstname = $_POST["first-name"];

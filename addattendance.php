@@ -37,7 +37,7 @@
             }
         }
         $conn->close();
-        header("Location: assignment.php");
-        exit();
+        // header("Location: assignment.php");
+        // exit();
     }
 ?>

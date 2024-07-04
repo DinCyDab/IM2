@@ -59,6 +59,7 @@
             $conn->query($sql);
         }
         $conn->close();
+        $_SESSION["showEdit"] = TRUE;
         header("Location: product.php");
         exit();
     }
