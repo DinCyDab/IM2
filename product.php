@@ -84,10 +84,7 @@
             include "editproduct.php";
         ?>
     </body>
-    <?php
-        //list of scripts that has php on it
-        include "filtertable.php";
-    ?>
+    <script src="filtertable.js"></script>
 </html>
 
 <?php
