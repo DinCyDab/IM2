@@ -10,14 +10,14 @@
         $row = $result->fetch_all(MYSQLI_ASSOC);
         if(sizeof($row) > 0){
             echo "
-                <div>
-                    <button>CLOSE</button>
+                <div id='addSalesReport' class='addSalesReport'>
+                    <button onclick='closeAddSalesReport()'>CLOSE</button>
                     <form method='get' id='addToReport'>
                         <input type='submit' value='Add To Report' name='addToReport'>
                     </form>
+                    <button onclick='addProductRow()'>+</button>
                 </div>
             ";
-            echo"<button onclick='addProductRow()'>+</button>";
         }
         else{
             echo "No Product Listing";
@@ -25,14 +25,22 @@
     }
     $conn->close();
 ?>
+
 <script>
     var val = 0;
     function addProductRow(){
         var select = document.createElement("select");
+        var remove = document.createElement("button");
         var addToReport = document.getElementById("addToReport");
         var row = [];
         var rowName = [];
         select.name = "addToReport" + val;
+
+        remove.onclick = function() {
+            addToReport.removeChild(select);
+            addToReport.removeChild(remove); // Also remove the button
+        };
+
         <?php
             for($x = 0; $x < sizeof($row); $x++){
                 echo "var option = document.createElement('option');\n";
@@ -44,10 +52,13 @@
             }
             echo "addToReport.appendChild(select);\n";
         ?>
+
+        remove.innerText = "Remove";
+        addToReport.appendChild(remove);
+
         val++;
     }
 </script>
-
 
 <?php
     if(isset($_GET["addToReport"])){
@@ -118,8 +129,8 @@
                     total_sold_qty
                 )
                 VALUES(
-                    '0002',
-                    '3',
+                    '".$_SESSION["account_ID"]."',
+                    '".$_SESSION["branch_ID"]."',
                     '$productID',
                     '$cookedqty',
                     '$reheatqty',

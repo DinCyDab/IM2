@@ -86,5 +86,7 @@
             $conn->query($sql);
         }
         $conn->close();
+        header("Location: assignment.php");
+        exit();
     }
 ?>

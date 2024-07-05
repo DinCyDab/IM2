@@ -4,7 +4,7 @@
 
     </head>
     <body>
-        <a href="index.php">Home</a>
+        <a href="indexadmin.php">Home</a>
         BRIEF SUMMARIZATION OF THE SALES REPORT HERE
     </body>
 </html>

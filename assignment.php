@@ -48,7 +48,7 @@
         </style>
     </head>
     <body>
-        <a href="index.php">Home</a>
+        <a href="indexadmin.php">Home</a>
 
         <br>
 

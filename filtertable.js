@@ -26,10 +26,14 @@ function hideEdit(){
 }
 
 var remover = document.getElementById("remover");
-remover.addEventListener("click", showRemoveColumn);
+if(remover){
+    remover.addEventListener("click", showRemoveColumn);
+}
 
 var editor = document.getElementById("editor");
-editor.addEventListener("click", showEditColumn);
+if(editor){
+    editor.addEventListener("click", showEditColumn);
+}
 
 function showEditColumn(){
     var editButton = document.getElementsByClassName("edit-row");
