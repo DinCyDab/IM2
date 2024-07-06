@@ -1,5 +1,17 @@
 <?php
     session_start();
+    if(!isset($_GET["filterDate"])){
+        $_SESSION["currDate"] = date("Y-m-d");
+    }
+    else{
+        $_SESSION["currDate"] = $_GET["currDate"];
+    }
+    if(!isset($_GET["filterDate"])){
+        $_SESSION["filterDateBy"] = 0;
+    }
+    else{
+        $_SESSION["filterDateBy"] = $_GET["filterDateBy"];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -9,62 +21,25 @@
     </head>
     <body>
         <a href="indexadmin.php">Home</a>
-        <!-- Form for Date starts here -->
-        <form method="get">
-            <select name="year">
-                <option value="2024">2024</option>
-            </select>
-            <select name="month">
-                <?php
-                    if(isset($_GET["month"])){
-                        $default = $_GET["month"];
-                    }
-                    else{
-                        $default = date("n");
-                    }
-                    for($x = 1; $x <= 12; $x++){
-                        if($x == $default){
-                            $selected = 'selected';
-                        }
-                        else{
-                            $selected = '';
-                        }
-                        echo "<option value='$x' $selected>".date('F', mktime(0, 0, 0, $x))."</option>";
-                    }
-                ?>
-            </select>
-            <select name="day">
-                <?php
-                    if(isset($_GET["day"])){
-                        $default_day = $_GET["day"];
-                    }
-                    else{
-                        $default_day = date("d");
-                    }
 
-                    for($x = 1; $x <= 31; $x++){
-                        if ($x == $default_day) {
-                            $selected = 'selected';
-                        } else {
-                            $selected = '';
-                        }
-                        echo "<option value='$x' $selected>$x</option>";
-                    }
-                ?>
+        <form method="get">
+            Filter By:
+            <select name="filterDateBy">
+                <option value="0" <?php if($_SESSION["filterDateBy"] == 0 )echo "selected";?>>Day</option>
+                <option value="7" <?php if($_SESSION["filterDateBy"] == 7 )echo "selected";?>>Week</option>
+                <option value="30" <?php if($_SESSION["filterDateBy"] == 30 )echo "selected";?>>Month</option>
+                <option value="365" <?php if($_SESSION["filterDateBy"] == 365 )echo "selected";?>>Year</option>
             </select>
-            <input type="submit" value="Filter" name="filterAttendance">
+            Select Date: <input type="date" value="<?php echo $_SESSION["currDate"]?>" name="currDate">
+            <input type="submit" value="Filter Date" name="filterDate">
         </form>
-        <!-- Form for Date ends here -->
 
         <br>
+
         <?php
-            $year = date('Y');
-            $month = date('m');
-            $day = date('d');
-            if(isset($_GET["filterAttendance"])){
-                $year = $_GET["year"];
-                $month = $_GET["month"];
-                $day = $_GET["day"];
+            if(isset($_GET["filterDateBy"])){
+                $_SESSION["filterDateBy"] = $_GET["filterDateBy"];
+                $_SESSION["currDate"] = $_GET["currDate"];
             }
             $conn = mysqli_connect("localhost","root","","mamaflors");
             if(!$conn->connect_error){
@@ -78,22 +53,30 @@
                 $branchList = $result->fetch_all(MYSQLI_ASSOC);
                 for($x = 0; $x < sizeof($branchList); $x++){
                     $sql = "SELECT
-                                salesreport.*,
-                                branch.*,
-                                product.*,
+                                branch.branch_name,
+								product.product_ID,
+                                product.product_name,
+                                SUM(cooked_qty) AS 'cooked_qty',
+                                SUM(reheat_qty) AS 'reheat_qty',
+                                SUM(total_display_qty) AS 'total_display_qty',
+                                SUM(left_over_qty) AS 'left_over_qty',
+                                SUM(total_sold_qty) AS 'total_sold_qty',
                                 salesreport.total_sold_qty * product.product_price AS 'estimated_revenue'
                             FROM
                                 salesreport
                                 INNER JOIN branch ON salesreport.branch_ID = branch.branch_ID
                                 INNER JOIN product ON salesreport.product_ID = product.product_ID
                             WHERE
-                                salesreport.report_date = DATE('$year/$month/$day')
+                                salesreport.report_date BETWEEN DATE_SUB('".$_SESSION["currDate"]."', INTERVAL ".$_SESSION["filterDateBy"]." DAY) AND '".$_SESSION["currDate"]."'
                                 AND
                                 salesreport.branch_ID = '".$branchList[$x]["branch_ID"]."'
+                            GROUP BY
+                            	product.product_ID
                                 ";
                     $result = $conn->query($sql);
                     $row = $result->fetch_all(MYSQLI_ASSOC);
                     if(sizeof($row) > 0){
+                        $noDataToShow = false;
                         echo "Branch: ".$row[0]["branch_name"]." <br>";
                         for($y = 0; $y < sizeof($row); $y++){
                             echo "
@@ -123,18 +106,19 @@
                             salesreport
                             INNER JOIN product ON salesreport.product_ID = product.product_ID
                         WHERE
-                            salesreport.report_date = DATE('$year/$month/$day')
+                            salesreport.report_date BETWEEN DATE_SUB('".$_SESSION["currDate"]."', INTERVAL ".$_SESSION["filterDateBy"]." DAY) AND '".$_SESSION["currDate"]."'
                         GROUP BY
                             salesreport.product_ID
                         ";
                 $result = $conn->query($sql);
                 $row = $result->fetch_all(MYSQLI_ASSOC);
                 if(sizeof($row) > 0){
+                    $noDataToShow = false;
                     echo "Overview<br>";
                     for($x = 0; $x < sizeof($row); $x++){
                         echo "
                             Total sold ".$row[$x]["product_name"].": ".$row[$x]["Total_Sold"]."<br>
-                            Estimated Partial Revenue ".$row[$x]["Estimated_Partial_Revenue"]."<br><br>
+                            Estimated Partial Revenue: ".$row[$x]["Estimated_Partial_Revenue"]."<br><br>
                         ";
                     }
                 }
@@ -147,11 +131,12 @@
                             salesreport
                             INNER JOIN product ON salesreport.product_ID = product.product_ID
                         WHERE
-                            salesreport.report_date = DATE('$year/$month/$day')
+                            salesreport.report_date BETWEEN DATE_SUB('".$_SESSION["currDate"]."', INTERVAL ".$_SESSION["filterDateBy"]." DAY) AND '".$_SESSION["currDate"]."'
                             ";
                 $result = $conn->query($sql);
                 $row = $result->fetch_all(MYSQLI_ASSOC);
                 if($row[0]["Estimated_Total_Revenue"] != NULL){
+                    $noDataToShow = false;
                     echo "Estimated Overall Sales Revenue: ".$row[0]["Estimated_Total_Revenue"];
                 }
                 else{
