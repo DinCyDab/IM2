@@ -1,11 +1,16 @@
 <?php
     session_start();
+    if($_SESSION["role"] != "Administrator"){
+        header("Location: indexstaff.php");
+    }
+    //Make Date Default
     if(!isset($_GET["filterDate"])){
         $_SESSION["currDate"] = date("Y-m-d");
     }
     else{
         $_SESSION["currDate"] = $_GET["currDate"];
     }
+    //Make Filter Date Default
     if(!isset($_GET["filterDate"])){
         $_SESSION["filterDateBy"] = 0;
     }

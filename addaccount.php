@@ -1,3 +1,9 @@
+<?php
+if($_SESSION["role"] != "Administrator"){
+    header("Location: indexstaff.php");
+    exit();
+}
+?>
 <div id="add" class="add-account">
     <button onclick="hideAdd()">Close</button>
     <form method="post">

@@ -1,4 +1,10 @@
 <?php
+if($_SESSION["role"] != "Administrator"){
+    header("Location: indexstaff.php");
+    exit();
+}
+?>
+<?php
     if(isset($_POST["Update"])){
         $branchID = $_POST["branchID"];
         $timein = $_POST["timein"];

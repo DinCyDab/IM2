@@ -1,5 +1,8 @@
 <?php
     session_start();
+    if($_SESSION["role"] != "Administrator"){
+        header("Location: indexstaff.php");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +13,8 @@
     <body>  
         <pre>
             <?php
-                echo "Branch Assigned:";
+                echo "Date: " . date("Y-m-d");
+                echo " Branch Assigned:";
                 echo $_SESSION['branch_assigned'];
                 echo "<br>";
             ?>
@@ -19,11 +23,10 @@
             <a href="staff.php">Staff</a>
             <a href="branch.php">Branch</a>
             <a href="account.php">Account</a>
-            <a href="salesreport.php">Create Sales Report</a>
+            <a href="salesreport.php">Sales Report</a>
             <a href="assignment.php">Assignment</a>
 
-            
-            <a href="indexstaff.php">INDEX STAFF</a>
+            <a href="logout.php">Log out</a>
         </pre>
     </body>
 </html>

@@ -1,6 +1,9 @@
 <?php
     ob_start();
     session_start();
+    if($_SESSION["role"] != "Administrator"){
+        header("Location: indexstaff.php");
+    }
     if(!isset($_SESSION["session_started"])){
         $_SESSION["session_started"] = TRUE;
         $_SESSION["showEdit"] = FALSE;

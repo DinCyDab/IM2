@@ -13,6 +13,7 @@
                 <div id='addSalesReport' class='addSalesReport'>
                     <button onclick='closeAddSalesReport()'>CLOSE</button>
                     <form method='get' id='addToReport'>
+                        <input type='hidden' id='sizeHolder' value='0' name='sizeHolder'>
                         <input type='submit' value='Add To Report' name='addToReport'>
                     </form>
                     <button onclick='addProductRow()'>+</button>
@@ -28,17 +29,19 @@
 
 <script>
     var val = 0;
+    var sizeHolder = document.getElementById("sizeHolder");
     function addProductRow(){
         var select = document.createElement("select");
         var remove = document.createElement("button");
         var addToReport = document.getElementById("addToReport");
+        var addSalesReport = document.getElementById("addSalesReport");
         var row = [];
         var rowName = [];
         select.name = "addToReport" + val;
 
         remove.onclick = function() {
             addToReport.removeChild(select);
-            addToReport.removeChild(remove); // Also remove the button
+            addSalesReport.removeChild(remove);
         };
 
         <?php
@@ -54,9 +57,10 @@
         ?>
 
         remove.innerText = "Remove";
-        addToReport.appendChild(remove);
+        addSalesReport.appendChild(remove);
 
         val++;
+        sizeHolder.value = val;
     }
 </script>
 
@@ -65,36 +69,37 @@
         echo "<div>
                 <form method='post'>
         ";
-        for($y = 0; isset($_GET["addToReport$y"]); $y++){
-            $productID = $_GET["addToReport$y"];
-            $conn = mysqli_connect("localhost","root","","mamaflors");
-            if($conn->connect_error){
-                die("ERROR". $conn->connect_error);
-            }
-            else{
-                $sql = "SELECT * FROM product
-                        WHERE product_ID = $productID";
-                $result = $conn->query($sql);
-                $rowProduct = $result->fetch_all(MYSQLI_ASSOC);
-
-                if(sizeof($rowProduct) > 0){
-                    // Automatically Get The Account ID during Session
-                    echo $rowProduct[0]['product_name']."
-                                <br>
-                                <input type='hidden' name='productID$y' value='".$rowProduct[0]['product_ID']."'>
-                                Cooked Quantity         <input type='number' name='cookedqty$y'>
-                                Reheat Quantity         <input type='number' name='reheatqty$y'>
-                                Total Display Quantity  <input type='number' name='totaldisplayqty$y'>
-                                Leftover Quantity       <input type='number' name='leftoverqty$y'>
-                                Total Sold Quantity     <input type='number' name='totalsoldqty$y'>
-                                <br>
-                    ";
+        for($y = 0; $y < $_GET["sizeHolder"]; $y++){
+            if(isset($_GET["addToReport$y"])){
+                $productID = $_GET["addToReport$y"];
+                $conn = mysqli_connect("localhost","root","","mamaflors");
+                if($conn->connect_error){
+                    die("ERROR". $conn->connect_error);
                 }
                 else{
-                    echo "Invalid Input Please Add a Branch or Product";
+                    $sql = "SELECT * FROM product
+                            WHERE product_ID = $productID";
+                    $result = $conn->query($sql);
+                    $rowProduct = $result->fetch_all(MYSQLI_ASSOC);
+
+                    if(sizeof($rowProduct) > 0){
+                        echo $rowProduct[0]['product_name']."
+                                    <br>
+                                    <input type='hidden' name='productID$y' value='".$rowProduct[0]['product_ID']."'>
+                                    Cooked Quantity         <input type='number' name='cookedqty$y'>
+                                    Reheat Quantity         <input type='number' name='reheatqty$y'>
+                                    Total Display Quantity  <input type='number' name='totaldisplayqty$y'>
+                                    Leftover Quantity       <input type='number' name='leftoverqty$y'>
+                                    Total Sold Quantity     <input type='number' name='totalsoldqty$y'>
+                                    <br>
+                        ";
+                    }
+                    else{
+                        echo "Invalid Input Please Add a Branch or Product";
+                    }
                 }
+                $conn->close();
             }
-            $conn->close();
         }
         echo "
                     <input type='submit' value='Submit' name='submitReport'>

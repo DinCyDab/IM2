@@ -1,12 +1,14 @@
+<?php
+if($_SESSION["role"] != "Administrator"){
+    header("Location: indexstaff.php");
+    exit();
+}
+?>
 <table id="table">
-    <?php
-        $year = date('Y');
-        $month = date('m');
-        $day = date('d');
+    <?php   
+        $date = date("Y-m-d");
         if(isset($_GET["filterAttendance"])){
-            $year = $_GET["year"];
-            $month = $_GET["month"];
-            $day = $_GET["day"];
+            $date = $_GET["date"];
         }
         $conn = mysqli_connect("localhost","root","","mamaflors");
         if(!$conn->connect_error){
@@ -19,7 +21,7 @@
                         LEFT JOIN branch ON assignment.branch_ID = branch.branch_ID)
                         INNER JOIN staff ON assignment.staff_ID = staff.staff_ID
                     WHERE
-                        assignment_date = DATE('$year/$month/$day')
+                        assignment_date = DATE('$date')
                         ";
             if(isset($_GET["sort"])){
                 if($_SESSION["SORT"] == "DESC"){

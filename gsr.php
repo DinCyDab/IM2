@@ -17,7 +17,7 @@
         <button onclick="showAdd()">ADD PRODUCT</button>
         <?php
             include "addsalesreport.php";
-            include "remove.php"
+            include "remove.php";
         ?>
     </body>
     <script src="filtertable.js"></script>

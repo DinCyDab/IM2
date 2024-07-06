@@ -9,7 +9,10 @@
     </head>
     <body>
         <?php
-            echo $_SESSION["account_ID"];
+            echo "Date: " . date("Y-m-d");
+            echo " Branch Assigned:";
+            echo $_SESSION['branch_assigned'];
+            echo "<br>";
         ?>
         <pre>
             <a href="gsr.php">Generate Sales Report</a>

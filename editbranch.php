@@ -1,4 +1,10 @@
 <?php
+if($_SESSION["role"] != "Administrator"){
+    header("Location: indexstaff.php");
+    exit();
+}
+?>
+<?php
     if(isset($_GET["edit"])){
         $valueToEdit = $_GET["edit"];
         $conn = mysqli_connect("localhost","root","","mamaflors");

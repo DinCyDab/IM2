@@ -1,6 +1,9 @@
 <?php
     ob_start();
     session_start();
+    if($_SESSION["role"] != "Administrator"){
+        header("Location: indexstaff.php");
+    }
     if(!isset($_SESSION["session_started"])){
         $_SESSION["session_started"] = TRUE;
         $_SESSION["showEdit"] = FALSE;
@@ -8,6 +11,12 @@
     }
     if(!isset($_SESSION["SORT"])){
         $_SESSION["SORT"] = "DESC";
+    }
+    if(isset($_GET["date"])){
+        $_SESSION["date"] = $_GET["date"];
+    }
+    else{
+        $_SESSION["date"] = date("Y-m-d");
     }
 ?>
 
@@ -64,47 +73,7 @@
         <br>
 
         <form method="get">
-            <select name="year">
-                <option value="2024">2024</option>
-            </select>
-            <select name="month">
-                <?php
-                    if(isset($_GET["month"])){
-                        $default = $_GET["month"];
-                    }
-                    else{
-                        $default = date("n");
-                    }
-                    for($x = 1; $x <= 12; $x++){
-                        if($x == $default){
-                            $selected = 'selected';
-                        }
-                        else{
-                            $selected = '';
-                        }
-                        echo "<option value='$x' $selected>".date('F', mktime(0, 0, 0, $x))."</option>";
-                    }
-                ?>
-            </select>
-            <select name="day">
-                <?php
-                    if(isset($_GET["day"])){
-                        $default_day = $_GET["day"];
-                    }
-                    else{
-                        $default_day = date("d");
-                    }
-
-                    for($x = 1; $x <= 31; $x++){
-                        if ($x == $default_day) {
-                            $selected = 'selected';
-                        } else {
-                            $selected = '';
-                        }
-                        echo "<option value='$x' $selected>$x</option>";
-                    }
-                ?>
-            </select>
+            <input type="date" name="date" value="<?php echo $_SESSION["date"]?>">
             <input type="submit" value="Filter" name="filterAttendance">
         </form>
 

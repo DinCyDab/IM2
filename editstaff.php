@@ -1,4 +1,10 @@
 <?php
+if($_SESSION["role"] != "Administrator"){
+    header("Location: indexstaff.php");
+    exit();
+}
+?>
+<?php
     if(isset($_GET["edit"])){
         $valueToEdit = $_GET["edit"];
         echo "$valueToEdit\n\n";

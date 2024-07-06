@@ -1,6 +1,9 @@
 <?php
     ob_start();
     session_start();
+    if($_SESSION["role"] != "Administrator"){
+        header("Location: indexstaff.php");
+    }
     if(!isset($_SESSION["session_started"])){
         $_SESSION["session_started"] = TRUE;
         $_SESSION["showEdit"] = FALSE;
@@ -61,7 +64,7 @@
 
         <br>
 
-        <button onclick="showAdd()">ADD</button>
+        <!-- <button onclick="showAdd()">ADD</button> -->
         <form method="post">
             <button id="remover" name="removeButton" value="salesreport">REMOVE</button>
         </form>
@@ -73,7 +76,7 @@
         <br>
 
         <?php
-            include "addsalesreport.php";
+            // include "addsalesreport.php";
             include "remove.php"
         ?>
     </body>
