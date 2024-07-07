@@ -49,8 +49,6 @@ if($_SESSION["role"] != "Administrator"){
                             }
                         echo '
                             </select>
-                            Time In:        <input type="time" name="timein" value="'.$row[0]['time_in'].'">
-                            Time Out:       <input type="time" name="timeout" value="'.$row[0]['time_out'].'">
                             Note:           <input type="text" name="note" value="'.$row[0]["note"].'">
                             Status:
                                 <select name="status">
@@ -70,8 +68,6 @@ if($_SESSION["role"] != "Administrator"){
 <?php
     if(isset($_POST["Update"])){
         $branchID = $_POST["branchID"];
-        $timein = $_POST["timein"];
-        $timeout = $_POST["timeout"];
         $note = $_POST["note"];
         $status = $_POST["status"];
 
@@ -83,8 +79,6 @@ if($_SESSION["role"] != "Administrator"){
             $sql = "UPDATE assignment
                     SET
                         branch_ID = '$branchID',
-                        time_in = '$timein',
-                        time_out = '$timeout',
                         note = '$note',
                         assignment_status = '$status'
                     WHERE assignment_ID = $assignmentID

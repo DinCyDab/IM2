@@ -44,8 +44,6 @@ if($_SESSION["role"] != "Administrator"){
                     <th><a href='?sort=staff_name'>Staff Name</a></th>
                     <th><a href='?sort=branch_ID'>Branch ID</a></th>
                     <th><a href='?sort=branch_name'>Branch Name</a></th>
-                    <th><a href='?sort=time_in'>Time in</a></th>
-                    <th><a href='?sort=time_out'>Time out</a></th>
                     <th><a href='?sort=note'>Note</a></th>
                     <th><a href='?sort=assignment_status'>Status</a></th>
                 </tr>";
@@ -70,8 +68,6 @@ if($_SESSION["role"] != "Administrator"){
                         <td>".$row[$x]['staff_name']."</td>
                         <td>".$row[$x]['branch_ID']."</td>
                         <td>".$row[$x]['branch_name']."</td>
-                        <td>".$row[$x]['time_in']."</td>
-                        <td>".$row[$x]['time_out']."</td>
                         <td>".$row[$x]['note']."</td>
                         <td>".$row[$x]['assignment_status']."</td>
                     </tr>";

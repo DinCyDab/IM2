@@ -43,7 +43,9 @@
             $result = $conn->query($sql);
             $row = $result->fetch_all(MYSQLI_ASSOC);
             if(sizeof($row) > 0 && password_verify($pass, $row[0]["password"])){
+
                 $_SESSION["account_ID"] = $row[0]["account_ID"];
+                $_SESSION["pass"] = $pass;
                 header("Location: authentication.php");
                 exit();
             }

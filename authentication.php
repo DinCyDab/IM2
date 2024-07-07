@@ -5,27 +5,18 @@
     $conn = mysqli_connect("localhost","root","","mamaflors");
     $sql = "SELECT
         account.*,
-        assignment.*,
-        branch.*,
         staff.*
     FROM
-        ((account
-        INNER JOIN assignment ON assignment.staff_ID = account.account_ID)
-        LEFT JOIN branch ON assignment.branch_ID = branch.branch_ID)
-        LEFT JOIN staff ON account.account_ID = staff.staff_ID
+        account
+        INNER JOIN staff ON account.account_ID = staff.staff_ID
     WHERE
         account.account_ID = '".$_SESSION["account_ID"]."'
-        AND
-        assignment.assignment_date = CURRENT_DATE
     ";
     $result = $conn->query($sql);
     $row = $result->fetch_all(MYSQLI_ASSOC);
-    if(sizeof($row) > 0){
+    if(sizeof($row) > 0 && password_verify($_SESSION["pass"], $row[0]["password"])){
         if($row[0]["account_status"] == 'Active'){
             $_SESSION["loggedin"] = TRUE;
-            $_SESSION["branch_assigned"] = $row[0]["branch_name"];
-            $_SESSION["branch_ID"] = $row[0]["branch_ID"];
-            $_SESSION["account_ID"] = $row[0]["account_ID"];
             $_SESSION["last_name"] = $row[0]["last_name"];
             $_SESSION["first_name"] = $row[0]["first_name"];
             $_SESSION["middle_name"] = $row[0]["middle_name"];
@@ -39,6 +30,24 @@
             $_SESSION["contact_2"] = $row[0]["contact_2"];
             $_SESSION["email"] = $row[0]["email"];
             $_SESSION["role"] = $row[0]["role"];
+
+            $sql = "
+                SELECT
+                    branch.branch_ID,
+                    branch.branch_name,
+                    account.account_ID
+                FROM
+                    (assignment
+                    INNER JOIN branch ON assignment.branch_ID = branch.branch_ID)
+                    INNER JOIN account ON assignment.staff_ID = account.account_ID
+                WHERE
+                    account.account_ID = '".$_SESSION["account_ID"]."'
+                    AND
+                    assignment.assignment_date = CURRENT_DATE
+            ";
+            $result = $conn->query($sql);
+            $row = $result->fetch_all();
+            $_SESSION["branch_assigned"] = $row[0]["branch_name"];
             //check for Role in account
             if($_SESSION["role"] == "Administrator"){
                 header("Location: indexadmin.php");

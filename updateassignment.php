@@ -7,8 +7,6 @@ if($_SESSION["role"] != "Administrator"){
 <?php
     if(isset($_POST["Update"])){
         $branchID = $_POST["branchID"];
-        $timein = $_POST["timein"];
-        $timeout = $_POST["timeout"];
         $note = $_POST["note"];
         $status = $_POST["status"];
 
@@ -20,8 +18,6 @@ if($_SESSION["role"] != "Administrator"){
             $sql = "UPDATE assignment
                     SET
                         branch_ID = '$branchID',
-                        time_in = '$timein',
-                        time_out = '$timeout',
                         note = '$note',
                         assignment_status = '$status'
                     WHERE assignment_ID = $assignmentID

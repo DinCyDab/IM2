@@ -77,7 +77,8 @@
 
         <?php
             // include "addsalesreport.php";
-            include "remove.php"
+            include "editsalesreport.php";
+            include "remove.php";
         ?>
     </body>
     <script src="filtertable.js"></script>
