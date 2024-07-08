@@ -62,11 +62,9 @@
     <body>
         <a href="indexadmin.php">Home</a>
         <br>
-        <a href="pendingreports.php">View all pending reports</a>
-
+        <a href="salesreport.php">View All Reports</a>
         <br>
 
-        <!-- <button onclick="showAdd()">ADD</button> -->
         <form method="post">
             <button id="remover" name="removeButton" value="salesreport">REMOVE</button>
         </form>
@@ -78,7 +76,6 @@
         <br>
 
         <?php
-            // include "addsalesreport.php";
             include "editsalesreport.php";
             include "remove.php";
         ?>
@@ -103,9 +100,11 @@
                     salesreport.total_sold_qty * product.product_price AS 'revenue'
                 FROM
                     ((salesreport
-                INNER JOIN branch on salesreport.branch_ID = branch.branch_ID)
-                INNER JOIN product on salesreport.product_ID = product.product_ID)
-                INNER JOIN staff on salesreport.account_ID = staff.staff_ID
+                    INNER JOIN branch on salesreport.branch_ID = branch.branch_ID)
+                    INNER JOIN product on salesreport.product_ID = product.product_ID)
+                    INNER JOIN staff on salesreport.account_ID = staff.staff_ID
+                WHERE
+                    salesreport.status = 'Pending'
                     ";
         $result = $conn->query( $sql );
         $row = $result->fetch_all(MYSQLI_ASSOC);

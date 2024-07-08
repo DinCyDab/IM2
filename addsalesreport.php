@@ -84,8 +84,8 @@
                         $rowProduct = $result->fetch_all(MYSQLI_ASSOC);
 
                         if(sizeof($rowProduct) > 0){
-                            echo "<div id='removeProductID$y'>";
-                            echo "<button onclick=".'removeProduct("addToReport'.$y.'")'.">Remove</button>
+                            echo "<div id='addToReport$y'>";
+                            echo "<button type='button' onclick=".'removeProduct("addToReport'.$y.'")'.">Remove</button>
                                         ".$rowProduct[0]['product_name']."
                                         <br>
                                         <input type='hidden' name='productID$y' value='".$rowProduct[0]['product_ID']."'>
@@ -120,6 +120,9 @@
         var url = new URL(currentUrl);
         url.searchParams.set(removeRow, 'Removed');
         window.history.pushState(null, '', url.toString());
+
+        var addToReport = document.getElementById(removeRow);
+        addToReport.style.display = "none";
     }
 </script>
 
@@ -163,5 +166,6 @@
             $conn->close();
         }
         header("Location: salesreport.php");
+        exit();
     }
 ?>

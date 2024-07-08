@@ -39,6 +39,10 @@
             <input type="submit" value="Filter Date" name="filterDate">
         </form>
 
+        <?php 
+            include "dashboardnotif.php";
+        ?>
+
         <br>
 
         <?php
@@ -66,7 +70,7 @@
                                 SUM(total_display_qty) AS 'total_display_qty',
                                 SUM(left_over_qty) AS 'left_over_qty',
                                 SUM(total_sold_qty) AS 'total_sold_qty',
-                                salesreport.total_sold_qty * product.product_price AS 'estimated_revenue'
+                                SUM(salesreport.confirmed_revenue) AS 'confirmed_revenue'
                             FROM
                                 salesreport
                                 INNER JOIN branch ON salesreport.branch_ID = branch.branch_ID
@@ -75,6 +79,8 @@
                                 salesreport.report_date BETWEEN DATE_SUB('".$_SESSION["currDate"]."', INTERVAL ".$_SESSION["filterDateBy"]." DAY) AND '".$_SESSION["currDate"]."'
                                 AND
                                 salesreport.branch_ID = '".$branchList[$x]["branch_ID"]."'
+                                AND
+                                salesreport.status = 'Confirmed'
                             GROUP BY
                             	product.product_ID
                                 ";
@@ -91,7 +97,7 @@
                                 Total Display Quantity: ".$row[$y]["total_display_qty"]."
                                 Left Over Quantity: ".$row[$y]["left_over_qty"]."
                                 Total Sold: ".$row[$y]["total_sold_qty"]."
-                                Estimated Revenue: ".$row[$y]["estimated_revenue"]."
+                                Revenue: ".$row[$y]["confirmed_revenue"]."
                                 <br>
                             ";
                         }
@@ -106,12 +112,14 @@
                             salesreport.product_ID,
                             product.product_name,
                             SUM(total_sold_qty) AS 'Total_Sold',
-                            SUM(total_sold_qty) * product.product_price AS 'Estimated_Partial_Revenue'
+                            SUM(salesreport.confirmed_revenue) AS 'Confirmed_Partial_Revenue'
                         FROM
                             salesreport
                             INNER JOIN product ON salesreport.product_ID = product.product_ID
                         WHERE
                             salesreport.report_date BETWEEN DATE_SUB('".$_SESSION["currDate"]."', INTERVAL ".$_SESSION["filterDateBy"]." DAY) AND '".$_SESSION["currDate"]."'
+                            AND
+                            salesreport.status = 'Confirmed'
                         GROUP BY
                             salesreport.product_ID
                         ";
@@ -123,7 +131,7 @@
                     for($x = 0; $x < sizeof($row); $x++){
                         echo "
                             Total sold ".$row[$x]["product_name"].": ".$row[$x]["Total_Sold"]."<br>
-                            Estimated Partial Revenue: ".$row[$x]["Estimated_Partial_Revenue"]."<br><br>
+                            Partial Revenue: ".$row[$x]["Confirmed_Partial_Revenue"]."<br><br>
                         ";
                     }
                 }
@@ -131,18 +139,20 @@
                     $noDataToShow = true;
                 }
                 $sql = "SELECT
-                            SUM(total_sold_qty * product.product_price) AS 'Estimated_Total_Revenue'
+                            SUM(salesreport.confirmed_revenue) AS 'Confirmed_Total_Revenue'
                         FROM
                             salesreport
                             INNER JOIN product ON salesreport.product_ID = product.product_ID
                         WHERE
                             salesreport.report_date BETWEEN DATE_SUB('".$_SESSION["currDate"]."', INTERVAL ".$_SESSION["filterDateBy"]." DAY) AND '".$_SESSION["currDate"]."'
+                            AND
+                            salesreport.status = 'Confirmed'
                             ";
                 $result = $conn->query($sql);
                 $row = $result->fetch_all(MYSQLI_ASSOC);
-                if($row[0]["Estimated_Total_Revenue"] != NULL){
+                if($row[0]["Confirmed_Total_Revenue"] != NULL){
                     $noDataToShow = false;
-                    echo "Estimated Overall Sales Revenue: ".$row[0]["Estimated_Total_Revenue"];
+                    echo "Overall Sales Revenue: ".$row[0]["Confirmed_Total_Revenue"];
                 }
                 else{
                     $noDataToShow = true;
