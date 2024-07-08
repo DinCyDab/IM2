@@ -23,7 +23,7 @@
             ";
             $result = $conn->query($sql);
             $row = $result->fetch_all(MYSQLI_ASSOC);
-            echo sizeof($row);
+            echo "Count: ".sizeof($row);
             if(sizeof($row) > 0){
                 echo "<table style='display:none' id='notif'>";
                 echo "<tr>
@@ -47,7 +47,7 @@
                     ";
                 }
                 echo "</table>";
-                echo "<a style='display: none' id='linkSales' href='salesreport.php'>Click here to confirm report and see more details.</a>";
+                echo "<a style='display: none' id='linkSales' href='pendingreports.php'>Click here to confirm report and see more details.</a>";
             }
             else{
                 echo "No Pending Reports";

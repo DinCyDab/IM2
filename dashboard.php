@@ -39,10 +39,6 @@
             <input type="submit" value="Filter Date" name="filterDate">
         </form>
 
-        <?php 
-            include "dashboardnotif.php";
-        ?>
-
         <br>
 
         <?php

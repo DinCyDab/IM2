@@ -18,6 +18,10 @@
                 echo $_SESSION['branch_assigned'];
                 echo "<br>";
             ?>
+            <?php 
+                include "dashboardnotif.php";
+            ?>
+            <br>
             <a href="dashboard.php">Dashboard</a>
             <a href="product.php">Product</a>
             <a href="staff.php">Staff</a>
