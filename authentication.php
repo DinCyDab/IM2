@@ -46,6 +46,7 @@
             ";
             $result = $conn->query($sql);
             $row = $result->fetch_all(MYSQLI_ASSOC);
+            $_SESSION["branch_ID"] = $row[0]["branch_ID"];
             $_SESSION["branch_assigned"] = $row[0]["branch_name"];
 
             //check for Role in account

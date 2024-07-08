@@ -85,10 +85,10 @@
 
                         if(sizeof($rowProduct) > 0){
                             echo "<div id='addToReport$y'>";
-                            echo "<button type='button' onclick=".'removeProduct("addToReport'.$y.'")'.">Remove</button>
+                            echo "<button type='button' onclick=".'removeProduct("addToReport'.$y.'","productID'.$y.'")'.">Remove</button>
                                         ".$rowProduct[0]['product_name']."
                                         <br>
-                                        <input type='hidden' name='productID$y' value='".$rowProduct[0]['product_ID']."'>
+                                        <input id='productID$y' type='hidden' name='productID$y' value='".$rowProduct[0]['product_ID']."'>
                                         Cooked Quantity         <input type='number' name='cookedqty$y'>
                                         Reheat Quantity         <input type='number' name='reheatqty$y'>
                                         Total Display Quantity  <input type='number' name='totaldisplayqty$y'>
@@ -105,6 +105,13 @@
                     }
                     $conn->close();
                 }
+                else{
+                    unset($_GET["addToReport$y"]);
+                    $query_string = http_build_query($_GET);
+                    
+                    header('Location: ' . strtok($_SERVER["REQUEST_URI"], '?') . '?' . $query_string);
+                    exit;
+                }
             }
         }
         echo "
@@ -115,7 +122,10 @@
 ?>
 
 <script>
-    function removeProduct(removeRow){
+    function removeProduct(removeRow, productRow){
+        var removeProduct = document.getElementById(productRow);
+        removeProduct.value = "Removed";
+
         var currentUrl = window.location.href;
         var url = new URL(currentUrl);
         url.searchParams.set(removeRow, 'Removed');
@@ -123,48 +133,49 @@
 
         var addToReport = document.getElementById(removeRow);
         addToReport.style.display = "none";
+        location.reload();
     }
 </script>
 
 <?php
     if(isset($_POST["submitReport"])){
-        for($x = 0; isset($_POST["productID$x"]); $x++){
-            $productID = $_POST["productID$x"];
-            $cookedqty = $_POST["cookedqty$x"];
-            $reheatqty = $_POST["reheatqty$x"];
-            $totaldisplayqty = $_POST["totaldisplayqty$x"];
-            $leftoverqty = $_POST["leftoverqty$x"];
-            $totalsoldqty = $_POST["totalsoldqty$x"];
-
-            $conn = mysqli_connect("localhost","root","","mamaflors");
-            if($conn->connect_error){
-                die("ERROR". $conn->connect_error);
+        $conn = mysqli_connect("localhost","root","","mamaflors");
+        if(!$conn->connect_error){
+            for($x = 0; $x < $_GET["sizeHolder"]; $x++){
+                if($_POST["productID$x"] != "Removed" && isset($_POST["productID$x"])){
+                    $productID = $_POST["productID$x"];
+                    $cookedqty = $_POST["cookedqty$x"];
+                    $reheatqty = $_POST["reheatqty$x"];
+                    $totaldisplayqty = $_POST["totaldisplayqty$x"];
+                    $leftoverqty = $_POST["leftoverqty$x"];
+                    $totalsoldqty = $_POST["totalsoldqty$x"];
+                    $sql = "INSERT INTO salesreport(
+                        account_ID,
+                        branch_ID,
+                        product_ID,
+                        cooked_qty,
+                        reheat_qty,
+                        total_display_qty,
+                        left_over_qty,
+                        total_sold_qty
+                    )
+                    VALUES(
+                        '".$_SESSION["account_ID"]."',
+                        '".$_SESSION["branch_ID"]."',
+                        '$productID',
+                        '$cookedqty',
+                        '$reheatqty',
+                        '$totaldisplayqty',
+                        '$leftoverqty',
+                        '$totalsoldqty'
+                    )";
+                    $conn->query($sql);
+                }
             }
-            else{
-                $sql = "INSERT INTO salesreport(
-                    account_ID,
-                    branch_ID,
-                    product_ID,
-                    cooked_qty,
-                    reheat_qty,
-                    total_display_qty,
-                    left_over_qty,
-                    total_sold_qty
-                )
-                VALUES(
-                    '".$_SESSION["account_ID"]."',
-                    '".$_SESSION["branch_ID"]."',
-                    '$productID',
-                    '$cookedqty',
-                    '$reheatqty',
-                    '$totaldisplayqty',
-                    '$leftoverqty',
-                    '$totalsoldqty'
-                )";
-                $conn->query($sql);
-            }
-            $conn->close();
         }
+
+        $conn->close();
+
         header("Location: salesreport.php");
         exit();
     }
