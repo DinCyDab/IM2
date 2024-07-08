@@ -12,11 +12,17 @@
     if(!isset($_SESSION["SORT"])){
         $_SESSION["SORT"] = "DESC";
     }
-    if(isset($_GET["date"])){
-        $_SESSION["date"] = $_GET["date"];
+
+    if(!isset($_SESSION["date"])){
+        $_SESSION["date"] = date("Y-m-d");
     }
     else{
-        $_SESSION["date"] = date("Y-m-d");
+        if(isset($_GET["date"])){
+            $_SESSION["date"] = $_GET["date"];
+        }
+        else{
+            $_SESSION["date"] = date("Y-m-d");
+        }
     }
 ?>
 
@@ -62,7 +68,8 @@
         <br>
 
         <button onclick="showAdd()">ADD</button>
-        <form method="post">
+        <form method="get">
+            <input type="hidden" name="date" value="<?php echo $_SESSION["date"]?>">
             <button id="remover" name="removeButton" value="assignment">REMOVE</button>
         </form>
         <form method="post">
@@ -102,15 +109,19 @@
 ?>
 
 <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["removeButton"])){
-        $pageName = $_POST["removeButton"];
+    if($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["removeButton"])){
+        $pageName = $_GET["removeButton"].".php";
+        if(isset($_SESSION["date"]) && $_SESSION["date"] != date("Y-m-d")){
+            $pageName .= "?date=".$_SESSION["date"]."&filterAttendance=Filter";
+        }
+
         if($_SESSION["showRemove"] == FALSE){
             $_SESSION["showRemove"] = TRUE;
         }
         else{
             $_SESSION["showRemove"] = FALSE;
         }
-        header("Location:$pageName.php");
+        header("Location:$pageName");
         exit();
     }
 ?>

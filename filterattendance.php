@@ -7,10 +7,11 @@ if($_SESSION["role"] != "Administrator"){
 <table id="table">
     <?php   
         $date = date("Y-m-d");
-        if(isset($_GET["filterAttendance"])){
-            $date = $_GET["date"];
+        if(isset($_SESSION["date"])){
+            $date = $_SESSION["date"];
         }
         $conn = mysqli_connect("localhost","root","","mamaflors");
+        echo "Date: " . $date . "<br>";
         if(!$conn->connect_error){
             $sql = "SELECT
                         assignment.*,
@@ -40,12 +41,12 @@ if($_SESSION["role"] != "Administrator"){
                     <th></th>
                     <th></th>
                     <th>No.</th>
-                    <th><a href='?sort=staff_ID'>Staff ID</a></th>
-                    <th><a href='?sort=staff_name'>Staff Name</a></th>
-                    <th><a href='?sort=branch_ID'>Branch ID</a></th>
-                    <th><a href='?sort=branch_name'>Branch Name</a></th>
-                    <th><a href='?sort=note'>Note</a></th>
-                    <th><a href='?sort=assignment_status'>Status</a></th>
+                    <th><a href='?sort=staff_ID&date=$date'>Staff ID</a></th>
+                    <th><a href='?sort=staff_name&date=$date'>Staff Name</a></th>
+                    <th><a href='?sort=branch_ID&date=$date'>Branch ID</a></th>
+                    <th><a href='?sort=branch_name&date=$date'>Branch Name</a></th>
+                    <th><a href='?sort=note&date=$date'>Note</a></th>
+                    <th><a href='?sort=assignment_status&date=$date'>Status</a></th>
                 </tr>";
                 for($x = 0; $x < sizeof($row); $x++){
                     echo "<tr>

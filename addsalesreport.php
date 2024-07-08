@@ -67,46 +67,61 @@
 <?php
     if(isset($_GET["addToReport"])){
         echo "<div>
-                <form method='post'>
+                <form method='post' id='addToReportForm'>
         ";
         for($y = 0; $y < $_GET["sizeHolder"]; $y++){
             if(isset($_GET["addToReport$y"])){
-                $productID = $_GET["addToReport$y"];
-                $conn = mysqli_connect("localhost","root","","mamaflors");
-                if($conn->connect_error){
-                    die("ERROR". $conn->connect_error);
-                }
-                else{
-                    $sql = "SELECT * FROM product
-                            WHERE product_ID = $productID";
-                    $result = $conn->query($sql);
-                    $rowProduct = $result->fetch_all(MYSQLI_ASSOC);
-
-                    if(sizeof($rowProduct) > 0){
-                        echo $rowProduct[0]['product_name']."
-                                    <br>
-                                    <input type='hidden' name='productID$y' value='".$rowProduct[0]['product_ID']."'>
-                                    Cooked Quantity         <input type='number' name='cookedqty$y'>
-                                    Reheat Quantity         <input type='number' name='reheatqty$y'>
-                                    Total Display Quantity  <input type='number' name='totaldisplayqty$y'>
-                                    Leftover Quantity       <input type='number' name='leftoverqty$y'>
-                                    Total Sold Quantity     <input type='number' name='totalsoldqty$y'>
-                                    <br>
-                        ";
+                if($_GET["addToReport$y"] != "Removed"){
+                    $productID = $_GET["addToReport$y"];
+                    $conn = mysqli_connect("localhost","root","","mamaflors");
+                    if($conn->connect_error){
+                        die("ERROR". $conn->connect_error);
                     }
                     else{
-                        echo "Invalid Input Please Add a Branch or Product";
+                        $sql = "SELECT * FROM product
+                                WHERE product_ID = $productID";
+                        $result = $conn->query($sql);
+                        $rowProduct = $result->fetch_all(MYSQLI_ASSOC);
+
+                        if(sizeof($rowProduct) > 0){
+                            echo "<div id='removeProductID$y'>";
+                            echo "<button onclick=".'removeProduct("addToReport'.$y.'")'.">Remove</button>
+                                        ".$rowProduct[0]['product_name']."
+                                        <br>
+                                        <input type='hidden' name='productID$y' value='".$rowProduct[0]['product_ID']."'>
+                                        Cooked Quantity         <input type='number' name='cookedqty$y'>
+                                        Reheat Quantity         <input type='number' name='reheatqty$y'>
+                                        Total Display Quantity  <input type='number' name='totaldisplayqty$y'>
+                                        Leftover Quantity       <input type='number' name='leftoverqty$y'>
+                                        Total Sold Quantity     <input type='number' name='totalsoldqty$y'>
+                                        <br>
+                                        <br>
+                            ";
+                            echo "</div>";
+                        }
+                        else{
+                            echo "Invalid Input Please Add a Branch or Product";
+                        }
                     }
+                    $conn->close();
                 }
-                $conn->close();
             }
         }
         echo "
-                    <input type='submit' value='Submit' name='submitReport'>
+                    <input id='submitReport' type='submit' value='Submit' name='submitReport'>
                 </form>
             </div>";
     }
 ?>
+
+<script>
+    function removeProduct(removeRow){
+        var currentUrl = window.location.href;
+        var url = new URL(currentUrl);
+        url.searchParams.set(removeRow, 'Removed');
+        window.history.pushState(null, '', url.toString());
+    }
+</script>
 
 <?php
     if(isset($_POST["submitReport"])){

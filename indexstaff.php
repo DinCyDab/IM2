@@ -11,7 +11,7 @@
         <?php
             echo "Date: " . date("Y-m-d");
             echo " Branch Assigned:";
-            echo $_SESSION['branch_assigned'];
+            echo $_SESSION["branch_assigned"];
             echo "<br>";
         ?>
         <pre>

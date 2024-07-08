@@ -30,9 +30,8 @@
             $_SESSION["contact_2"] = $row[0]["contact_2"];
             $_SESSION["email"] = $row[0]["email"];
             $_SESSION["role"] = $row[0]["role"];
-
-            $sql = "
-                SELECT
+            
+            $sql = "SELECT
                     branch.branch_ID,
                     branch.branch_name,
                     account.account_ID
@@ -41,13 +40,14 @@
                     INNER JOIN branch ON assignment.branch_ID = branch.branch_ID)
                     INNER JOIN account ON assignment.staff_ID = account.account_ID
                 WHERE
-                    account.account_ID = '".$_SESSION["account_ID"]."'
+                    account.account_ID = ".$_SESSION["account_ID"]."
                     AND
                     assignment.assignment_date = CURRENT_DATE
             ";
             $result = $conn->query($sql);
-            $row = $result->fetch_all();
+            $row = $result->fetch_all(MYSQLI_ASSOC);
             $_SESSION["branch_assigned"] = $row[0]["branch_name"];
+
             //check for Role in account
             if($_SESSION["role"] == "Administrator"){
                 header("Location: indexadmin.php");

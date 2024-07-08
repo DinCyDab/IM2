@@ -42,6 +42,7 @@ if($_SESSION["role"] != "Administrator"){
                             Branch ID:
                             <select name="branchID">
                             ';
+                            echo"<option value='NULL'>No Branch Assignment</option>";
                             for($x = 0; $x < sizeof($rowBranch); $x++){
                                 echo '
                                     <option value="'.$rowBranch[$x]['branch_ID'].'">'.$rowBranch[$x]['branch_ID'].' '. $rowBranch[$x]['branch_name'].'</option>
@@ -70,7 +71,9 @@ if($_SESSION["role"] != "Administrator"){
         $branchID = $_POST["branchID"];
         $note = $_POST["note"];
         $status = $_POST["status"];
-
+        if($branchID == "NULL"){
+            $status = "";
+        }
         $conn = mysqli_connect("localhost","root","","mamaflors");
         if($conn->connect_error){
             die("ERROR". $conn->connect_error);
@@ -78,7 +81,7 @@ if($_SESSION["role"] != "Administrator"){
         else{
             $sql = "UPDATE assignment
                     SET
-                        branch_ID = '$branchID',
+                        branch_ID = ".($branchID == "NULL" ? "NULL":$branchID).",
                         note = '$note',
                         assignment_status = '$status'
                     WHERE assignment_ID = $assignmentID
