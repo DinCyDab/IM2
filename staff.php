@@ -8,21 +8,20 @@ session_start();
 
 <head>
     <title>Mama Flor's Lechon House</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <?php
-    echo "Date: " . date("Y-m-d");
-    echo "Branch Assigned: Tipolos";
-    echo "<br>";
-    ?>
-    <pre>
-            <a href="gsr.php">Generate Sales Report</a>
-            <a href="schedule.php">Schedule</a>
-            <a href="editprofile.php">Account Settings</a>
-            <a href="?logout">LOG OUT</a>
-        </pre>
+    <nav>
+        <ul>
+            <li><a href="#">Sales Report</a></li>
+            <li><a href="#">Schedule</a></li>
+            <li><a href="#">Account Settings</a></li>
+            <li><a href="?logout">Log Out</a></li>
+        </ul>
+    </nav>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
