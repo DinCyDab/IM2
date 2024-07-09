@@ -18,7 +18,7 @@ body {
     align-items: center;
 }
 
-.nav {
+nav ul {
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -27,15 +27,18 @@ body {
     border-radius: 12px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
     position: fixed;
 }
 
-.nav li {
+nav ul li {
     list-style: none;
-    margin: 0 12px;
+    padding: 0 12px;
+    white-space: nowrap;
 }
 
-.nav li a {
+nav ul li a {
     position: relative;
     color: black;
     font-size: 20px;
@@ -44,23 +47,25 @@ body {
     text-decoration: none;
 }
 
-.nav li a:before {
+nav ul li a:before {
     content: '';
     position: absolute;
-    bottom: -5px;
-    left: 0;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
     height: 3px;
-    width: 100%;
+    width: 0%;
     background: var(--darker);
     border-radius: 12px;
     transition: all 0.4s ease;
-    opacity: 0;
 }
 
-.nav li a:hover:before {
-    bottom: 0px;
+nav ul li a:hover:before {
     width: 100%;
-    opacity: 1;
+}
+
+nav ul li a.active:before {
+    width: 100%;
 }
 
 .grid-40-60 {
