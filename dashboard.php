@@ -1,63 +1,115 @@
 <?php
-    session_start();
-    if($_SESSION["role"] != "Administrator"){
-        header("Location: indexstaff.php");
-    }
-    //Make Date Default
-    if(!isset($_GET["filterDate"])){
-        $_SESSION["currDate"] = date("Y-m-d");
-    }
-    else{
-        $_SESSION["currDate"] = $_GET["currDate"];
-    }
-    //Make Filter Date Default
-    if(!isset($_GET["filterDate"])){
-        $_SESSION["filterDateBy"] = 0;
-    }
-    else{
-        $_SESSION["filterDateBy"] = $_GET["filterDateBy"];
-    }
+session_start();
+if ($_SESSION["role"] != "Administrator") {
+    header("Location: indexstaff.php");
+}
+//Make Date Default
+if (!isset($_GET["filterDate"])) {
+    $_SESSION["currDate"] = date("Y-m-d");
+} else {
+    $_SESSION["currDate"] = $_GET["currDate"];
+}
+//Make Filter Date Default
+if (!isset($_GET["filterDate"])) {
+    $_SESSION["filterDateBy"] = 0;
+} else {
+    $_SESSION["filterDateBy"] = $_GET["filterDateBy"];
+}
 ?>
 
 <!DOCTYPE html>
 <html>
-    <head>
 
+    <head>
+        <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     </head>
+
     <body>
         <a href="indexadmin.php">Home</a>
 
         <form method="get">
             Filter By:
             <select name="filterDateBy">
-                <option value="0" <?php if($_SESSION["filterDateBy"] == 0 )echo "selected";?>>Day</option>
-                <option value="7" <?php if($_SESSION["filterDateBy"] == 7 )echo "selected";?>>Week</option>
-                <option value="30" <?php if($_SESSION["filterDateBy"] == 30 )echo "selected";?>>Month</option>
-                <option value="365" <?php if($_SESSION["filterDateBy"] == 365 )echo "selected";?>>Year</option>
+                <option value="0" <?php if ($_SESSION["filterDateBy"] == 0)
+                    echo "selected"; ?>>Day</option>
+                <option value="7" <?php if ($_SESSION["filterDateBy"] == 7)
+                    echo "selected"; ?>>Week</option>
+                <option value="30" <?php if ($_SESSION["filterDateBy"] == 30)
+                    echo "selected"; ?>>Month</option>
+                <option value="365" <?php if ($_SESSION["filterDateBy"] == 365)
+                    echo "selected"; ?>>Year</option>
             </select>
-            Select Date: <input type="date" value="<?php echo $_SESSION["currDate"]?>" name="currDate">
+            Select Date: <input type="date" value="<?php echo $_SESSION["currDate"] ?>" name="currDate">
             <input type="submit" value="Filter Date" name="filterDate">
         </form>
 
         <br>
 
         <?php
-            if(isset($_GET["filterDateBy"])){
-                $_SESSION["filterDateBy"] = $_GET["filterDateBy"];
-                $_SESSION["currDate"] = $_GET["currDate"];
-            }
-            $conn = mysqli_connect("localhost","root","","mamaflors");
-            if(!$conn->connect_error){
-                $noDataToShow = false;
-                $sql = "SELECT
-                            branch_ID
+        $dataPerBranch = [];
+
+        if (isset($_GET["filterDateBy"])) {
+            $_SESSION["filterDateBy"] = $_GET["filterDateBy"];
+            $_SESSION["currDate"] = $_GET["currDate"];
+        }
+        $conn = mysqli_connect("localhost", "root", "", "mamaflors");
+        if (!$conn->connect_error) {
+            $noDataToShow = false;
+            $sql = "SELECT
+                            branch_ID, branch_name
                         FROM
                             branch
                 ";
+            $result = $conn->query($sql);
+            $branchList = $result->fetch_all(MYSQLI_ASSOC);
+
+            $date = $_SESSION["currDate"];
+            $year = date("Y", strtotime($date));
+            $month = date("m", strtotime($date));
+            $day = date("d", strtotime($date));
+
+            foreach ($branchList as $branch) {
+                $branchID = $branch["branch_ID"];
+                $branchName = $branch["branch_name"];
+                $sql = "SELECT
+                            salesreport.*,
+                            product.product_name,
+                            salesreport.total_sold_qty * product.product_price AS 'estimated_revenue'
+                        FROM
+                            salesreport
+                            INNER JOIN product ON salesreport.product_ID = product.product_ID
+                        WHERE
+                            salesreport.report_date = DATE('$year/$month/$day')
+                            AND salesreport.branch_ID = '$branchID'";
+
                 $result = $conn->query($sql);
-                $branchList = $result->fetch_all(MYSQLI_ASSOC);
-                for($x = 0; $x < sizeof($branchList); $x++){
-                    $sql = "SELECT
+                $rows = $result->fetch_all(MYSQLI_ASSOC);
+
+                $totalSold = [];
+                $totalCooked = [];
+                $totalReheat = [];
+                $estimatedPartialRevenue = [];
+
+                foreach ($rows as $row) {
+                    $totalSold[] = array("label" => $row["product_name"], "y" => (int) $row["total_sold_qty"]);
+                    $totalCooked[] = array("label" => $row["product_name"], "y" => (int) $row["cooked_qty"]);
+                    $totalReheat[] = array("label" => $row["product_name"], "y" => (int) $row["reheat_qty"]);
+                    $totalLeftOver[] = array("label" => $row["product_name"], "y" => (int) $row["left_over_qty"]);
+                    $estimatedPartialRevenue[] = array("label" => $row["product_name"], "y" => (int) $row["estimated_revenue"]);
+                }
+                if (!empty($totalSold) || !empty($totalCooked) || !empty($totalReheat) || !empty($estimatedPartialRevenue) || !empty($totalLeftOver)) {
+                    $dataPerBranch[$branchName] = [
+                        "totalSold" => $totalSold,
+                        "totalCooked" => $totalCooked,
+                        "totalReheat" => $totalReheat,
+                        "totalLeftOver" => $totalLeftOver,
+                        "estimatedPartialRevenue" => $estimatedPartialRevenue
+                    ];
+                }
+            }
+
+            for ($x = 0; $x < sizeof($branchList); $x++) {
+                $sql = "SELECT
                                 branch.branch_name,
 								product.product_ID,
                                 product.product_name,
@@ -78,30 +130,16 @@
                             GROUP BY
                             	product.product_ID
                                 ";
-                    $result = $conn->query($sql);
-                    $row = $result->fetch_all(MYSQLI_ASSOC);
-                    if(sizeof($row) > 0){
-                        $noDataToShow = false;
-                        echo "Branch: ".$row[0]["branch_name"]." <br>";
-                        for($y = 0; $y < sizeof($row); $y++){
-                            echo "
-                                Product: ".$row[$y]["product_name"]."<br>
-                                Cooked Quantity: ".$row[$y]["cooked_qty"]."
-                                Reheat Quantity: ".$row[$y]["reheat_qty"]."
-                                Total Display Quantity: ".$row[$y]["total_display_qty"]."
-                                Left Over Quantity: ".$row[$y]["left_over_qty"]."
-                                Total Sold: ".$row[$y]["total_sold_qty"]."
-                                Estimated Revenue: ".$row[$y]["estimated_revenue"]."
-                                <br>
-                            ";
-                        }
-                    }
-                    else{
-                        $noDataToShow = true;
-                    }
-                    echo "<br>";
+                $result = $conn->query($sql);
+                $row = $result->fetch_all(MYSQLI_ASSOC);
+                if (sizeof($row) > 0) {
+                    $noDataToShow = false;
+                } else {
+                    $noDataToShow = true;
                 }
-                $sql = "SELECT
+                echo "<br>";
+            }
+            $sql = "SELECT
                             salesreport.*,
                             salesreport.product_ID,
                             product.product_name,
@@ -115,43 +153,83 @@
                         GROUP BY
                             salesreport.product_ID
                         ";
-                $result = $conn->query($sql);
-                $row = $result->fetch_all(MYSQLI_ASSOC);
-                if(sizeof($row) > 0){
-                    $noDataToShow = false;
-                    echo "Overview<br>";
-                    for($x = 0; $x < sizeof($row); $x++){
-                        echo "
-                            Total sold ".$row[$x]["product_name"].": ".$row[$x]["Total_Sold"]."<br>
-                            Estimated Partial Revenue: ".$row[$x]["Estimated_Partial_Revenue"]."<br><br>
-                        ";
-                    }
-                }
-                else{
-                    $noDataToShow = true;
-                }
-                $sql = "SELECT
+            $result = $conn->query($sql);
+            $row = $result->fetch_all(MYSQLI_ASSOC);
+            if (sizeof($row) > 0) {
+                $noDataToShow = false;
+            } else {
+                $noDataToShow = true;
+            }
+            $sql = "SELECT
                             SUM(total_sold_qty * product.product_price) AS 'Estimated_Total_Revenue'
                         FROM
                             salesreport
                             INNER JOIN product ON salesreport.product_ID = product.product_ID
                         WHERE
-                            salesreport.report_date BETWEEN DATE_SUB('".$_SESSION["currDate"]."', INTERVAL ".$_SESSION["filterDateBy"]." DAY) AND '".$_SESSION["currDate"]."'
-                            ";
-                $result = $conn->query($sql);
-                $row = $result->fetch_all(MYSQLI_ASSOC);
-                if($row[0]["Estimated_Total_Revenue"] != NULL){
-                    $noDataToShow = false;
-                    echo "Estimated Overall Sales Revenue: ".$row[0]["Estimated_Total_Revenue"];
-                }
-                else{
-                    $noDataToShow = true;
-                }
+                            salesreport.report_date BETWEEN DATE_SUB('".$_SESSION["currDate"]."', INTERVAL ".$_SESSION["filterDateBy"]." DAY) AND '".$_SESSION["currDate"]."'";
+            $result = $conn->query($sql);
+            $row = $result->fetch_all(MYSQLI_ASSOC);
+            if ($row[0]["Estimated_Total_Revenue"] != NULL) {
+                $noDataToShow = false;
+                echo "Estimated Overall Sales Revenue: ".$row[0]["Estimated_Total_Revenue"];
+            } else {
+                $noDataToShow = true;
             }
-            $conn->close();
-            if($noDataToShow == true){
-                echo "No Data To Show";
-            }
+        }
+        $conn->close();
+        if ($noDataToShow == true) {
+            echo "No Data To Show";
+        }
         ?>
+
+        <div id="chartContainer" style="height: 370px; width: 100%; display: flex;"></div>
+
+        <script>
+            window.onload = function () {
+
+                let dataPerBranch = <?php echo json_encode($dataPerBranch, JSON_NUMERIC_CHECK) ?>;
+                let chartsContainer = document.getElementById("chartContainer");
+
+                for (var branch in dataPerBranch) {
+                    let branchContainer = document.createElement("div");
+                    branchContainer.id = branch.replace(/\s+/g, '') + "Container";
+                    branchContainer.style.marginBottom = "50px";
+                    // branchContainer.style.flexGrow = "1";
+                    branchContainer.style.width = "50%";
+                    chartsContainer.appendChild(branchContainer);
+
+                    let chartTypes = ["estimatedPartialRevenue", "totalSold", "totalLeftOver", "totalCooked", "totalReheat"];
+                    let titles = ["estimatedPartialRevenue", "Total Sold", "totalLeftOver", "Total Cooked", "Total Reheat"];
+
+                    for (let i = 0; i < chartTypes.length; i++) {
+                        let chartContainer = document.createElement("div");
+                        chartContainer.id = branch.replace(/\s+/g, '') + chartTypes[i];
+                        chartContainer.style.height = "300px";
+                        chartContainer.style.width = "50%";
+                        branchContainer.appendChild(chartContainer);
+
+                        let chart = new CanvasJS.Chart(chartContainer.id, {
+                            animationEnabled: true,
+                            theme: "light2",
+                            title: {
+                                text: `${branch} - ${titles[i]}`
+                            },
+                            axisY: {
+                                title: titles[i]
+                            },
+                            data: [{
+                                type: "column",
+                                indexLabel: "{y}",
+                                yValueFormatString: "#,##0.##",
+                                dataPoints: dataPerBranch[branch][chartTypes[i]]
+                            }]
+                        });
+                        chart.render();
+                    }
+
+                }
+            }
+        </script>
     </body>
+
 </html>
