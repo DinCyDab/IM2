@@ -66,10 +66,10 @@
         <br>
 
         <form method="post">
-            <button id="remover" name="removeButton" value="salesreport">REMOVE</button>
+            <button id="remover" name="removeButton" value="pendingreports">REMOVE</button>
         </form>
         <form method="post">
-            <button id="editor" name="editButton" value="salesreport">EDIT</button>
+            <button id="editor" name="editButton" value="pendingreports">EDIT</button>
         </form>
         <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Sales Report...">
 
@@ -105,6 +105,8 @@
                     INNER JOIN staff on salesreport.account_ID = staff.staff_ID
                 WHERE
                     salesreport.status = 'Pending'
+                ORDER BY
+                    salesreport.report_date, salesreport.report_time, salesreport.report_ID
                     ";
         $result = $conn->query( $sql );
         $row = $result->fetch_all(MYSQLI_ASSOC);

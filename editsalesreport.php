@@ -17,8 +17,13 @@
             $row = $result->fetch_all(MYSQLI_ASSOC);
             if(sizeof($row) > 0){
                 echo "
-                    <div>
+                    <div id='edit' class='edit-product'>
+                        <button onclick='hideEdit()'>CLOSE</button>
                         <form method='post'>
+                            Report ID: <input type='text' name='account_ID' value='".$row[0]["report_ID"]."' readonly>
+                            Report Date: <input type='text' name='account_ID' value='".$row[0]["report_date"]."' readonly>
+                            Account ID: <input type='text' name='account_ID' value='".$row[0]["account_ID"]."' readonly>
+                            Product Name: <input type='text' name='product_name' value='".$row[0]["product_name"]."' readonly>
                             Cooked Quantity <input type='text' name='cooked_qty' value='".$row[0]["cooked_qty"]."'>
                             Reheat Quantity <input type='text' name='reheat_qty' value='".$row[0]["reheat_qty"]."'>
                             Total Display Quantity <input type='text' name='total_display_qty' value='".$row[0]["total_display_qty"]."'>
@@ -43,6 +48,7 @@
 <?php 
     if(isset($_POST["Update"])){
         $confirmedrevenue = NULL;
+        $account_ID = $_POST["account_ID"];
         $cooked_qty = $_POST["cooked_qty"];
         $reheat_qty = $_POST["reheat_qty"];
         $total_display_qty = $_POST["total_display_qty"];
@@ -70,6 +76,18 @@
                     report_ID = $valueToEdit
             ";
             $conn->query($sql);
+
+            if($status == "Confirmed"){
+                $sql = "
+                UPDATE
+                    assignment
+                SET
+                    assignment_status = 'Present'
+                WHERE
+                    staff_ID = '$account_ID'
+            ";
+                $conn->query($sql);
+            }
         }
         $conn->close();
         header("Location: salesreport.php");
