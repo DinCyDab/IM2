@@ -95,7 +95,7 @@
                                         Leftover Quantity       <input type='number' name='leftoverqty$y'>
                                         Pull-out Quantity       <input type='number' name='pulloutqty$y'>
                                         Total Sold Quantity     <input type='number' name='totalsoldqty$y'>
-                                        Remittance              <input type='number' name='remittance$y'>
+                                        Remittance              <input type='number' name='remittance$y' required>
                                         <br>
                                         <br>
                             ";

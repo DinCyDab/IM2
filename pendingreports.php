@@ -176,7 +176,7 @@
             echo "</table>";
         }
         else{
-            echo "Empty Database";
+            echo "No Pending Reports";
         }
     }
     $conn->close();

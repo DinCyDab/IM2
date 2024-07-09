@@ -1,4 +1,4 @@
-<?php 
+<?php
     if(isset($_GET["remove"])){
         $removeID = $_GET["removeID"];
         $tableName = $_GET["tableName"];
@@ -13,7 +13,7 @@
             $conn->query($sql);
         }
         $conn->close();
-        header("Location: $tableName.php");
+        header("Location: " . $_SERVER["PHP_SELF"]);
         exit();
     }
 ?>

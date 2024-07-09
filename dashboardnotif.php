@@ -12,6 +12,7 @@
                         salesreport.total_display_qty,
                         salesreport.left_over_qty,
                         salesreport.total_sold_qty,
+                        salesreport.remittance,
                         product.product_price * salesreport.total_sold_qty AS 'revenue',
                         salesreport.status  
                     FROM
@@ -31,7 +32,7 @@
                     <th>Product Name</th>
                     <th>Branch Name</th>
                     <th>Total Sold Quantity</th>
-                    <th>Revenue</th>
+                    <th>Remittance</th>
                     <th>Status</th>
                 </tr>";
                 for($x = 0; $x < sizeof($row); $x++){
@@ -41,7 +42,7 @@
                             <td>".$row[$x]["product_name"]."</td>
                             <td>".$row[$x]["branch_name"]."</td>
                             <td>".$row[$x]["total_sold_qty"]."</td>
-                            <td>".$row[$x]["revenue"]."</td>
+                            <td>".$row[$x]["remittance"]."</td>
                             <td>".$row[$x]["status"]."</td>
                         </tr>
                     ";
