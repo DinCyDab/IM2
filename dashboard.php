@@ -66,7 +66,7 @@
                                 SUM(total_display_qty) AS 'total_display_qty',
                                 SUM(left_over_qty) AS 'left_over_qty',
                                 SUM(total_sold_qty) AS 'total_sold_qty',
-                                SUM(salesreport.confirmed_revenue) AS 'confirmed_revenue'
+                                SUM(salesreport.estimated_revenue) AS 'estimated_revenue'
                             FROM
                                 salesreport
                                 INNER JOIN branch ON salesreport.branch_ID = branch.branch_ID
@@ -93,7 +93,7 @@
                                 Total Display Quantity: ".$row[$y]["total_display_qty"]."
                                 Left Over Quantity: ".$row[$y]["left_over_qty"]."
                                 Total Sold: ".$row[$y]["total_sold_qty"]."
-                                Revenue: ".$row[$y]["confirmed_revenue"]."
+                                Revenue: ".$row[$y]["estimated_revenue"]."
                                 <br>
                             ";
                         }
@@ -108,7 +108,7 @@
                             salesreport.product_ID,
                             product.product_name,
                             SUM(total_sold_qty) AS 'Total_Sold',
-                            SUM(salesreport.confirmed_revenue) AS 'Confirmed_Partial_Revenue'
+                            SUM(salesreport.estimated_revenue) AS 'Confirmed_Partial_Revenue'
                         FROM
                             salesreport
                             INNER JOIN product ON salesreport.product_ID = product.product_ID
@@ -135,7 +135,7 @@
                     $noDataToShow = true;
                 }
                 $sql = "SELECT
-                            SUM(salesreport.confirmed_revenue) AS 'Confirmed_Total_Revenue'
+                            SUM(salesreport.estimated_revenue) AS 'Confirmed_Total_Revenue'
                         FROM
                             salesreport
                             INNER JOIN product ON salesreport.product_ID = product.product_ID

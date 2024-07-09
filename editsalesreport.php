@@ -20,8 +20,8 @@
                     <div id='edit' class='edit-product'>
                         <button onclick='hideEdit()'>CLOSE</button>
                         <form method='post'>
-                            Report ID: <input type='text' name='account_ID' value='".$row[0]["report_ID"]."' readonly>
-                            Report Date: <input type='text' name='account_ID' value='".$row[0]["report_date"]."' readonly>
+                            Report ID: <input type='text' name='report_ID' value='".$row[0]["report_ID"]."' readonly>
+                            Report Date: <input type='text' name='report_date' value='".$row[0]["report_date"]."' readonly>
                             Account ID: <input type='text' name='account_ID' value='".$row[0]["account_ID"]."' readonly>
                             Product Name: <input type='text' name='product_name' value='".$row[0]["product_name"]."' readonly>
                             Cooked Quantity <input type='text' name='cooked_qty' value='".$row[0]["cooked_qty"]."'>
@@ -29,7 +29,8 @@
                             Total Display Quantity <input type='text' name='total_display_qty' value='".$row[0]["total_display_qty"]."'>
                             Left Over Quantity <input type='text' name='left_over_qty' value='".$row[0]["left_over_qty"]."'>
                             Total Sold Quantity <input type='text' name='total_sold_qty' value='".$row[0]["total_sold_qty"]."'>
-                            Revenue: <input type='text' name='confirmed_revenue' value='".$row[0]["revenue"]."' readonly>
+                            Estimated Revenue: <input type='text' name='confirmed_revenue' value='".$row[0]["revenue"]."' readonly>
+                            Remittance: <input type='text' name='remittance' value='".$row[0]["remittance"]."' readonly>
                             Status:
                             <select name='status'>
                                 <option value='Pending'>Pending</option>
@@ -48,6 +49,7 @@
 <?php 
     if(isset($_POST["Update"])){
         $confirmedrevenue = NULL;
+        $report_date = $_POST["report_date"];
         $account_ID = $_POST["account_ID"];
         $cooked_qty = $_POST["cooked_qty"];
         $reheat_qty = $_POST["reheat_qty"];
@@ -71,7 +73,7 @@
                     left_over_qty = '$left_over_qty',
                     total_sold_qty = '$total_sold_qty',
                     status = '$status',
-                    confirmed_revenue = '$confirmedrevenue'
+                    estimated_revenue = '$confirmedrevenue'
                 WHERE
                     report_ID = $valueToEdit
             ";
@@ -85,12 +87,14 @@
                     assignment_status = 'Present'
                 WHERE
                     staff_ID = '$account_ID'
+                    AND
+                    assignment_date = '$report_date'
             ";
                 $conn->query($sql);
             }
         }
         $conn->close();
-        header("Location: salesreport.php");
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     }
 ?>

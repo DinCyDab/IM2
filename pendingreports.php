@@ -126,10 +126,12 @@
                     <th>Reheat</th>
                     <th>Total Display</th>
                     <th>Leftover</th>
+                    <th>Pull Out</th>
                     <th>Total Sold</th>
                     <th>Product Name</th>
                     <th>Product Price</th>
-                    <th>Revenue</th>
+                    <th>Estimated Revenue</th>
+                    <th>Remittance</th>
                     <th>Status</th>
                 </tr>
             ";
@@ -161,10 +163,12 @@
                     <td>".$row[$x]['reheat_qty']."</td>
                     <td>".$row[$x]['total_display_qty']."</td>
                     <td>".$row[$x]['left_over_qty']."</td>
+                    <td>".$row[$x]['pull_out_qty']."</td>
                     <td>".$row[$x]['total_sold_qty']."</td>
                     <td>".$row[$x]['product_name']."</td>
                     <td>".$row[$x]['product_price']."</td>
                     <td>".$row[$x]['revenue']."</td>
+                    <td>".$row[$x]['remittance']."</td>
                     <td>".$row[$x]['status']."</td>
                 </tr>";
             }

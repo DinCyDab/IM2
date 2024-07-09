@@ -93,7 +93,9 @@
                                         Reheat Quantity         <input type='number' name='reheatqty$y'>
                                         Total Display Quantity  <input type='number' name='totaldisplayqty$y'>
                                         Leftover Quantity       <input type='number' name='leftoverqty$y'>
+                                        Pull-out Quantity       <input type='number' name='pulloutqty$y'>
                                         Total Sold Quantity     <input type='number' name='totalsoldqty$y'>
+                                        Remittance              <input type='number' name='remittance$y'>
                                         <br>
                                         <br>
                             ";
@@ -149,6 +151,8 @@
         if(!$conn->connect_error){
             for($x = 0; $x < $_GET["sizeHolder"]; $x++){
                 if($_POST["productID$x"] != "Removed" && isset($_POST["productID$x"])){
+                    $pulloutqty = $_POST["pulloutqty$x"];
+                    $remittance = $_POST["remittance$x"];
                     $productID = $_POST["productID$x"];
                     $cookedqty = $_POST["cookedqty$x"];
                     $reheatqty = $_POST["reheatqty$x"];
@@ -163,7 +167,9 @@
                         reheat_qty,
                         total_display_qty,
                         left_over_qty,
-                        total_sold_qty
+                        pull_out_qty,
+                        total_sold_qty,
+                        remittance
                     )
                     VALUES(
                         '".$_SESSION["account_ID"]."',
@@ -173,7 +179,9 @@
                         '$reheatqty',
                         '$totaldisplayqty',
                         '$leftoverqty',
-                        '$totalsoldqty'
+                        '$pulloutqty',
+                        '$totalsoldqty',
+                        '$remittance'
                     )";
                     $conn->query($sql);
                 }
