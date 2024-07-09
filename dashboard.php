@@ -72,15 +72,25 @@ if (!isset($_GET["filterDate"])) {
                 $branchID = $branch["branch_ID"];
                 $branchName = $branch["branch_name"];
                 $sql = "SELECT
-                            salesreport.*,
-                            product.product_name,
-                            salesreport.total_sold_qty * product.product_price AS 'estimated_revenue'
+                            SUM(salesreport.total_sold_qty) AS total_sold_qty,
+                            SUM(salesreport.cooked_qty) AS cooked_qty,
+                            SUM(salesreport.reheat_qty) AS reheat_qty,
+                            SUM(salesreport.left_over_qty) AS left_over_qty,
+                            SUM(salesreport.total_sold_qty * product.product_price) AS estimated_revenue,
+                            product.product_name
                         FROM
                             salesreport
                             INNER JOIN product ON salesreport.product_ID = product.product_ID
+                            INNER JOIN branch ON salesreport.branch_ID = branch.branch_ID
                         WHERE
-                            salesreport.report_date = DATE('$year/$month/$day')
-                            AND salesreport.branch_ID = '$branchID'";
+                            salesreport.report_date BETWEEN DATE_SUB('".$_SESSION["currDate"]."', INTERVAL ".$_SESSION["filterDateBy"]." DAY) AND '".$_SESSION["currDate"]."'
+                            AND salesreport.status = 'Confirmed'
+                            AND salesreport.branch_ID = '$branchID' 
+                        GROUP BY
+                            product.product_ID
+                            ";
+
+                            
 
                 $result = $conn->query($sql);
                 $rows = $result->fetch_all(MYSQLI_ASSOC);
@@ -88,6 +98,7 @@ if (!isset($_GET["filterDate"])) {
                 $totalSold = [];
                 $totalCooked = [];
                 $totalReheat = [];
+                $totalLeftOver = [];
                 $estimatedPartialRevenue = [];
 
                 foreach ($rows as $row) {
@@ -108,139 +119,74 @@ if (!isset($_GET["filterDate"])) {
                 }
             }
 
-            for ($x = 0; $x < sizeof($branchList); $x++) {
-                $sql = "SELECT
-                                branch.branch_name,
-								product.product_ID,
-                                product.product_name,
-                                SUM(cooked_qty) AS 'cooked_qty',
-                                SUM(reheat_qty) AS 'reheat_qty',
-                                SUM(total_display_qty) AS 'total_display_qty',
-                                SUM(left_over_qty) AS 'left_over_qty',
-                                SUM(total_sold_qty) AS 'total_sold_qty',
-                                SUM(salesreport.estimated_revenue) AS 'estimated_revenue'
-                            FROM
-                                salesreport
-                                INNER JOIN branch ON salesreport.branch_ID = branch.branch_ID
-                                INNER JOIN product ON salesreport.product_ID = product.product_ID
-                            WHERE
-                                salesreport.report_date BETWEEN DATE_SUB('".$_SESSION["currDate"]."', INTERVAL ".$_SESSION["filterDateBy"]." DAY) AND '".$_SESSION["currDate"]."'
-                                AND
-                                salesreport.branch_ID = '".$branchList[$x]["branch_ID"]."'
-                                AND
-                                salesreport.status = 'Confirmed'
-                            GROUP BY
-                            	product.product_ID
-                                ";
-
-                    $result = $conn->query($sql);
-                    $row = $result->fetch_all(MYSQLI_ASSOC);
-                    if(sizeof($row) > 0){
-                        $noDataToShow = false;
-                        echo "Branch: ".$row[0]["branch_name"]." <br>";
-                        for($y = 0; $y < sizeof($row); $y++){
-                            echo "
-                                Product: ".$row[$y]["product_name"]."<br>
-                                Cooked Quantity: ".$row[$y]["cooked_qty"]."
-                                Reheat Quantity: ".$row[$y]["reheat_qty"]."
-                                Total Display Quantity: ".$row[$y]["total_display_qty"]."
-                                Left Over Quantity: ".$row[$y]["left_over_qty"]."
-                                Total Sold: ".$row[$y]["total_sold_qty"]."
-                                Revenue: ".$row[$y]["estimated_revenue"]."
-                                <br>
-                            ";
-                        }
-                    }
-                    else{
-                        $noDataToShow = true;
-                    }
-                    echo "<br>";
-                $result = $conn->query($sql);
-                $row = $result->fetch_all(MYSQLI_ASSOC);
-                if (sizeof($row) > 0) {
-                    $noDataToShow = false;
-                } else {
-                    $noDataToShow = true;
-                }
-                echo "<br>";
-            }
-            $sql = "SELECT
-                            salesreport.*,
-                            salesreport.product_ID,
-                            product.product_name,
-                            SUM(total_sold_qty) AS 'Total_Sold',
-                            SUM(salesreport.estimated_revenue) AS 'Confirmed_Partial_Revenue'
-                        FROM
-                            salesreport
-                            INNER JOIN product ON salesreport.product_ID = product.product_ID
-                        WHERE
-                            salesreport.report_date BETWEEN DATE_SUB('".$_SESSION["currDate"]."', INTERVAL ".$_SESSION["filterDateBy"]." DAY) AND '".$_SESSION["currDate"]."'
-                            AND
-                            salesreport.status = 'Confirmed'
-                        GROUP BY
-                            salesreport.product_ID
-                        ";
-
-                $result = $conn->query($sql);
-                $row = $result->fetch_all(MYSQLI_ASSOC);
-                if(sizeof($row) > 0){
-                    $noDataToShow = false;
-                    echo "Overview<br>";
-                    for($x = 0; $x < sizeof($row); $x++){
-                        echo "
-                            Total sold ".$row[$x]["product_name"].": ".$row[$x]["Total_Sold"]."<br>
-                            Partial Revenue: ".$row[$x]["Confirmed_Partial_Revenue"]."<br><br>
-                        ";
-                    }
-                }
-                else{
-                    $noDataToShow = true;
-                }
-                $sql = "SELECT
-                            SUM(salesreport.estimated_revenue) AS 'Confirmed_Total_Revenue'
-
-            $result = $conn->query($sql);
-            $row = $result->fetch_all(MYSQLI_ASSOC);
-            if (sizeof($row) > 0) {
-                $noDataToShow = false;
-            } else {
-                $noDataToShow = true;
-            }
+            // for ($x = 0; $x < sizeof($branchList); $x++) {
+            //     $sql = "SELECT
+            //                     branch.branch_name,
+			// 					product.product_ID,
+            //                     product.product_name,
+            //                     SUM(cooked_qty) AS 'cooked_qty',
+            //                     SUM(reheat_qty) AS 'reheat_qty',
+            //                     SUM(total_display_qty) AS 'total_display_qty',
+            //                     SUM(left_over_qty) AS 'left_over_qty',
+            //                     SUM(total_sold_qty) AS 'total_sold_qty',
+            //                     salesreport.total_sold_qty * product.product_price AS 'estimated_revenue'
+            //                 FROM
+            //                     salesreport
+            //                     INNER JOIN branch ON salesreport.branch_ID = branch.branch_ID
+            //                     INNER JOIN product ON salesreport.product_ID = product.product_ID
+            //                 WHERE
+            //                     salesreport.report_date BETWEEN DATE_SUB('".$_SESSION["currDate"]."', INTERVAL ".$_SESSION["filterDateBy"]." DAY) AND '".$_SESSION["currDate"]."'
+            //                     AND
+            //                     salesreport.branch_ID = '".$branchList[$x]["branch_ID"]."'
+            //                 GROUP BY
+            //                 	product.product_ID
+            //                     ";
+            //     $result = $conn->query($sql);
+            //     $row = $result->fetch_all(MYSQLI_ASSOC);
+            //     if (sizeof($row) > 0) {
+            //         $noDataToShow = false;
+            //     } else {
+            //         $noDataToShow = true;
+            //     }
+            //     echo "<br>";
+            // }
+            // $sql = "SELECT
+            //                 salesreport.*,
+            //                 salesreport.product_ID,
+            //                 product.product_name,
+            //                 SUM(total_sold_qty) AS 'Total_Sold',
+            //                 SUM(total_sold_qty) * product.product_price AS 'Estimated_Partial_Revenue'
+            //             FROM
+            //                 salesreport
+            //                 INNER JOIN product ON salesreport.product_ID = product.product_ID
+            //             WHERE
+            //                 salesreport.report_date BETWEEN DATE_SUB('".$_SESSION["currDate"]."', INTERVAL ".$_SESSION["filterDateBy"]." DAY) AND '".$_SESSION["currDate"]."'
+            //             GROUP BY
+            //                 salesreport.product_ID
+            //             ";
+            // $result = $conn->query($sql);
+            // $row = $result->fetch_all(MYSQLI_ASSOC);
+            // if (sizeof($row) > 0) {
+            //     $noDataToShow = false;
+            // } else {
+            //     $noDataToShow = true;
+            // }
             $sql = "SELECT
                             SUM(total_sold_qty * product.product_price) AS 'Estimated_Total_Revenue'
-
                         FROM
                             salesreport
                             INNER JOIN product ON salesreport.product_ID = product.product_ID
                         WHERE
-
                             salesreport.report_date BETWEEN DATE_SUB('".$_SESSION["currDate"]."', INTERVAL ".$_SESSION["filterDateBy"]." DAY) AND '".$_SESSION["currDate"]."'
                             AND
                             salesreport.status = 'Confirmed'
                             ";
-                $result = $conn->query($sql);
-                $row = $result->fetch_all(MYSQLI_ASSOC);
-                if($row[0]["Confirmed_Total_Revenue"] != NULL){
-                    $noDataToShow = false;
-                    echo "Overall Sales Revenue: ".$row[0]["Confirmed_Total_Revenue"];
-                }
-                else{
-                    $noDataToShow = true;
-                }
-            }
-            $conn->close();
-            if($noDataToShow == true){
-                echo "No Data To Show";
-
-                            salesreport.report_date BETWEEN DATE_SUB('".$_SESSION["currDate"]."', INTERVAL ".$_SESSION["filterDateBy"]." DAY) AND '".$_SESSION["currDate"]."'";
             $result = $conn->query($sql);
             $row = $result->fetch_all(MYSQLI_ASSOC);
             if ($row[0]["Estimated_Total_Revenue"] != NULL) {
                 $noDataToShow = false;
-                echo "Estimated Overall Sales Revenue: ".$row[0]["Estimated_Total_Revenue"];
             } else {
                 $noDataToShow = true;
-
             }
         }
         $conn->close();
@@ -266,7 +212,7 @@ if (!isset($_GET["filterDate"])) {
                     chartsContainer.appendChild(branchContainer);
 
                     let chartTypes = ["estimatedPartialRevenue", "totalSold", "totalLeftOver", "totalCooked", "totalReheat"];
-                    let titles = ["estimatedPartialRevenue", "Total Sold", "totalLeftOver", "Total Cooked", "Total Reheat"];
+                    let titles = ["Estimated Partial Revenue", "Total Sold", "totalLeftOver", "Total Cooked", "Total Reheat"];
 
                     for (let i = 0; i < chartTypes.length; i++) {
                         let chartContainer = document.createElement("div");
