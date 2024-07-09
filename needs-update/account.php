@@ -2,7 +2,7 @@
     ob_start();
     session_start();
     if($_SESSION["role"] != "Administrator"){
-        header("Location: indexstaff.php");
+        header("Location: staff.php");
     }
     if(!isset($_SESSION["session_started"])){
         $_SESSION["session_started"] = TRUE;
@@ -67,7 +67,7 @@
         </style>
     </head>
     <body>
-        <a href="indexadmin.php">Home</a>
+        <a href="admin.php">Home</a>
 
         <br>
 

@@ -25,8 +25,6 @@
 
     </head>
     <body>
-        <a href="indexadmin.php">Home</a>
-
         <form method="get">
             Filter By:
             <select name="filterDateBy">

@@ -1,24 +1,28 @@
 <?php
-    session_start();
+require_once 'utils.php';
+session_start();
 ?>
 
 <!DOCTYPE html>
 <html>
-    <head>
 
-    </head>
-    <body>
-        <?php
-            echo "Date: " . date("Y-m-d");
-            echo " Branch Assigned:";
-            echo $_SESSION['branch_assigned'];
-            echo "<br>";
-        ?>
-        <pre>
+<head>
+    <title>Mama Flor's Lechon House</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <?php
+    echo "Date: " . date("Y-m-d");
+    echo "Branch Assigned: Tipolos";
+    echo "<br>";
+    ?>
+    <pre>
             <a href="gsr.php">Generate Sales Report</a>
             <a href="schedule.php">Schedule</a>
             <a href="editprofile.php">Account Settings</a>
-            <a href="backend/logout.php">LOG OUT</a>
+            <a href="?logout">LOG OUT</a>
         </pre>
-    </body>
+</body>
+
 </html>

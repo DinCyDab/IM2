@@ -1,32 +1,31 @@
 <?php
-    session_start();
-    if($_SESSION["role"] != "Administrator"){
-        header("Location: staff.php");
-    }
+require_once 'utils.php';
+session_start();
+if ($_SESSION["role"] != "Administrator") {
+    header("Location: staff.php");
+}
 ?>
 
 <!DOCTYPE html>
 <html>
-    <head>
 
-    </head>
-    <body>  
-        <pre>
-            <?php
-                echo "Date: " . date("Y-m-d");
-                echo " Branch Assigned:";
-                echo $_SESSION['branch_assigned'];
-                echo "<br>";
-            ?>
-            <a href="dashboard.php">Dashboard</a>
-            <a href="product.php">Product</a>
-            <a href="staff.php">Staff</a>
-            <a href="branch.php">Branch</a>
-            <a href="account.php">Account</a>
-            <a href="salesreport.php">Sales Report</a>
-            <a href="assignment.php">Assignment</a>
+<head>
+    <title>Mama Flor's Lechon House</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
 
-            <a href="backend/logout.php">Log out</a>
-        </pre>
-    </body>
+<body>
+    <ul class="nav">
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="product.php">Product</a></li>
+        <li><a href="staff.php">Staff</a></li>
+        <li><a href="branch.php">Branch</a></li>
+        <li><a href="account.php">Account</a></li>
+        <li><a href="salesreport.php">Sales Report</a></li>
+        <li><a href="assignment.php">Assignment</a></li>
+        <li><a href="?logout">Log out</a></li>
+    </ul>
+
+</body>
+
 </html>
