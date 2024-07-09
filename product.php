@@ -54,16 +54,6 @@
                         }
                     ?>;
             }
-            /* table design */
-            table{
-                border-collapse: collapse;
-            }
-            th, tr{
-                border: 1px aqua solid;
-            }
-            tr:nth-child(even){
-                background-color: aqua;
-            }
         </style>
     </head>
     <body>

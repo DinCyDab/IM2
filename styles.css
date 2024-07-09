@@ -1,0 +1,78 @@
+.add-attendance{
+    display: none;
+}
+.addStaffIndividually{
+    display: none;
+}
+#editor{
+    display: none;
+}
+body{
+    margin: 0;
+    padding: 0;
+}
+.add-attendance{
+    display: none;
+}
+table{
+    border-collapse: separate; /* Change to separate */
+    border-spacing: 0; /* Ensure no spacing between table cells */
+    margin: 25px 0;
+    font-size: 0.9em;
+    border-radius: 5px;
+    overflow: hidden; /* Add this to apply border-radius */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    font-family: "Poppins";
+    }
+ 
+
+    table th{
+    padding: 12px 15px;
+  
+   }
+   table td{
+    padding: 12px 15px;
+   }
+   table tbody tr{
+    border-bottom: 1px solid #dddddd;
+   }
+   table th{
+    background-color: #009879;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+   }
+  
+    tr:nth-child(even){
+        background-color: #f3f3f3;
+    }
+    table tbody tr:last-of-type{
+        border-bottom: 2px solid #009879;
+    }
+    #editor{
+        display: none;
+    }
+
+    .table_center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+   
+        
+    } 
+
+   table a{
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px
+   }
+  .table-align{
+    display:flex;
+    justify-content: center;
+   }
+
+   .settings{
+    display: flex;
+   }
