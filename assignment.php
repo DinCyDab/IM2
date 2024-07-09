@@ -48,6 +48,9 @@
                         }
                     ?>;
             }
+            .addStaffIndividually{
+                display: none;
+            }
             table{
                 border-collapse: collapse;
             }
@@ -75,8 +78,9 @@
         <form method="post">
             <button id="editor" name="editButton" value="assignment">EDIT</button>
         </form>
+        <button onclick="showAddStaffIndie()">Add Staff</button>
         <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Assignment...">
-        
+
         <br>
 
         <form method="get">
@@ -86,6 +90,7 @@
 
         <?php
             include "addattendance.php";
+            include "addindividual.php";
             include "remove.php";
             include "editassignment.php";
             include "filterattendance.php";

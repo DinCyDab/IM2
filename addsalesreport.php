@@ -122,6 +122,12 @@
 ?>
 
 <script>
+    var submitReport =document.getElementById("submitReport");
+    var addToReportForm =document.getElementById("addToReportForm");
+
+    if(addToReportForm.length == 1){
+        addToReportForm.removeChild(submitReport);
+    }
     function removeProduct(removeRow, productRow){
         var removeProduct = document.getElementById(productRow);
         removeProduct.value = "Removed";
