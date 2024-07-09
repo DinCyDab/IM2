@@ -2,12 +2,12 @@
     ob_start();
     session_start();
     if(isset($_SESSION["loggedin"])){
-        if($_SESSION["role"] == "Administrator"){
-            header("Location: admin.php");
+        if($_SESSION["role"] != "Administrator"){
+            header("Location: indexstaff.php");
             exit();
         }
-        else {
-            header("Location: staff.php");
+        if($_SESSION["role"] == "Administrator"){
+            header("Location: indexadmin.php");
             exit();
         }
     }
@@ -16,23 +16,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Mamaflors</title>
-        <link rel="stylesheet" href="./style.css">
+
     </head>
     <body>
-        <div class="grid-40-60">
-            <div>
-                <img src="images/logo.png" alt="Mamaflors Logo">
-            </div>
-            <div>
-                <form method="post" class="signin">
-                    <span>Sign in</span>
-                    <input type="text" id="accountID" name="accountID" placeholder="Account ID" required>
-                    <input type="password" id="password" name="password" placeholder="Password">
-                    <button name="signin">Sign in</button>
-                </form>
-            </div>
-        </div>
+        <form method="post">
+            ACCOUNT ID: <input type="text" name="accountID" required>
+            PASSWORD: <input type="password" name="password">
+            <input type="submit" value="Sign in" name="signin">
+        </form>
     </body>
 </html>
 
@@ -55,7 +46,7 @@
 
                 $_SESSION["account_ID"] = $row[0]["account_ID"];
                 $_SESSION["pass"] = $pass;
-                header("Location: backend/authentication.php");
+                header("Location: authentication.php");
                 exit();
             }
         }

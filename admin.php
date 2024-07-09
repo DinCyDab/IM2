@@ -1,7 +1,7 @@
 <?php
     session_start();
     if($_SESSION["role"] != "Administrator"){
-        header("Location: indexstaff.php");
+        header("Location: staff.php");
     }
 ?>
 
@@ -26,7 +26,7 @@
             <a href="salesreport.php">Sales Report</a>
             <a href="assignment.php">Assignment</a>
 
-            <a href="logout.php">Log out</a>
+            <a href="backend/logout.php">Log out</a>
         </pre>
     </body>
 </html>

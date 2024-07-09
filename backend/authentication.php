@@ -50,10 +50,10 @@
             $_SESSION["branch_assigned"] = $row[0]["branch_name"];
             //check for Role in account
             if($_SESSION["role"] == "Administrator"){
-                header("Location: indexadmin.php");
+                header("Location: ../admin.php");
             }
             else{
-                header("Location: indexstaff.php");
+                header("Location: ../staff.php");
             }
             exit();
         }
