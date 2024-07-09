@@ -19,7 +19,7 @@ if ($_SESSION["role"] != "Administrator") {
         <ul>
             <li><a href="#">Dashboard</a></li>
             <li><a href="#">Product</a></li>
-            <li><a href="#">Staff</a></li>
+            <li><a href="staff.php">Staff</a></li>
             <li><a href="#">Branch</a></li>
             <li><a href="#">Account</a></li>
             <li><a href="#">Sales Report</a></li>
