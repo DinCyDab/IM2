@@ -247,5 +247,5 @@
     </body>
     <?php 
             include "navadmin.php";
-    ?>
+        ?>
 </html>

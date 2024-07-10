@@ -51,6 +51,7 @@ function hideEditColumn(){
     }
     editor.removeEventListener("click", hideEditColumn);
     editor.addEventListener("click", showEditColumn);
+
 }
 
 function showRemoveColumn(){

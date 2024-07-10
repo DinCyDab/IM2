@@ -10,13 +10,16 @@
         $row = $result->fetch_all(MYSQLI_ASSOC);
         if(sizeof($row) > 0){
             echo "
-                <div id='addSalesReport' class='addSalesReport'>
-                    <button onclick='closeAddSalesReport()'>CLOSE</button>
-                    <form method='get' id='addToReport'>
-                        <input type='hidden' id='sizeHolder' value='0' name='sizeHolder'>
-                        <input type='submit' value='Add To Report' name='addToReport'>
-                    </form>
-                    <button onclick='addProductRow()'>+</button>
+                <div id='addSalesReport' class='addSalesReportHolder'>
+                    <div class='addSalesReport'>
+                        <form class='midAddSalesReport' method='get' id='addToReport'>
+                            <input type='hidden' id='sizeHolder' value='0' name='sizeHolder'>
+                            <button class='addProductRowButton' type='button' onclick='addProductRow()'>Add Product Listing</button>
+
+                            <button type='button' class='closeButton' onclick='closeAddSalesReport()'>Close</button>
+                            <input class='addToReportButton' type='submit' value='Add To Report' name='addToReport'>
+                        </form>
+                    </div>
                 </div>
             ";
         }
@@ -35,14 +38,24 @@
         var remove = document.createElement("button");
         var addToReport = document.getElementById("addToReport");
         var addSalesReport = document.getElementById("addSalesReport");
+        var div = document.createElement("div");
         var row = [];
         var rowName = [];
+
+        div.className = "productSelect";
+
+        select.className = 'addToReportProduct';
         select.name = "addToReport" + val;
 
+        remove.type = "button";
         remove.onclick = function() {
-            addToReport.removeChild(select);
-            addSalesReport.removeChild(remove);
+            div.removeChild(select);
+            div.removeChild(remove);
+            div.style.padding = "0px";
         };
+
+        remove.innerText = "Remove";
+        div.appendChild(remove);
 
         <?php
             for($x = 0; $x < sizeof($row); $x++){
@@ -53,11 +66,10 @@
                 echo "option.innerHTML = rowName[$x];\n";
                 echo "select.appendChild(option);\n";
             }
-            echo "addToReport.appendChild(select);\n";
+            echo "div.appendChild(select);\n";
         ?>
 
-        remove.innerText = "Remove";
-        addSalesReport.appendChild(remove);
+        addToReport.appendChild(div);
 
         val++;
         sizeHolder.value = val;
@@ -66,7 +78,7 @@
 
 <?php
     if(isset($_GET["addToReport"])){
-        echo "<div>
+        echo "<div class='formDailySalesReport'>
                 <form method='post' id='addToReportForm'>
         ";
         for($y = 0; $y < $_GET["sizeHolder"]; $y++){
@@ -85,19 +97,33 @@
 
                         if(sizeof($rowProduct) > 0){
                             echo "<div id='addToReport$y'>";
-                            echo "<button type='button' onclick=".'removeProduct("addToReport'.$y.'","productID'.$y.'")'.">Remove</button>
-                                        ".$rowProduct[0]['product_name']."
-                                        <br>
+                            echo "
+                                        <div class='headersubdiv'>
+                                            <button type='button' onclick=".'removeProduct("addToReport'.$y.'","productID'.$y.'")'.">Remove</button>
+                                            <h2>".$rowProduct[0]['product_name']."</h2>
+                                        </div>
                                         <input id='productID$y' type='hidden' name='productID$y' value='".$rowProduct[0]['product_ID']."'>
-                                        Cooked Quantity         <input type='number' name='cookedqty$y'>
-                                        Reheat Quantity         <input type='number' name='reheatqty$y'>
-                                        Total Display Quantity  <input type='number' name='totaldisplayqty$y'>
-                                        Leftover Quantity       <input type='number' name='leftoverqty$y'>
-                                        Pull-out Quantity       <input type='number' name='pulloutqty$y'>
-                                        Total Sold Quantity     <input type='number' name='totalsoldqty$y'>
-                                        Remittance              <input type='number' name='remittance$y' required>
-                                        <br>
-                                        <br>
+                                        <div class='subdiv'>
+                                            <p>Cooked Quantity:</p>         <input type='number' name='cookedqty$y'>
+                                        </div>
+                                        <div class='subdiv'>
+                                            <p>Reheat Quantity:</p>         <input type='number' name='reheatqty$y'>
+                                        </div>
+                                        <div class='subdiv'>
+                                            <p>Total Display Quantity:</p>  <input type='number' name='totaldisplayqty$y'>
+                                        </div>
+                                        <div class='subdiv'>
+                                            <p>Leftover Quantity:</p>       <input type='number' name='leftoverqty$y'>
+                                        </div>
+                                        <div class='subdiv'>
+                                            <p>Pull-out Quantity:</p>       <input type='number' name='pulloutqty$y'>
+                                        </div>
+                                        <div class='subdiv'>
+                                            <p>Total Sold Quantity:</p>     <input type='number' name='totalsoldqty$y'>
+                                        </div>
+                                        <div class='subdiv'>
+                                            <p>Remittance:</p>              <input type='number' name='remittance$y' required>
+                                        </div>
                             ";
                             echo "</div>";
                         }
@@ -117,7 +143,7 @@
             }
         }
         echo "
-                    <input id='submitReport' type='submit' value='Submit' name='submitReport'>
+                    <input id='submitReport' type='submit' value='Submit Report' name='submitReport'>
                 </form>
             </div>";
     }
@@ -127,8 +153,10 @@
     var submitReport =document.getElementById("submitReport");
     var addToReportForm =document.getElementById("addToReportForm");
 
-    if(addToReportForm.length == 1){
-        addToReportForm.removeChild(submitReport);
+    if(addToReportForm){
+        if(addToReportForm.length == 1){
+            addToReportForm.removeChild(submitReport);
+        }
     }
     function removeProduct(removeRow, productRow){
         var removeProduct = document.getElementById(productRow);

@@ -49,6 +49,12 @@
                         }
                     ?>;
             }
+            .edit-assignment{
+                position: absolute;
+                height: 100px;
+                background-color: white ;
+                padding: 20px;
+            }
         </style>
     </head>
     <body>
