@@ -21,7 +21,7 @@
             }
             .addButton{
                 position: relative;
-                top: 100px;
+                top: 75px;
                 /* border: 1px black solid; */
                 margin-bottom: 50px
             }
@@ -117,7 +117,7 @@
                 /* border: 1px black solid; */
                 background-color: wheat;
                 border-radius: 50px;
-                top: 70px;
+                top: 55px;
                 width: 70%;
                 left: 50%;
                 transform: translate(-50%, 0);
@@ -175,11 +175,21 @@
                 width: 50%;
                 text-align: center;
             }
-            
+            .gsrHeader{
+                position: relative;
+                /* border: 1px white solid; */
+                top: 75px;
+            }
+            .gsrHeader h1{
+                text-align: center;
+                color: whitesmoke;
+            }
         </style>
     </head>
     <body>
-        <br>
+        <div class="gsrHeader">
+            <h1>Generate Sales Report</h1>
+        </div>
         <div class="addButton">
             <button class="addButtonGSR" onclick="showAdd()">ADD PRODUCT</button>
         </div>
