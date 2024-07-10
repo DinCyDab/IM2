@@ -1,4 +1,5 @@
 <?php
+    require_once 'utils.php';
     ob_start();
     session_start();
     if($_SESSION["role"] != "Administrator"){
@@ -55,6 +56,7 @@
                     ?>;
             }
         </style>
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
         <a href="indexadmin.php">Home</a>
@@ -144,6 +146,7 @@
         }
     }
     $conn->close(); //close db connection
+    include "navadmin.php";
 ?>
 
 <?php

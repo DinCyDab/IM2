@@ -8,29 +8,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <title>Mama Flor's Lechon House</title>
+        <link rel="stylesheet" href="styles.css">
     </head>
-    <body>  
-        <pre>
-            <?php
-                echo "Date: " . date("Y-m-d");
-                echo " Branch Assigned:";
-                echo $_SESSION['branch_assigned'];
-                echo "<br>";
-            ?>
-            <?php 
-                include "dashboardnotif.php";
-            ?>
-            <br>
-            <a href="dashboard.php">Dashboard</a>
-            <a href="product.php">Product</a>
-            <a href="staff.php">Staff</a>
-            <a href="branch.php">Branch</a>
-            <a href="account.php">Account</a>
-            <a href="salesreport.php">Sales Report</a>
-            <a href="assignment.php">Assignment</a>
-
-            <a href="logout.php">Log out</a>
-        </pre>
+    <body>
+        <?php 
+            include "navadmin.php";
+            include "dashboardnotif.php";
+        ?>
     </body>
 </html>

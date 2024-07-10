@@ -17,6 +17,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="styles.css">
         <style>
             .add-account{
                 display: none;
@@ -52,17 +53,7 @@
                     ?>;
             }
             .edit-product{
-                display: block;
-            }
-            /* table design */
-            table{
-                border-collapse: collapse;
-            }
-            th, tr{
-                border: 1px aqua solid;
-            }
-            tr:nth-child(even){
-                background-color: aqua;
+                display: none;
             }
         </style>
     </head>
@@ -85,6 +76,7 @@
             include "addaccount.php";
             include "remove.php";
             include "editaccount.php";
+            include "navadmin.php";
         ?>
     </body>
     <script src="filtertable.js"></script>

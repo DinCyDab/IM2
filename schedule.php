@@ -1,26 +1,23 @@
 <?php
     ob_start();
     session_start();
+    if(!isset($_SESSION["loggedin"])){
+        header ("Location: index.php");
+        exit();
+    }
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <style>
-            table{
-                border-collapse: collapse;
-            }
-            th, tr{
-                border: 1px aqua solid;
-            }
-            tr:nth-child(even){
-                background-color: aqua;
-            }
-        </style>
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
         <a href="indexstaff.php">Back</a>
         <br>
+        <?php 
+            include "navstaff.php";
+        ?>
         <?php 
             $conn = mysqli_connect("localhost","root","","mamaflors");
             if(!$conn->connect_error){
@@ -77,7 +74,7 @@
             $conn->close();
         ?>
 
-<?php 
+        <?php 
             $conn = mysqli_connect("localhost","root","","mamaflors");
             if(!$conn->connect_error){
                 $sql = "SELECT
