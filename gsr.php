@@ -1,6 +1,11 @@
 <?php
+    require_once 'utils.php';
     ob_start();
     session_start();
+    if(!isset($_SESSION["loggedin"])){
+        header ("Location: index.php");
+        exit();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -11,6 +16,7 @@
                 display: none;
             }
         </style>
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
         <a href="indexstaff.php">Back</a>
@@ -19,6 +25,7 @@
         <?php
             include "addsalesreport.php";
             include "remove.php";
+            include "navstaff.php";
         ?>
     </body>
     <script src="filtertable.js"></script>

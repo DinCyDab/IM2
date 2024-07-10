@@ -80,6 +80,7 @@
             include "remove.php";
             include "editassignment.php";
             include "filterattendance.php";
+            include "navadmin.php";
         ?>
     </body>
     <script src="filtertable.js"></script>

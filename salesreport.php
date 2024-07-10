@@ -17,6 +17,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+    <link rel="stylesheet" href="styles.css">
         <style>
             .remove-row{
                 display: <?php
@@ -48,15 +49,6 @@
                         }
                     ?>;
             }
-            table{
-                border-collapse: collapse;
-            }
-            th, tr{
-                border: 1px aqua solid;
-            }
-            tr:nth-child(even){
-                background-color: aqua;
-            }
         </style>
     </head>
     <body>
@@ -79,6 +71,7 @@
         <?php
             include "editsalesreport.php";
             include "remove.php";
+            include "navadmin.php";
         ?>
     </body>
     <script src="filtertable.js"></script>

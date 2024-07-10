@@ -17,6 +17,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="styles.css">
         <style>
             .add-staff{
                 display: none;
@@ -51,15 +52,6 @@
                         }
                     ?>;
             }
-            table{
-                border-collapse: collapse;
-            }
-            th, tr{
-                border: 1px aquamarine solid;
-            }
-            tr:nth-child(even){
-                background-color: aqua;
-            }
         </style>
     </head>
     <body>
@@ -82,6 +74,7 @@
             include "addstaff.php";
             include "editstaff.php";
             include "remove.php";
+            include "navadmin.php";
         ?>
     </body>
     <script src="filtertable.js"></script>

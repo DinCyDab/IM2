@@ -1,25 +1,20 @@
 <?php
+    require_once 'utils.php';
     session_start();
+    if(!isset($_SESSION["loggedin"])){
+        header ("Location: index.php");
+        exit();
+    }
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <?php
-            echo "Date: " . date("Y-m-d");
-            echo " Branch Assigned:";
-            echo $_SESSION["branch_assigned"];
-            echo "<br>";
+        <?php 
+            include "navstaff.php";
         ?>
-        <pre>
-            <a href="gsr.php">Generate Sales Report</a>
-            <a href="schedule.php">Schedule</a>
-            <a href="staffpendingreports.php">Reports</a>
-            <a href="editprofile.php">Account Settings</a>
-            <a href="logout.php">LOG OUT</a>
-        </pre>
     </body>
 </html>

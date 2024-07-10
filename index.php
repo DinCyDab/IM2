@@ -1,4 +1,5 @@
 <?php
+    require_once 'utils.php';
     ob_start();
     session_start();
     if(isset($_SESSION["loggedin"])){
@@ -16,14 +17,24 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <title>Mama Flor's Lechon House</title>
+        <link rel="stylesheet" href="styles.css">
     </head>
+
     <body>
-        <form method="post">
-            ACCOUNT ID: <input type="text" name="accountID" required>
-            PASSWORD: <input type="password" name="password">
-            <input type="submit" value="Sign in" name="signin">
-        </form>
+        <div class="grid-40-60">
+            <div>
+                <img src="imagesources/logo.png" alt="Mamaflors Logo">
+            </div>
+            <div>
+                <form method="post" class="signin">
+                    <span>Sign in</span>
+                    <input type="text" id="accountID" name="accountID" placeholder="Account ID" required>
+                    <input type="password" id="password" name="password" placeholder="Password">
+                    <button name="signin">Sign in</button>
+                </form>
+            </div>
+        </div>
     </body>
 </html>
 

@@ -1,14 +1,21 @@
 <?php
     ob_start();
     session_start();
+    if(!isset($_SESSION["loggedin"])){
+        header ("Location: index.php");
+        exit();
+    }
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
+        <?php 
+            include "navstaff.php";
+        ?>
         <a href="indexstaff.php">Back</a>
         <form method="post">
             Account ID: <input type="text" value="<?php echo $_SESSION["account_ID"]?>" readonly>
