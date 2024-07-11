@@ -4,6 +4,9 @@ if($_SESSION["role"] != "Administrator"){
     exit();
 }
 ?>
+
+ 
+
 <?php
     if(isset($_GET["edit"])){
         $assignmentID = $_GET["edit"];
@@ -14,14 +17,19 @@ if($_SESSION["role"] != "Administrator"){
         else{
             $sql = "SELECT
                         assignment.*,
-                        CONCAT(staff.last_name, ', ', staff.first_name, ' ', staff.middle_name) AS 'staff_name'
+                        CONCAT(staff.last_name, ', ', staff.first_name, ' ', staff.middle_name) AS 'staff_name',
+                        branch.branch_ID
                     FROM
-                        assignment
-                        INNER JOIN staff ON assignment.staff_ID = staff.staff_ID
+                        (assignment
+                        INNER JOIN staff ON assignment.staff_ID = staff.staff_ID)
+                        LEFT JOIN branch ON assignment.branch_ID = branch.branch_ID
                     WHERE
                         assignment_ID = $assignmentID";
             $result = $conn->query($sql);
             $row = $result->fetch_all(MYSQLI_ASSOC);
+            if(isset($row[0]["branch_ID"])){
+                $branchValue = $row[0]["branch_ID"];
+            }
 
             $sql = "SELECT
                         *
@@ -35,7 +43,8 @@ if($_SESSION["role"] != "Administrator"){
             if(sizeof($row)>0){
                 echo'
                     <div id="edit" class="edit-assignment">
-                        <button onclick="hideEdit()">Close</button>
+                    <div class="edit-content">
+                        <button onclick="hideEdit()" class="button-close">Close</button>
                         <form method="post">
                             Staff ID:       <input type="text" name="staffID" value="'.$row[0]["staff_ID"].'" readonly>
                             Staff Name:     <input type="text" name="staffName" value="'.$row[0]["staff_name"].'" readonly>
@@ -44,33 +53,34 @@ if($_SESSION["role"] != "Administrator"){
                             ';
                             echo"<option value='NULL'>No Branch Assignment</option>";
                             for($x = 0; $x < sizeof($rowBranch); $x++){
+                                $selected = "";
+                                if(isset($branchValue) && $branchValue == $rowBranch[$x]["branch_ID"]){
+                                    $selected = "selected";
+                                }
                                 echo '
-                                    <option value="'.$rowBranch[$x]['branch_ID'].'">'.$rowBranch[$x]['branch_ID'].' '. $rowBranch[$x]['branch_name'].'</option>
+                                    <option value="'.$rowBranch[$x]['branch_ID'].'"'.$selected.'>'.$rowBranch[$x]['branch_ID'].' '. $rowBranch[$x]['branch_name'].'</option>
                                 ';
                             }
                         echo '
                             </select>
+                           
                             Note:           <input type="text" name="note" value="'.$row[0]["note"].'">
-                            Status:
-                                <select name="status">
-                                    <option value="Present">Present</option>
-                                    <option value="Absent">Absent</option>
-                                </select>
-                            <input type="submit" value="Update" name="Update">
+                            <input type="submit" value="Update" class="button"name="Update">
                         </form>
                     </div>
+                      </div>
                 ';
             }
         }
         $conn->close();
     }
 ?>
+ 
 
 <?php
     if(isset($_POST["Update"])){
         $branchID = $_POST["branchID"];
         $note = $_POST["note"];
-        $status = $_POST["status"];
         if($branchID == "NULL"){
             $status = "";
         }
@@ -82,8 +92,7 @@ if($_SESSION["role"] != "Administrator"){
             $sql = "UPDATE assignment
                     SET
                         branch_ID = ".($branchID == "NULL" ? "NULL":$branchID).",
-                        note = '$note',
-                        assignment_status = '$status'
+                        note = '$note'
                     WHERE assignment_ID = $assignmentID
                     ";
             $conn->query($sql);
@@ -93,4 +102,3 @@ if($_SESSION["role"] != "Administrator"){
         exit();
     }
 ?>
-</div>
