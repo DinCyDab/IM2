@@ -31,6 +31,7 @@
             .scheduleHeader h1{
                 text-align: center;
                 color: whitesmoke;
+                font-family: cursive;
             }
             .scheduleTableThisWeek th{
                 background-color: sandybrown;
@@ -97,7 +98,7 @@
                             }
                         }
                         if(!$found){
-                            echo "<td></td>";
+                            echo "<td style='background-color: indianred'>OFF</td>";
                         }
                         $today->modify("+1 day");
                     }
@@ -154,7 +155,7 @@
                             }
                         }
                         if(!$found){
-                            echo "<td></td>";
+                            echo "<td style='background-color: indianred'>OFF</td>";
                         }
                         $today->modify("+1 day");
                     }

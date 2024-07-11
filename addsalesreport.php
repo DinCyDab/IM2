@@ -175,50 +175,53 @@
 
 <?php
     if(isset($_POST["submitReport"])){
-        $conn = mysqli_connect("localhost","root","","mamaflors");
-        if(!$conn->connect_error){
-            for($x = 0; $x < $_GET["sizeHolder"]; $x++){
-                if($_POST["productID$x"] != "Removed" && isset($_POST["productID$x"])){
-                    $pulloutqty = $_POST["pulloutqty$x"];
-                    $remittance = $_POST["remittance$x"];
-                    $productID = $_POST["productID$x"];
-                    $cookedqty = $_POST["cookedqty$x"];
-                    $reheatqty = $_POST["reheatqty$x"];
-                    $totaldisplayqty = $_POST["totaldisplayqty$x"];
-                    $leftoverqty = $_POST["leftoverqty$x"];
-                    $totalsoldqty = $_POST["totalsoldqty$x"];
-                    $sql = "INSERT INTO salesreport(
-                        account_ID,
-                        branch_ID,
-                        product_ID,
-                        cooked_qty,
-                        reheat_qty,
-                        total_display_qty,
-                        left_over_qty,
-                        pull_out_qty,
-                        total_sold_qty,
-                        remittance
-                    )
-                    VALUES(
-                        '".$_SESSION["account_ID"]."',
-                        '".$_SESSION["branch_ID"]."',
-                        '$productID',
-                        '$cookedqty',
-                        '$reheatqty',
-                        '$totaldisplayqty',
-                        '$leftoverqty',
-                        '$pulloutqty',
-                        '$totalsoldqty',
-                        '$remittance'
-                    )";
-                    $conn->query($sql);
+        if(!isset($_SESSION["branch_ID"])){
+            include "errormsg.php";
+        }
+        else{
+            $conn = mysqli_connect("localhost","root","","mamaflors");
+            if(!$conn->connect_error){
+                for($x = 0; $x < $_GET["sizeHolder"]; $x++){
+                    if($_POST["productID$x"] != "Removed" && isset($_POST["productID$x"])){
+                        $pulloutqty = $_POST["pulloutqty$x"];
+                        $remittance = $_POST["remittance$x"];
+                        $productID = $_POST["productID$x"];
+                        $cookedqty = $_POST["cookedqty$x"];
+                        $reheatqty = $_POST["reheatqty$x"];
+                        $totaldisplayqty = $_POST["totaldisplayqty$x"];
+                        $leftoverqty = $_POST["leftoverqty$x"];
+                        $totalsoldqty = $_POST["totalsoldqty$x"];
+                        $sql = "INSERT INTO salesreport(
+                            account_ID,
+                            branch_ID,
+                            product_ID,
+                            cooked_qty,
+                            reheat_qty,
+                            total_display_qty,
+                            left_over_qty,
+                            pull_out_qty,
+                            total_sold_qty,
+                            remittance
+                        )
+                        VALUES(
+                            '".$_SESSION["account_ID"]."',
+                            '".$_SESSION["branch_ID"]."',
+                            '$productID',
+                            '$cookedqty',
+                            '$reheatqty',
+                            '$totaldisplayqty',
+                            '$leftoverqty',
+                            '$pulloutqty',
+                            '$totalsoldqty',
+                            '$remittance'
+                        )";
+                        $conn->query($sql);
+                    }
                 }
             }
+            $conn->close();
+            header("Location: salesreport.php");
+            exit();
         }
-
-        $conn->close();
-
-        header("Location: salesreport.php");
-        exit();
     }
 ?>

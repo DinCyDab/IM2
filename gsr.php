@@ -29,6 +29,17 @@
                 position: relative;
                 left: 50%;
                 transform: translate(-50%, 0);
+                background-color: wheat;
+                height: 70px;
+                border-radius: 100px;
+                font-family: fantasy;
+                color: brown;
+                font-size: 20px;
+                letter-spacing: 3px;
+                padding-left: 20px;
+                padding-right: 20px;
+                box-shadow: 0px 0px 20px 0px wheat;
+                border: 10px solid;
             }
             button{
                 position: relative;
@@ -65,7 +76,13 @@
                 background-color: white;
                 bottom: 0;
                 left: 0px;
-                height: 50px;
+                height: auto;
+                background-color: indianred;
+                box-shadow: 0px 0px 20px 0px indianred;
+                color: brown;
+                font-family: fantasy;
+                font-size: 20px;
+                height: auto;
             }
             .midAddSalesReport{
                 display: block;
@@ -81,8 +98,14 @@
                 bottom: 0;
                 border-radius: 20px;
                 padding: 10px;
-                background-color: white;
+                /* background-color: white; */
                 height: 50px;
+                background-color: lightgreen;
+                box-shadow: 0px 0px 20px 0px lightgreen;
+                color: green;
+                font-family: fantasy;
+                font-size: 20px;
+                height: auto;
             }
             .addProductRowButton{
                 position: relative;
@@ -117,7 +140,7 @@
                 /* border: 1px black solid; */
                 background-color: wheat;
                 border-radius: 50px;
-                top: 55px;
+                top: -50px;
                 width: 70%;
                 left: 50%;
                 transform: translate(-50%, 0);
@@ -135,6 +158,12 @@
             .formDailySalesReport button{
                 margin-top: 20px;
                 height: 40px;
+                background-color: crimson;
+                box-shadow: 0px 0px 20px 0px crimson;
+                color: white;
+                font-size: 15px;
+                font-family: fantasy;
+                letter-spacing: 1px;
             }
             .formDailySalesReport input{
                 border-radius: 10px;
@@ -160,9 +189,17 @@
                 left: 50%;
                 transform: translate(-50%, 10px);
                 height: 50px;
+                border-radius: 30px;
+                box-shadow: 0px 0px 20px 2px brown;
+                background-color: lightgreen;
+                color: green;
+                font-size: 20px;
+                font-family: fantasy;
+                letter-spacing: 3px
             }
             .subdiv p{
                 width: 30%;
+                font-family: system-ui;
             }
             .headersubdiv{
                 display: flex;
@@ -174,6 +211,9 @@
                 transform: translate(-50%, 0px);
                 width: 50%;
                 text-align: center;
+                font-family: cursive;
+                font-size: 30px;
+                color: brown;
             }
             .gsrHeader{
                 position: relative;
@@ -183,6 +223,35 @@
             .gsrHeader h1{
                 text-align: center;
                 color: whitesmoke;
+                font-family: cursive;
+            }
+            .errorMsgHolder{
+                position: fixed;
+                width: 100%;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, .4);
+                top: 0px;
+                z-index: 1;
+            }
+            .errorMSG{
+                position: relative;
+                width: 30%;
+                height: auto;
+                color: white;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                background-color: wheat;
+                border-radius: 20px;
+                padding: 20px;
+            }
+            .errorMSG h1{
+                color: red;
+            }
+            .errorMSG p{
+                color: black;
+                text-decoration: underline;
             }
         </style>
     </head>
@@ -202,6 +271,8 @@
     <script src="filtertable.js"></script>
     <script>
         var overlay = document.getElementById("addSalesReport");
+        var errorMsg = document.getElementById("errorMsg");
+        var errorMsg1 =document.getElementById("errorMsg1");
         var addSalesReport = document.getElementById("addSalesReport");
         function showAdd(){
             addSalesReport.style.display = "block";
@@ -210,8 +281,14 @@
             addSalesReport.style.display = "none";
         }
         window.onclick = function(event) {
-            if (event.target === overlay) {
-            overlay.style.display = 'none';
+            if(event.target == overlay) {
+                overlay.style.display = 'none';
+            }
+            if(event.target == errorMsg){
+                errorMsg.style.display = 'none';
+            }
+            if(event.target == errorMsg1){
+                errorMsg.style.display = 'none';
             }
         }
     </script>
