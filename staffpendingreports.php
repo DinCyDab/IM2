@@ -1,27 +1,30 @@
 <?php
-    ob_start();
-    session_start();
-    if(!isset($_SESSION["loggedin"])){
-        header ("Location: index.php");
-        exit();
-    }
+ob_start();
+session_start();
+if (!isset($_SESSION["loggedin"])) {
+    header("Location: index.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
 <html>
+
     <head>
         <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="staffeditreport.css">
     </head>
+
     <body>
 
-    <?php 
+        <?php
         include "staffeditreport.php";
         include "remove.php";
         include "navstaff.php";
-    ?>
-    <?php
-        $conn = mysqli_connect("localhost","root","","mamaflors");
-        if(!$conn->connect_error){
+        ?>
+        <?php
+        $conn = mysqli_connect("localhost", "root", "", "mamaflors");
+        if (!$conn->connect_error) {
             $sql = "SELECT
                         salesreport.*,
                         branch.*,
@@ -37,7 +40,7 @@
             ";
             $result = $conn->query($sql);
             $row = $result->fetch_all(MYSQLI_ASSOC);
-            if(sizeof($row)> 0){
+            if (sizeof($row) > 0) {
                 echo "
                     <table>
                         <tr>
@@ -56,7 +59,7 @@
                             <th>Status</th>
                         </tr>
                 ";
-                for($x = 0; $x < sizeof($row); $x++){
+                for ($x = 0; $x < sizeof($row); $x++) {
                     echo "
                         <tr>
                             <td>
@@ -88,13 +91,13 @@
                     ";
                 }
                 echo "</table>";
-            }
-            else{
+            } else {
                 echo "Hooray! No Pending Reports";
             }
         }
         $conn->close();
-    ?>
+        ?>
     </body>
     <script src="filtertable.js"></script>
+
 </html>

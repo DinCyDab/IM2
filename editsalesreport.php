@@ -1,9 +1,9 @@
 <?php
-    if(isset($_GET["edit"])){
-        $valueToEdit = $_GET["edit"];
-        $conn = mysqli_connect("localhost","root","","mamaflors");
-        if(!$conn->connect_error){
-            $sql = "
+if (isset($_GET["edit"])) {
+    $valueToEdit = $_GET["edit"];
+    $conn = mysqli_connect("localhost", "root", "", "mamaflors");
+    if (!$conn->connect_error) {
+        $sql = "
                     SELECT
                         *,
                         salesreport.total_sold_qty * product.product_price AS 'revenue'
@@ -13,11 +13,11 @@
                     WHERE
                         report_ID = $valueToEdit
             ";
-            $result = $conn->query($sql);
-            $row = $result->fetch_all(MYSQLI_ASSOC);
-            if(sizeof($row) > 0){
-                echo "
-                    <div id='edit' class='edit-product'>
+        $result = $conn->query($sql);
+        $row = $result->fetch_all(MYSQLI_ASSOC);
+        if (sizeof($row) > 0) {
+            echo "
+                    <div id='edit' class='edit-report'>
                         <button onclick='hideEdit()'>CLOSE</button>
                         <form method='post'>
                             Report ID: <input type='text' name='report_ID' value='".$row[0]["report_ID"]."' readonly>
@@ -40,30 +40,30 @@
                         </form>
                     </div>
                 ";
-            }
         }
-        $conn->close();
     }
+    $conn->close();
+}
 ?>
 
-<?php 
-    if(isset($_POST["Update"])){
-        $confirmedrevenue = NULL;
-        $report_date = $_POST["report_date"];
-        $account_ID = $_POST["account_ID"];
-        $cooked_qty = $_POST["cooked_qty"];
-        $reheat_qty = $_POST["reheat_qty"];
-        $total_display_qty = $_POST["total_display_qty"];
-        $left_over_qty = $_POST["left_over_qty"];
-        $total_sold_qty = $_POST["total_sold_qty"];
-        $status = $_POST["status"];
-        if($status == "Confirmed"){
-            $confirmedrevenue = $_POST["confirmed_revenue"];
-        }
+<?php
+if (isset($_POST["Update"])) {
+    $confirmedrevenue = NULL;
+    $report_date = $_POST["report_date"];
+    $account_ID = $_POST["account_ID"];
+    $cooked_qty = $_POST["cooked_qty"];
+    $reheat_qty = $_POST["reheat_qty"];
+    $total_display_qty = $_POST["total_display_qty"];
+    $left_over_qty = $_POST["left_over_qty"];
+    $total_sold_qty = $_POST["total_sold_qty"];
+    $status = $_POST["status"];
+    if ($status == "Confirmed") {
+        $confirmedrevenue = $_POST["confirmed_revenue"];
+    }
 
-        $conn = mysqli_connect("localhost","root","","mamaflors");
-        if(!$conn->connect_error){
-            $sql = "
+    $conn = mysqli_connect("localhost", "root", "", "mamaflors");
+    if (!$conn->connect_error) {
+        $sql = "
                 UPDATE
                     salesreport
                 SET
@@ -77,10 +77,10 @@
                 WHERE
                     report_ID = $valueToEdit
             ";
-            $conn->query($sql);
+        $conn->query($sql);
 
-            if($status == "Confirmed"){
-                $sql = "
+        if ($status == "Confirmed") {
+            $sql = "
                 UPDATE
                     assignment
                 SET
@@ -90,11 +90,11 @@
                     AND
                     assignment_date = '$report_date'
             ";
-                $conn->query($sql);
-            }
+            $conn->query($sql);
         }
-        $conn->close();
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
     }
+    $conn->close();
+    header("Location: ".$_SERVER['PHP_SELF']);
+    exit();
+}
 ?>
