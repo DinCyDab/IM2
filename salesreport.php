@@ -12,6 +12,13 @@
     if(!isset($_SESSION["SORT"])){
         $_SESSION["SORT"] = "DESC";
     }
+
+    if(!isset($_SESSION["chosendate"])){
+        $_SESSION["chosendate"] = date("Y-m-d");
+    }
+    else if(isset($_GET["filterdate"])){
+        $_SESSION["chosendate"] = $_GET["filterdate"];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -90,6 +97,7 @@
             }
             table th{
                 background-color: sandybrown;
+                color: brown;
             }
             table a{
                 color: brown;
@@ -128,7 +136,12 @@
                 <button id="editor" name="editButton" value="salesreport">EDIT</button>
             </form>
             <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Sales Report...">
+            <form method="get" style="display:flex">
+                <input type="date" name="filterdate" value="<?php echo $_SESSION["chosendate"]?>">
+                <input type="submit" value="Filter Date">
+            </form>
         </div>
+        
         <div class="pageheader">
             <h1>Sales Reports</h1>
         </div>
@@ -161,8 +174,10 @@
                     INNER JOIN branch on salesreport.branch_ID = branch.branch_ID)
                     INNER JOIN product on salesreport.product_ID = product.product_ID)
                     INNER JOIN staff on salesreport.account_ID = staff.staff_ID
+                WHERE
+                    salesreport.report_date = '".$_SESSION["chosendate"]."'
                 ORDER BY
-                    salesreport.report_date, salesreport.report_time
+                    salesreport.report_date, salesreport.report_time, salesreport.report_ID
                     ";
         $result = $conn->query( $sql );
         $row = $result->fetch_all(MYSQLI_ASSOC);
@@ -172,8 +187,6 @@
                     <th></th>
                     <th></th>
                     <th>Report ID</th>
-                    <th>Report Date</th>
-                    <th>Last Name</th>
                     <th>First Name</th>
                     <th>Branch Name</th>
                     <th>Product Name</th>
@@ -206,8 +219,6 @@
                         </form>
                     </td>
                     <td>".$row[$x]['report_ID']."</td>
-                    <td>".$row[$x]['report_date']."</td>
-                    <td>".$row[$x]['last_name']."</td>
                     <td>".$row[$x]['first_name']."</td>
                     <td>".$row[$x]['branch_name']."</td>
                     <td>".$row[$x]['product_name']."</td>
@@ -235,13 +246,17 @@
 <?php
     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["editButton"])){
         $pageName = $_POST["editButton"];
+        $query = "";
+        if(isset($_SERVER["QUERY_STRING"])){
+            $query = $_SERVER["QUERY_STRING"];
+        }
         if($_SESSION["showEdit"] == FALSE){
             $_SESSION["showEdit"] = TRUE;
         }
         else{
             $_SESSION["showEdit"] = FALSE;
         }
-        header("Location:$pageName.php");
+        header("Location:$pageName.php?$query");
         exit();
     }
 ?>
@@ -249,13 +264,17 @@
 <?php
     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["removeButton"])){
         $pageName = $_POST["removeButton"];
+        $query = "";
+        if(isset($_SERVER["QUERY_STRING"])){
+            $query = $_SERVER["QUERY_STRING"];
+        }
         if($_SESSION["showRemove"] == FALSE){
             $_SESSION["showRemove"] = TRUE;
         }
         else{
             $_SESSION["showRemove"] = FALSE;
         }
-        header("Location:$pageName.php");
+        header("Location:$pageName.php?$query");
         exit();
     }
 ?>

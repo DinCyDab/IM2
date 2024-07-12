@@ -17,7 +17,12 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="scrollbarstyles.css">
         <style>
+            body{
+                display: block;
+            }
             .remove-row{
                 display: <?php
                         if(isset($_SESSION["showRemove"])){
@@ -48,34 +53,88 @@
                         }
                     ?>;
             }
+            .functionalitybuttons{
+                /* border: 1px black solid; */
+                top: 100px;
+                display: flex;
+                /* width: fit-content; */
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
+                position: fixed;
+                left: 50%;
+                transform: translate(-50%, 0);
+                z-index: 1;
+            }
+            .functionalitybuttons button{
+                padding: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
+                border-radius: 10px;
+                background-color: white;
+            }
+            .functionalitybuttons input{
+                padding: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
+                border-radius: 10px;
+            }
             table{
-                border-collapse: collapse;
+                display: flex;
+                position: relative;
+                align-items: center;
+                justify-content: center;
+                margin-top: 120px;
+                width: fit-content;
+                top: 40px;
             }
-            th, tr{
-                border: 1px aqua solid;
+            table th{
+                background-color: sandybrown;
+                color: brown;
             }
-            tr:nth-child(even){
-                background-color: aqua;
+            table a{
+                color: brown;
+            }
+            table tr{
+                background-color: brown;
+                color: wheat;
+                text-align: center
+            }
+            table tr:nth-child(even){
+                background-color: wheat;
+                color: brown;
+            }
+            .pageheader{
+                position: relative;
+                /* border: 1px black solid; */
+                top: 140px;
+                left: 50%;
+                transform: translate(-50%, 0);
+                z-index: -1;
+            }
+            .pageheader h1{
+                color: wheat;
+                text-align: center;
             }
         </style>
     </head>
     <body>
-        <a href="indexadmin.php">Home</a>
-        <br>
-        <a href="salesreport.php">View All Reports</a>
-        <br>
-
-        <form method="post">
-            <button id="remover" name="removeButton" value="pendingreports">REMOVE</button>
-        </form>
-        <form method="post">
-            <button id="editor" name="editButton" value="pendingreports">EDIT</button>
-        </form>
-        <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Sales Report...">
-
-        <br>
+        <div class="functionalitybuttons">
+            <a href="salesreport.php"><button>ALL REPORTS</button></a>
+            <form method="post">
+                <button id="remover" name="removeButton" value="pendingreports">REMOVE</button>
+            </form>
+            <form method="post">
+                <button id="editor" name="editButton" value="pendingreports">EDIT</button>
+            </form>
+            <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Sales Report...">
+        </div>
+        <div class="pageheader">
+            <h1>Pending Reports</h1>
+        </div>
 
         <?php
+            include "navadmin.php";
             include "editsalesreport.php";
             include "remove.php";
         ?>
@@ -117,19 +176,15 @@
                     <th></th>
                     <th>Report ID</th>
                     <th>Report Date</th>
-                    <th>Report Time</th>
-                    <th>Account ID</th>
-                    <th>Last Name</th>
                     <th>First Name</th>
                     <th>Branch Name</th>
+                    <th>Product Name</th>
                     <th>Cooked</th>
                     <th>Reheat</th>
                     <th>Total Display</th>
                     <th>Leftover</th>
                     <th>Pull Out</th>
                     <th>Total Sold</th>
-                    <th>Product Name</th>
-                    <th>Product Price</th>
                     <th>Estimated Revenue</th>
                     <th>Remittance</th>
                     <th>Status</th>
@@ -154,19 +209,15 @@
                     </td>
                     <td>".$row[$x]['report_ID']."</td>
                     <td>".$row[$x]['report_date']."</td>
-                    <td>".$row[$x]['report_time']."</td>
-                    <td>".$row[$x]['account_ID']."</td>
-                    <td>".$row[$x]['last_name']."</td>
                     <td>".$row[$x]['first_name']."</td>
                     <td>".$row[$x]['branch_name']."</td>
+                    <td>".$row[$x]['product_name']."</td>
                     <td>".$row[$x]['cooked_qty']."</td>
                     <td>".$row[$x]['reheat_qty']."</td>
                     <td>".$row[$x]['total_display_qty']."</td>
                     <td>".$row[$x]['left_over_qty']."</td>
                     <td>".$row[$x]['pull_out_qty']."</td>
                     <td>".$row[$x]['total_sold_qty']."</td>
-                    <td>".$row[$x]['product_name']."</td>
-                    <td>".$row[$x]['product_price']."</td>
                     <td>".$row[$x]['revenue']."</td>
                     <td>".$row[$x]['remittance']."</td>
                     <td>".$row[$x]['status']."</td>
