@@ -1,3 +1,5 @@
+
+
 .add-attendance{
     display: none;
 }
@@ -221,3 +223,5 @@ nav ul li a.active:before {
 .signin button:hover {
     background: var(--dark);
 }
+
+/* scrollbar design///////////////////////////////////////////////// */

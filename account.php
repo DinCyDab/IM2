@@ -17,6 +17,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="scrollbarstyles.css">
         <link rel="stylesheet" href="styles.css">
         <style>
             body{
@@ -68,7 +69,6 @@
                 display: block;
             }
             .functionalitybuttons{
-                position: relative;
                 /* border: 1px black solid; */
                 top: 100px;
                 display: flex;
@@ -76,6 +76,9 @@
                 justify-content: center;
                 align-items: center;
                 padding: 10px;
+                position: fixed;
+                left: 50%;
+                transform: translate(-50%, 0);
             }
             .functionalitybuttons button{
                 padding: 10px;
@@ -180,7 +183,8 @@
                 justify-content: center;
                 margin-top: 120px;
                 width: fit-content;
-                left: 50%;
+                top: 40px;
+                left:50%;
                 transform: translate(-50%, 0);
             }
             table th{
@@ -220,6 +224,18 @@
                 top: 50%;
                 transform: translate(-50%, -50%);
             }
+            .pageheader{
+                position: relative;
+                /* border: 1px black solid; */
+                top: 140px;
+                left: 50%;
+                transform: translate(-50%, 0);
+                z-index: -1;
+            }
+            .pageheader h1{
+                color: wheat;
+                text-align: center;
+            }
         </style>
     </head>
     <body>
@@ -232,6 +248,9 @@
                 <button id="editor" name="editButton" value="account">EDIT</button>
             </form>
             <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Account...">
+        </div>
+        <div class="pageheader">
+            <h1>Accounts</h1>
         </div>
         <?php
             include "addaccount.php";
@@ -318,9 +337,13 @@
     <script src="filtertable.js"></script>
     <script>
         var add = document.getElementById("add");
+        var edit = document.getElementById("edit");
         window.onclick = function(event) {
             if(event.target == add){
                 add.style.display = 'none';
+            }
+            if(event.target == edit){
+                edit.style.display = 'none';
             }
         }
     </script>
