@@ -27,6 +27,9 @@ if ($_SESSION["role"] != "Administrator") {
             <li><a href="?logout">Log Out</a></li>
         </ul>
     </nav>
+    <main>
+        
+    </main>
     <script src="script.js"></script>
 </body>
 
