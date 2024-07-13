@@ -1,5 +1,9 @@
 <?php
     if(isset($_GET["remove"])){
+        $query = "";
+        if(isset($_SESSION["chosendate"])){
+            $query = "filterdate=".$_SESSION["chosendate"];
+        }
         $removeID = $_GET["removeID"];
         $tableName = $_GET["tableName"];
         $columnName = $_GET["columnName"];
@@ -13,7 +17,7 @@
             $conn->query($sql);
         }
         $conn->close();
-        header("Location: " . $_SERVER["PHP_SELF"]);
+        header("Location: " . $_SERVER["PHP_SELF"] . "?$query");
         exit();
     }
 ?>

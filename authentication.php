@@ -48,7 +48,20 @@
             $row = $result->fetch_all(MYSQLI_ASSOC);
             $_SESSION["branch_ID"] = $row[0]["branch_ID"];
             $_SESSION["branch_assigned"] = $row[0]["branch_name"];
-
+            $sql = "
+                UPDATE
+                    assignment
+                SET
+                    time_in = CURRENT_TIME,
+                    assignment_status = 'Present'
+                WHERE
+                    staff_ID = '".$_SESSION["account_ID"]."'
+                    AND
+                    time_in IS NULL
+                    AND
+                    assignment_date = CURRENT_DATE
+            ";
+            $conn->query($sql);
             //check for Role in account
             if($_SESSION["role"] == "Administrator"){
                 header("Location: indexadmin.php");

@@ -1,10 +1,9 @@
+
+
 .add-attendance{
     display: none;
 }
 .addStaffIndividually{
-    display: none;
-}
-#editor{
     display: none;
 }
 body{
@@ -48,9 +47,6 @@ table{
     }
     table tbody tr:last-of-type{
         border-bottom: 2px solid #009879;
-    }
-    #editor{
-        display: none;
     }
 
     .table_center{
@@ -106,6 +102,7 @@ nav ul {
     left: 50%;
     transform: translate(-50%, 0);
     position: fixed;
+    z-index: 1;
 }
 
 nav ul li {
@@ -226,3 +223,5 @@ nav ul li a.active:before {
 .signin button:hover {
     background: var(--dark);
 }
+
+/* scrollbar design///////////////////////////////////////////////// */

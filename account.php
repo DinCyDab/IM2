@@ -17,10 +17,23 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="scrollbarstyles.css">
         <link rel="stylesheet" href="styles.css">
         <style>
+            body{
+                display: block;
+            }
             .add-account{
-                display: none;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                background-color: wheat;
+                padding: 20px;
+                width: fit-content;
+                border-radius: 5px;
+                box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.50);
+                position: relative;
+                border: none;
             }
             .remove-row{
                 display: <?php
@@ -53,115 +66,288 @@
                     ?>;
             }
             .edit-product{
+                display: block;
+            }
+            .functionalitybuttons{
+                /* border: 1px black solid; */
+                top: 100px;
+                display: flex;
+                /* width: fit-content; */
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
+                position: fixed;
+                left: 50%;
+                transform: translate(-50%, 0);
+            }
+            .functionalitybuttons button{
+                padding: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
+                border-radius: 10px;
+                background-color: white;
+            }
+            .functionalitybuttons input{
+                padding: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
+                border-radius: 10px;
+            }
+            .addaccountholder{
                 display: none;
+                position: fixed;
+                width: 100%;
+                background-color: rgba(0, 0, 0, .5);
+                height: 100vh;
+                top: 0;
+                z-index: 2;
+            }
+            .button-close {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: none;
+                border: none;
+                font-size: 1.2em;
+                cursor: pointer;
+            }
+            .addaccountform{
+                margin-top: 20px;
+                display: block;
+            }
+            .addaccountform div{
+                /* border: 1px black solid; */
+                display: flex;
+                padding: 10px;
+            }
+            .addaccountform h2{
+                font-size: 20px;
+                width: fit-content;
+                /* border: 1px red solid; */
+            }
+            .addaccountform select{
+                position: relative;
+                /* border: 1px green solid; */
+                height: fit-content;
+                top: 50%;
+                padding: 10px;
+                border-radius: 20px;
+                transform: translate(0, -50%);
+            }
+            .subdiv{
+                height: fit-content;
+                padding: 10px;
+                border-radius: 50px;
+                position: relative;
+                top: 50%;
+                transform: translate(0, -50%);
+            }
+            .submitHolder{
+                /* border: 1px black solid; */
+            }
+            .submitHolder input{
+                position: relative;
+                left: 50%;
+                transform: translate(-50%, 0);
+                padding: 10px;
+                border-radius: 15px;
+                width: 50%;
+            }
+            .headerholder{
+                /* border: 1px black solid; */
+                margin-top: 20px;
+            }
+            .headerholder h1{
+                text-align: center;
+                margin: 0;
+            }
+            .editaccountform{
+                margin-top: 20px;
+                display: block;
+            }
+            .editaccountform div{
+                display: flex;
+            }
+            .editaccountform select{
+                position: relative;
+                height: fit-content;
+                top: 50%;
+                transform: translate(0%, -50%);
+                padding: 10px;
+                border-radius: 20px;
+            }
+            table{
+                display: flex;
+                position: relative;
+                align-items: center;
+                justify-content: center;
+                margin-top: 120px;
+                width: fit-content;
+                top: 40px;
+                left:50%;
+                transform: translate(-50%, 0);
+            }
+            table th{
+                background-color: sandybrown;
+            }
+            table a{
+                color: brown;
+            }
+            table tr{
+                background-color: brown;
+                color: wheat;
+                text-align: center
+            }
+            table tr:nth-child(even){
+                background-color: wheat;
+                color: brown;
+            }
+            .editAccountHolder{
+                top: 0;
+                position: fixed;
+                width: 100%;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, .5);
+                z-index: 2;
+            }
+            .editAccountHolder div{
+                /* border: 1px black solid; */
+            }
+            .editAccount{
+                position: relative;
+                padding: 20px;
+                width: fit-content;
+                height: auto;
+                background-color: wheat;
+                border-radius: 20px;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+            .pageheader{
+                position: relative;
+                /* border: 1px black solid; */
+                top: 140px;
+                left: 50%;
+                transform: translate(-50%, 0);
+                z-index: -1;
+            }
+            .pageheader h1{
+                color: wheat;
+                text-align: center;
             }
         </style>
     </head>
     <body>
-        <a href="indexadmin.php">Home</a>
-
-        <br>
-
-        <button onclick="showAdd()">ADD</button>
-        <form method="post">
-            <button id="remover" name="removeButton" value="account">REMOVE</button>
-        </form>
-        <form method="post">
-            <button id="editor" name="editButton" value="account">EDIT</button>
-        </form>
-        <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Account...">
-
-        <br>
+        <div class="functionalitybuttons">
+            <button onclick="showAdd()">ADD</button>
+            <form method="post">
+                <button id="remover" name="removeButton" value="account">REMOVE</button>
+            </form>
+            <form method="post">
+                <button id="editor" name="editButton" value="account">EDIT</button>
+            </form>
+            <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Account...">
+        </div>
+        <div class="pageheader">
+            <h1>Accounts</h1>
+        </div>
         <?php
             include "addaccount.php";
             include "remove.php";
             include "editaccount.php";
             include "navadmin.php";
         ?>
-    </body>
-    <script src="filtertable.js"></script>
-</html>
-
-<?php
-    //Retrieve account sql
-    $conn = mysqli_connect("localhost","root","","mamaflors");
-    if($conn->connect_error){
-        die("ERROR". $conn->connect_error);
-    }
-    else{
-        $sql = "SELECT
-                    account.*,
-                    staff.last_name,
-                    staff.first_name,
-                    staff.middle_name
-                FROM
-                    account
-                    INNER JOIN staff ON account.account_ID = staff.staff_ID
-                ";
-        if(isset($_GET["sort"])){
-            if($_SESSION["SORT"] == "DESC"){
-                $_SESSION["SORT"] = "ASC";
+        <?php
+            //Retrieve account sql
+            $conn = mysqli_connect("localhost","root","","mamaflors");
+            if($conn->connect_error){
+                die("ERROR". $conn->connect_error);
             }
             else{
-                $_SESSION["SORT"] = "DESC";
+                $sql = "SELECT
+                            account.*,
+                            staff.last_name,
+                            staff.first_name,
+                            staff.middle_name
+                        FROM
+                            account
+                            INNER JOIN staff ON account.account_ID = staff.staff_ID
+                        ";
+                if(isset($_GET["sort"])){
+                    if($_SESSION["SORT"] == "DESC"){
+                        $_SESSION["SORT"] = "ASC";
+                    }
+                    else{
+                        $_SESSION["SORT"] = "DESC";
+                    }
+                    $sql .= " ORDER BY " . $_GET["sort"] . " " . $_SESSION["SORT"];
+                }
+                $result = $conn->query($sql);
+                $row = $result->fetch_all(MYSQLI_ASSOC);
+                if(sizeof($row) > 0){
+                    echo "<table id='table'>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th><a href='?sort=account_ID'>Account ID</a></th>
+                            <th><a href='?sort=last_name'>Last Name</a></th>
+                            <th><a href='?sort=first_name'>First Name</a></th>
+                            <th><a href='?sort=middle_name'>Middle Name</a></th>
+                            <th><a href='?sort=role'>Role</a></th>
+                            <th><a href='?sort=account_status'>Account Status</a></th>
+                        </tr>
+                    ";
+                    for($x = 0; $x < sizeof($row); $x++){
+                        echo "
+                            <tr>
+                                <td>
+                                    <form method='get'>
+                                        <input type='hidden' value='".($row[$x]['account_ID'])."' name='edit'>
+                                        <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method='get' action='remove.php'>
+                                        <input type='hidden' value='".($row[$x]['account_ID'])."' name='removeID'>
+                                        <input type='hidden' value='account' name='tableName'>
+                                        <input type='hidden' value='account_ID' name='columnName'>
+                                        <button class='remove-row' id='remove-row$x' name='remove'>Remove</button>
+                                    </form>
+                                </td>
+                                <td>".$row[$x]["account_ID"]."</td>
+                                <td>".$row[$x]["last_name"]."</td>
+                                <td>".$row[$x]["first_name"]."</td>
+                                <td>".$row[$x]["middle_name"]."</td>
+                                <td>".$row[$x]["role"]."</td>
+                                <td>".$row[$x]["account_status"]."</td>
+                            </tr>
+                        ";
+                    }
+                    echo "</table>";
+                }
+                else{
+                    echo "EMPTY DATABASE";
+                }
             }
-            $sql .= " ORDER BY " . $_GET["sort"] . " " . $_SESSION["SORT"];
-        }
-        $result = $conn->query($sql);
-        $row = $result->fetch_all(MYSQLI_ASSOC);
-        if(sizeof($row) > 0){
-            echo "<table id='table'>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th><a href='?sort=account_ID'>Account ID</a></th>
-                    <th><a href='?sort=last_name'>Last Name</a></th>
-                    <th><a href='?sort=first_name'>First Name</a></th>
-                    <th><a href='?sort=middle_name'>Middle Name</a></th>
-                    <th><a href='?sort=created_date'>Created Date</a></th>
-                    <th><a href='?sort=created_time'>Created Time</a></th>
-                    <th><a href='?sort=password'>Password</a></th>
-                    <th><a href='?sort=role'>Role</a></th>
-                    <th><a href='?sort=account_status'>Account Status</a></th>
-                </tr>
-            ";
-            for($x = 0; $x < sizeof($row); $x++){
-                echo "
-                    <tr>
-                        <td>
-                            <form method='get'>
-                                <input type='hidden' value='".($row[$x]['account_ID'])."' name='edit'>
-                                <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
-                            </form>
-                        </td>
-                        <td>
-                            <form method='get' action='remove.php'>
-                                <input type='hidden' value='".($row[$x]['account_ID'])."' name='removeID'>
-                                <input type='hidden' value='account' name='tableName'>
-                                <input type='hidden' value='account_ID' name='columnName'>
-                                <button class='remove-row' id='remove-row$x' name='remove'>Remove</button>
-                            </form>
-                        </td>
-                        <td>".$row[$x]["account_ID"]."</td>
-                        <td>".$row[$x]["last_name"]."</td>
-                        <td>".$row[$x]["first_name"]."</td>
-                        <td>".$row[$x]["middle_name"]."</td>
-                        <td>".$row[$x]["created_date"]."</td>
-                        <td>".$row[$x]["created_time"]."</td>
-                        <td>".$row[$x]["password"]."</td>
-                        <td>".$row[$x]["role"]."</td>
-                        <td>".$row[$x]["account_status"]."</td>
-                    </tr>
-                ";
+            $conn->close();
+        ?>
+        
+    </body>
+    <script src="filtertable.js"></script>
+    <script>
+        var add = document.getElementById("add");
+        var edit = document.getElementById("edit");
+        window.onclick = function(event) {
+            if(event.target == add){
+                add.style.display = 'none';
             }
-            echo "</table>";
+            if(event.target == edit){
+                edit.style.display = 'none';
+            }
         }
-        else{
-            echo "EMPTY DATABASE";
-        }
-    }
-    $conn->close();
-?>
+    </script>
+</html>
 
 <?php
     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["editButton"])){

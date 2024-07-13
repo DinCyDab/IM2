@@ -17,8 +17,12 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="scrollbarstyles.css">
         <link rel="stylesheet" href="styles.css">
         <style>
+            body{
+                display: block;
+            }
             .add-branch{
                 display: none;
             }
@@ -55,22 +59,85 @@
             .edit-branch{
                 display: block;
             }
+            .functionalitybuttons{
+                /* border: 1px black solid; */
+                top: 100px;
+                display: flex;
+                /* width: fit-content; */
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
+                position: fixed;
+                left: 50%;
+                transform: translate(-50%, 0);
+            }
+            .functionalitybuttons button{
+                padding: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
+                border-radius: 10px;
+                background-color: white;
+            }
+            .functionalitybuttons input{
+                padding: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
+                border-radius: 10px;
+            }
+            table{
+                display: flex;
+                position: relative;
+                align-items: center;
+                justify-content: center;
+                margin-top: 120px;
+                width: fit-content;
+                top: 40px;
+                left:50%;
+                transform: translate(-50%, 0);
+            }
+            table th{
+                background-color: sandybrown;
+            }
+            table a{
+                color: brown;
+            }
+            table tr{
+                background-color: brown;
+                color: wheat;
+                text-align: center
+            }
+            table tr:nth-child(even){
+                background-color: wheat;
+                color: brown;
+            }
+            .pageheader{
+                position: relative;
+                /* border: 1px black solid; */
+                top: 140px;
+                left: 50%;
+                transform: translate(-50%, 0);
+                z-index: -1;
+            }
+            .pageheader h1{
+                color: wheat;
+                text-align: center;
+            }
         </style>
     </head>
     <body>
-        <a href="indexadmin.php">Home</a>
-        <br>
-
-        <button onclick="showAdd()">ADD</button>
-        <form method="post">
-            <button id="remover" name="removeButton" value="branch">REMOVE</button>
-        </form>
-        <form method="post">
-            <button id="editor" name="editButton" value="branch">EDIT</button>
-        </form>
-        <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Branch...">
-        <br>
-
+        <div class="functionalitybuttons">
+            <button onclick="showAdd()">ADD</button>
+            <form method="post">
+                <button id="remover" name="removeButton" value="branch">REMOVE</button>
+            </form>
+            <form method="post">
+                <button id="editor" name="editButton" value="branch">EDIT</button>
+            </form>
+            <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Branch...">
+        </div>
+        <div class="pageheader">
+            <h1>Branches</h1>
+        </div>
         <?php 
             include "addbranch.php";
             include "editbranch.php";
