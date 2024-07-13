@@ -1,59 +1,63 @@
 <?php
-    ob_start();
-    session_start();
-    if($_SESSION["role"] != "Administrator"){
-        header("Location: indexstaff.php");
-    }
-    if(!isset($_SESSION["session_started"])){
-        $_SESSION["session_started"] = TRUE;
-        $_SESSION["showEdit"] = FALSE;
-        $_SESSION["showRemove"] = FALSE;
-    }
-    if(!isset($_SESSION["SORT"])){
-        $_SESSION["SORT"] = "DESC";
-    }
+ob_start();
+session_start();
+if ($_SESSION["role"] != "Administrator") {
+    header("Location: indexstaff.php");
+}
+if (!isset($_SESSION["session_started"])) {
+    $_SESSION["session_started"] = TRUE;
+    $_SESSION["showEdit"] = FALSE;
+    $_SESSION["showRemove"] = FALSE;
+}
+if (!isset($_SESSION["SORT"])) {
+    $_SESSION["SORT"] = "DESC";
+}
 ?>
 
 <!DOCTYPE html>
 <html>
+
     <head>
         <link rel="stylesheet" href="styles.css">
         <link rel="stylesheet" href="scrollbarstyles.css">
         <style>
-            body{
+            body {
                 display: block;
             }
-            .remove-row{
-                display: <?php
-                        if(isset($_SESSION["showRemove"])){
-                            if($_SESSION["showRemove"] == TRUE){
-                                echo "block";
-                            }
-                            else{
-                                echo "none";
-                            }
-                        }
-                        else{
-                            echo "none";
-                        }
-                    ?>;
+
+            .remove-row {
+                display:
+                <?php
+                if (isset($_SESSION["showRemove"])) {
+                    if ($_SESSION["showRemove"] == TRUE) {
+                        echo "block";
+                    } else {
+                        echo "none";
+                    }
+                } else {
+                    echo "none";
+                }
+                ?>
+                ;
             }
-            .edit-row{
-                display: <?php
-                        if(isset($_SESSION["showEdit"])){
-                            if($_SESSION["showEdit"] == TRUE){
-                                echo "block";
-                            }
-                            else{
-                                echo "none";
-                            }
-                        }
-                        else{
-                            echo "none";
-                        }
-                    ?>;
+
+            .edit-row {
+                display:
+                <?php
+                if (isset($_SESSION["showEdit"])) {
+                    if ($_SESSION["showEdit"] == TRUE) {
+                        echo "block";
+                    } else {
+                        echo "none";
+                    }
+                } else {
+                    echo "none";
+                }
+                ?>
+                ;
             }
-            .functionalitybuttons{
+
+            .functionalitybuttons {
                 /* border: 1px black solid; */
                 top: 100px;
                 display: flex;
@@ -66,20 +70,23 @@
                 transform: translate(-50%, 0);
                 z-index: 1;
             }
-            .functionalitybuttons button{
+
+            .functionalitybuttons button {
                 padding: 10px;
                 margin-left: 10px;
                 margin-right: 10px;
                 border-radius: 10px;
                 background-color: white;
             }
-            .functionalitybuttons input{
+
+            .functionalitybuttons input {
                 padding: 10px;
                 margin-left: 10px;
                 margin-right: 10px;
                 border-radius: 10px;
             }
-            table{
+
+            table {
                 display: flex;
                 position: relative;
                 align-items: center;
@@ -88,23 +95,28 @@
                 width: fit-content;
                 top: 40px;
             }
-            table th{
+
+            table th {
                 background-color: sandybrown;
                 color: brown;
             }
-            table a{
+
+            table a {
                 color: brown;
             }
-            table tr{
+
+            table tr {
                 background-color: brown;
                 color: wheat;
                 text-align: center
             }
-            table tr:nth-child(even){
+
+            table tr:nth-child(even) {
                 background-color: wheat;
                 color: brown;
             }
-            .pageheader{
+
+            .pageheader {
                 position: relative;
                 /* border: 1px black solid; */
                 top: 140px;
@@ -112,12 +124,14 @@
                 transform: translate(-50%, 0);
                 z-index: -1;
             }
-            .pageheader h1{
+
+            .pageheader h1 {
                 color: wheat;
                 text-align: center;
             }
         </style>
     </head>
+
     <body>
         <div class="functionalitybuttons">
             <a href="salesreport.php"><button>ALL REPORTS</button></a>
@@ -134,21 +148,21 @@
         </div>
 
         <?php
-            include "navadmin.php";
-            include "editsalesreport.php";
-            include "remove.php";
+        include "navadmin.php";
+        include "editsalesreport.php";
+        include "remove.php";
         ?>
     </body>
     <script src="filtertable.js"></script>
+
 </html>
 
 <?php
-    $conn = mysqli_connect("localhost","root","","mamaflors");
-    if($conn->connect_error){
-        die("ERROR". $conn->connect_error);
-    }
-    else{
-        $sql = "SELECT
+$conn = mysqli_connect("localhost", "root", "", "mamaflors");
+if ($conn->connect_error) {
+    die("ERROR".$conn->connect_error);
+} else {
+    $sql = "SELECT
                     salesreport.*,
                     branch.branch_name,
                     product.product_name,
@@ -167,10 +181,10 @@
                 ORDER BY
                     salesreport.report_date, salesreport.report_time, salesreport.report_ID
                     ";
-        $result = $conn->query( $sql );
-        $row = $result->fetch_all(MYSQLI_ASSOC);
-        if(sizeof($row) > 0){
-            echo "<table id='table'>
+    $result = $conn->query($sql);
+    $row = $result->fetch_all(MYSQLI_ASSOC);
+    if (sizeof($row) > 0) {
+        echo "<table id='table'>
                 <tr>
                     <th></th>
                     <th></th>
@@ -190,9 +204,9 @@
                     <th>Status</th>
                 </tr>
             ";
-                    
-            for($x = 0; $x < sizeof($row); $x++){
-                echo "<tr>
+
+        for ($x = 0; $x < sizeof($row); $x++) {
+            echo "<tr>
                     <td>
                         <form method='get'>
                             <input type='hidden' value='".($row[$x]['report_ID'])."' name='edit'>
@@ -222,41 +236,38 @@
                     <td>".$row[$x]['remittance']."</td>
                     <td>".$row[$x]['status']."</td>
                 </tr>";
-            }
+        }
 
-            echo "</table>";
-        }
-        else{
-            echo "No Pending Reports";
-        }
+        echo "</table>";
+    } else {
+        echo "No Pending Reports";
     }
-    $conn->close();
+}
+$conn->close();
 ?>
 
 <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["editButton"])){
-        $pageName = $_POST["editButton"];
-        if($_SESSION["showEdit"] == FALSE){
-            $_SESSION["showEdit"] = TRUE;
-        }
-        else{
-            $_SESSION["showEdit"] = FALSE;
-        }
-        header("Location:$pageName.php");
-        exit();
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["editButton"])) {
+    $pageName = $_POST["editButton"];
+    if ($_SESSION["showEdit"] == FALSE) {
+        $_SESSION["showEdit"] = TRUE;
+    } else {
+        $_SESSION["showEdit"] = FALSE;
     }
+    header("Location:$pageName.php");
+    exit();
+}
 ?>
 
 <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["removeButton"])){
-        $pageName = $_POST["removeButton"];
-        if($_SESSION["showRemove"] == FALSE){
-            $_SESSION["showRemove"] = TRUE;
-        }
-        else{
-            $_SESSION["showRemove"] = FALSE;
-        }
-        header("Location:$pageName.php");
-        exit();
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["removeButton"])) {
+    $pageName = $_POST["removeButton"];
+    if ($_SESSION["showRemove"] == FALSE) {
+        $_SESSION["showRemove"] = TRUE;
+    } else {
+        $_SESSION["showRemove"] = FALSE;
     }
+    header("Location:$pageName.php");
+    exit();
+}
 ?>
