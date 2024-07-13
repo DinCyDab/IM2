@@ -62,7 +62,6 @@ if (isset($_GET["date"])) {
             /* Add this to apply border-radius */
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
             font-family: "Poppins";
-
         }
 
 
@@ -209,6 +208,7 @@ if (isset($_GET["date"])) {
 <body>
 
     <a href="indexadmin.php">Home</a>
+    <a href="assignmentsummarization.php">Attendance Record</a>
     <div class="table-align">
         <div>
             <div class="settings">

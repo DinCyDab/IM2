@@ -126,7 +126,6 @@
         </style>
     </head>
     <body>
-
         <div class="functionalitybuttons">
             <a href="pendingreports.php"><button>PENDING REPORTS</button></a>
             <form method="post">
@@ -265,7 +264,8 @@
     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["removeButton"])){
         $pageName = $_POST["removeButton"];
         $query = "";
-        if(isset($_SERVER["QUERY_STRING"])){
+
+        if(isset($_SERVER["QUERY_STRING"]) && strpos($_SERVER["QUERY_STRING"], "filterdate")){
             $query = $_SERVER["QUERY_STRING"];
         }
         if($_SESSION["showRemove"] == FALSE){
