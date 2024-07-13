@@ -6,6 +6,9 @@ body {
 
 #accID {
 	font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #accID input {
@@ -21,20 +24,30 @@ body {
 }
 
 form {
-	width: 80%;
+	width: fit-content;
 	font-family: cursive;
 	background-color: wheat;
 	border-radius: 12px;
 	padding: 10px;
-	display: flex;
+	display: block;
 	flex-direction: column;
 	align-items: center;
 	gap: 15px;
+	position: relative;
+	top: 75px;
+	height: auto;
+	left: 50%;
+	transform: translate(-50%, 0);
+	max-width: 100%;
+	color: brown;
 }
 
-input[readonly] {
-	background-color: inherit;
-	border: none;
+
+
+form div{
+	border: 1px black solid;
+	padding: 5px;
+	border-radius: 10px;
 }
 
 .back {
@@ -48,17 +61,6 @@ input[readonly] {
 	font-family: fantasy;
 	font-size: 20px;
 	height: auto;
-}
-
-.pass {
-	height: 20px;
-}
-
-input:not([readonly]) {
-	border-radius: 8px;
-	border: none;
-	padding: 5px 10px;
-	height: 100%;
 }
 
 .update {
