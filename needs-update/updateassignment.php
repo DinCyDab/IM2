@@ -1,6 +1,6 @@
 <?php
 if($_SESSION["role"] != "Administrator"){
-    header("Location: staff.php");
+    header("Location: indexstaff.php");
     exit();
 }
 ?>

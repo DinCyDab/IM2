@@ -43,7 +43,7 @@ if($_SESSION["role"] != "Administrator"){
             }
         }
         $conn->close();
-        // header("Location: assignment.php");
-        // exit();
+        header("Location: assignment.php?date=".$_SESSION["date"]."&filterAttendance=Filter");
+        exit();
     }
 ?>

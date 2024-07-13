@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 07, 2024 at 04:01 PM
+-- Generation Time: Jul 09, 2024 at 05:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,7 +43,7 @@ CREATE TABLE `account` (
 INSERT INTO `account` (`account_ID`, `created_date`, `created_time`, `password`, `role`, `account_status`) VALUES
 ('0001', '2024-06-28', '19:42:05', '$2y$10$IF7UGA69sIwxQ2Auc6W0BuTCdrnMT1KEE2qtZc3FMFY', 'Regular', 'Active'),
 ('0002', '2024-06-28', '19:47:58', '$2y$10$jfveeJ45dgeVJ9E.fg.7Gu0SOA9iBkE2O8.VcpzwU3W', 'Regular', 'Active'),
-('0004', '2024-07-04', '19:44:16', '$2y$10$WPC1fR19L0lk1mKuzCzCqeaau654f7Tnqt5kt5.qclvTsYL8kjMqS', 'Regular', 'Active'),
+('0004', '2024-07-04', '19:44:16', '$2y$10$hdxdhC2Jj4s7gtwqKC.yz.95n1nkN/t0rxtEhU0aZQrSP6Eow9nTm', 'Regular', 'Active'),
 ('0005', '2024-07-05', '10:03:07', '$2y$10$Dy4WnIfKDI/8u5ibcpR0Hewjm5dYat9PwTUrQ08mV4BBuabp/T2VS', 'Administrator', 'Active');
 
 -- --------------------------------------------------------
@@ -89,12 +89,8 @@ INSERT INTO `assignment` (`assignment_ID`, `branch_ID`, `staff_ID`, `assignment_
 (44, 3, '0001', '2024-08-08', NULL, NULL),
 (45, 1, '0002', '2024-08-08', NULL, NULL),
 (46, NULL, '0003', '2024-08-08', NULL, NULL),
-(47, NULL, '0004', '2024-08-08', NULL, NULL),
+(47, NULL, '0004', '2024-08-08', NULL, 'Present'),
 (48, NULL, '0005', '2024-08-08', NULL, NULL),
-(49, NULL, '0001', '2024-07-08', NULL, NULL),
-(50, NULL, '0002', '2024-07-08', NULL, NULL),
-(51, NULL, '0003', '2024-07-08', NULL, NULL),
-(53, NULL, '0005', '2024-07-08', NULL, NULL),
 (59, NULL, '0001', '2024-07-10', NULL, NULL),
 (60, NULL, '0002', '2024-07-10', NULL, NULL),
 (61, NULL, '0003', '2024-07-10', NULL, NULL),
@@ -120,7 +116,35 @@ INSERT INTO `assignment` (`assignment_ID`, `branch_ID`, `staff_ID`, `assignment_
 (85, NULL, '0002', '2024-07-04', NULL, NULL),
 (86, NULL, '0003', '2024-07-04', NULL, NULL),
 (87, 1, '0004', '2024-07-04', '', 'Present'),
-(88, NULL, '0005', '2024-07-04', NULL, NULL);
+(88, NULL, '0005', '2024-07-04', NULL, NULL),
+(89, NULL, '0001', '2024-07-29', NULL, NULL),
+(90, NULL, '0002', '2024-07-29', NULL, NULL),
+(91, NULL, '0003', '2024-07-29', NULL, NULL),
+(92, NULL, '0004', '2024-07-29', NULL, 'Present'),
+(93, NULL, '0005', '2024-07-29', NULL, NULL),
+(94, NULL, '0001', '2024-07-30', NULL, NULL),
+(95, NULL, '0002', '2024-07-30', NULL, NULL),
+(96, NULL, '0003', '2024-07-30', NULL, NULL),
+(97, 1, '0004', '2024-07-30', '', 'Absent'),
+(98, NULL, '0005', '2024-07-30', NULL, NULL),
+(99, NULL, '0001', '2024-07-31', NULL, NULL),
+(100, NULL, '0002', '2024-07-31', NULL, NULL),
+(101, NULL, '0003', '2024-07-31', NULL, NULL),
+(102, NULL, '0004', '2024-07-31', NULL, 'Present'),
+(103, NULL, '0005', '2024-07-31', NULL, NULL),
+(104, NULL, '0001', '2024-07-08', NULL, NULL),
+(105, NULL, '0002', '2024-07-08', NULL, NULL),
+(106, NULL, '0003', '2024-07-08', NULL, NULL),
+(107, 1, '0004', '2024-07-08', '', 'Absent'),
+(108, 3, '0005', '2024-07-08', '', 'Present'),
+(109, NULL, '0004', '2024-07-12', NULL, 'Present'),
+(110, NULL, '0001', '2024-07-13', NULL, NULL),
+(112, NULL, '0001', '2024-07-09', NULL, NULL),
+(113, NULL, '0002', '2024-07-09', NULL, NULL),
+(114, NULL, '0003', '2024-07-09', NULL, NULL),
+(115, 1, '0004', '2024-07-05', '', 'Present'),
+(116, 3, '0005', '2024-07-09', '', 'Absent'),
+(118, 1, '0004', '2024-07-09', '', 'Present');
 
 -- --------------------------------------------------------
 
@@ -146,7 +170,7 @@ CREATE TABLE `branch` (
 --
 
 INSERT INTO `branch` (`branch_ID`, `branch_name`, `established_date`, `street_name`, `barangay`, `city`, `province`, `postal_code`, `contact_number`, `branch_status`) VALUES
-(1, 'Tipolos', '2023-01-24', 'Tipolo Street', 'Maguikay', 'Mandaue', 'Cebu', '6014', '09123456789', 'Active'),
+(1, 'Tipolo', '2023-01-24', 'Tipolo Street', 'Maguikay', 'Mandaue', 'Cebu', '6014', '09123456789', 'Active'),
 (3, 'Lapu Lapu', '2020-02-04', '', '', '', '', '', '', 'Active');
 
 -- --------------------------------------------------------
@@ -189,20 +213,36 @@ CREATE TABLE `salesreport` (
   `reheat_qty` int(11) DEFAULT NULL,
   `total_display_qty` int(11) DEFAULT NULL,
   `left_over_qty` int(11) DEFAULT NULL,
-  `total_sold_qty` int(11) DEFAULT NULL
+  `total_sold_qty` int(11) DEFAULT NULL,
+  `status` enum('Pending','Confirmed') DEFAULT 'Pending',
+  `estimated_revenue` decimal(10,2) DEFAULT NULL,
+  `remittance` decimal(10,2) DEFAULT NULL,
+  `pull_out_qty` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `salesreport`
 --
 
-INSERT INTO `salesreport` (`report_ID`, `account_ID`, `branch_ID`, `product_ID`, `report_date`, `report_time`, `cooked_qty`, `reheat_qty`, `total_display_qty`, `left_over_qty`, `total_sold_qty`) VALUES
-(26, '0004', 1, 10, '2024-06-20', '18:15:43', 20, 10, 10, 10, 15),
-(27, '0004', 1, 12, '2024-07-05', '18:15:43', 50, 10, 10, 10, 40),
-(28, '0005', 3, 10, '2024-07-05', '19:08:23', 5, 5, 5, 5, 5),
-(29, '0005', 3, 11, '2024-07-05', '19:08:23', 50, 0, 50, 0, 50),
-(30, '0005', 3, 10, '2024-07-06', '07:24:12', 20, 0, 20, 5, 15),
-(31, '0005', 3, 11, '2023-07-27', '07:24:12', 100, 20, 200, 5, 220);
+INSERT INTO `salesreport` (`report_ID`, `account_ID`, `branch_ID`, `product_ID`, `report_date`, `report_time`, `cooked_qty`, `reheat_qty`, `total_display_qty`, `left_over_qty`, `total_sold_qty`, `status`, `estimated_revenue`, `remittance`, `pull_out_qty`) VALUES
+(26, '0004', 1, 10, '2024-06-20', '18:15:43', 20, 10, 10, 10, 25, 'Confirmed', 7500.00, NULL, NULL),
+(27, '0004', 1, 12, '2024-07-05', '18:15:43', 50, 10, 10, 10, 40, 'Confirmed', 10800.00, NULL, NULL),
+(28, '0005', 3, 10, '2024-07-05', '19:08:23', 15, 5, 5, 5, 15, 'Confirmed', 4500.00, NULL, NULL),
+(29, '0005', 3, 11, '2024-07-05', '19:08:23', 50, 0, 50, 0, 45, 'Pending', NULL, NULL, NULL),
+(30, '0005', 3, 10, '2024-07-06', '07:24:12', 25, 0, 20, 5, 25, 'Confirmed', 7500.00, NULL, NULL),
+(31, '0005', 3, 11, '2023-07-27', '07:24:12', 100, 20, 200, 5, 220, 'Pending', NULL, NULL, NULL),
+(104, '0004', 1, 10, '2024-07-08', '22:44:48', 5, 5, 5, 5, 5, 'Confirmed', 1500.00, NULL, NULL),
+(105, '0004', 1, 12, '2024-07-08', '22:44:48', 5, 5, 5, 5, 5, 'Confirmed', 1350.00, NULL, NULL),
+(106, '0004', 1, 10, '2024-07-09', '09:50:07', 5, 5, 5, 5, 25, 'Confirmed', 7500.00, NULL, NULL),
+(107, '0004', 1, 11, '2024-07-09', '09:50:07', 50, 5, 5, 5, 50, 'Confirmed', 500.00, NULL, NULL),
+(110, '0004', 1, 10, '2024-07-05', '10:29:46', 5, 5, 5, 5, 5, 'Confirmed', 1500.00, NULL, NULL),
+(111, '0004', 1, 11, '2024-07-05', '10:29:46', 5, 5, 5, 5, 5, 'Confirmed', 50.00, NULL, NULL),
+(112, '0004', 1, 10, '2024-07-05', '10:35:02', 5, 5, 5, 5, 5, 'Confirmed', 1500.00, NULL, NULL),
+(113, '0004', 1, 10, '2024-07-09', '10:39:39', 5, 5, 5, 5, 5, 'Confirmed', 1500.00, NULL, NULL),
+(114, '0004', 1, 11, '2024-07-09', '10:39:39', 5, 5, 5, 5, 5, 'Pending', NULL, NULL, NULL),
+(115, '0004', 1, 10, '2024-07-09', '11:00:41', 5, 5, 5, 5, 5, 'Confirmed', 1800.00, 1500.00, 5),
+(116, '0004', 1, 11, '2024-07-09', '11:00:41', 5, 5, 5, 5, 5, 'Pending', NULL, 50.00, 5),
+(117, '0004', 1, 12, '2024-07-09', '11:00:41', 5, 5, 5, 5, 5, 'Confirmed', 1350.00, 1350.00, 5);
 
 -- --------------------------------------------------------
 
@@ -298,7 +338,7 @@ ALTER TABLE `staff`
 -- AUTO_INCREMENT for table `assignment`
 --
 ALTER TABLE `assignment`
-  MODIFY `assignment_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `assignment_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT for table `branch`
@@ -316,7 +356,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `salesreport`
 --
 ALTER TABLE `salesreport`
-  MODIFY `report_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `report_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- Constraints for dumped tables

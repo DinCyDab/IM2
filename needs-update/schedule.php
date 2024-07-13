@@ -1,26 +1,57 @@
 <?php
     ob_start();
     session_start();
+    if(!isset($_SESSION["loggedin"])){
+        header ("Location: index.php");
+        exit();
+    }
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="styles.css">
         <style>
-            table{
-                border-collapse: collapse;
+            body{
+                display: block;
+                height: auto;
             }
-            th, tr{
-                border: 1px aqua solid;
+            .scheduleTableThisWeek{
+                width: 90%;
+                position: relative;
+                top: 35px;
+                left: 50%;
+                transform: translate(-50%, 0);
             }
-            tr:nth-child(even){
-                background-color: aqua;
+            .scheduleHeader{
+                position: relative;
+                /* border: 1px white solid; */
+                top: 75px;
+            }
+            .scheduleHeader h1{
+                text-align: center;
+                color: whitesmoke;
+                font-family: cursive;
+            }
+            .scheduleTableThisWeek th{
+                background-color: sandybrown;
+                font-size: 25px;
+            }
+            .scheduleTableThisWeek td{
+                background-color: wheat;
+                text-align: center;
+                color: black;
+                font-size: 20px;
             }
         </style>
     </head>
     <body>
-        <a href="indexstaff.php">Back</a>
-        <br>
+        <?php 
+            include "navstaff.php";
+        ?>
+        <div class="scheduleHeader">
+            <h1>Schedule</h1>
+        </div>
         <?php 
             $conn = mysqli_connect("localhost","root","","mamaflors");
             if(!$conn->connect_error){
@@ -40,11 +71,11 @@
                 ";
                 $result = $conn->query($sql);
                 $row = $result->fetch_all(MYSQLI_ASSOC);
-                if(sizeof($row) > 0){
+                // if(sizeof($row) > 0){
                     $today = new DateTime();
                     $today->modify("Monday this week");
                     echo "<br>";
-                    echo "<table>";
+                    echo "<table class='scheduleTableThisWeek'>";
                     echo "<tr>";
                         for($x = 0; $x < 7; $x++){
                             echo "
@@ -57,27 +88,28 @@
                     $today->modify("-7 day");
                     
                     echo "<tr>";
-                    for($x = 0; $x < sizeof($row);){
-                        if($row[$x]["assignment_date"] == $today->format("Y-m-d")){
-                            echo "<td>".$row[$x]["branch_name"]."</td>";
-                            $x++;
+                    for($x = 0; $x < 7; $x++){
+                        $found = false;
+                        for($y = 0; $y < sizeof($row); $y++){
+                            if($row[$y]["assignment_date"] == $today->format("Y-m-d")){
+                                echo "<td>".$row[$y]["branch_name"]."</td>";
+                                $found = true;
+                                break;
+                            }
                         }
-                        else{
-                            echo "<td></td>";
+                        if(!$found){
+                            echo "<td style='background-color: indianred'>OFF</td>";
                         }
                         $today->modify("+1 day");
                     }
                     echo "</tr>";
                     echo "</table>";
-                }
-                else{
-                    echo "Please Contact Administrator To Get Your This Week Schedule <br>";
-                }
+                // }
             }
             $conn->close();
         ?>
 
-<?php 
+        <?php 
             $conn = mysqli_connect("localhost","root","","mamaflors");
             if(!$conn->connect_error){
                 $sql = "SELECT
@@ -96,11 +128,11 @@
                 ";
                 $result = $conn->query($sql);
                 $row = $result->fetch_all(MYSQLI_ASSOC);
-                if(sizeof($row) > 0){
+                // if(sizeof($row) > 0){
                     $today = new DateTime();
                     $today->modify("Monday next week");
                     echo "<br>";
-                    echo "<table>";
+                    echo "<table class='scheduleTableThisWeek'>";
                     echo "<tr>";
                         for($x = 0; $x < 7; $x++){
                             echo "
@@ -113,22 +145,23 @@
                     $today->modify("-7 day");
                     
                     echo "<tr>";
-                    for($x = 0; $x < sizeof($row);){
-                        if($row[$x]["assignment_date"] == $today->format("Y-m-d")){
-                            echo "<td>".$row[$x]["branch_name"]."</td>";
-                            $x++;
+                    for($x = 0; $x < 7; $x++){
+                        $found = false;
+                        for($y = 0; $y < sizeof($row); $y++){
+                            if($row[$y]["assignment_date"] == $today->format("Y-m-d")){
+                                echo "<td>".$row[$y]["branch_name"]."</td>";
+                                $found = true;
+                                break;
+                            }
                         }
-                        else{
-                            echo "<td></td>";
+                        if(!$found){
+                            echo "<td style='background-color: indianred'>OFF</td>";
                         }
                         $today->modify("+1 day");
                     }
                     echo "</tr>";
                     echo "</table>";
-                }
-                else{
-                    echo "Please Contact Administrator To Get Your Next Week Schedule";
-                }
+                // }
             }
             $conn->close();
         ?>

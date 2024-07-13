@@ -4,6 +4,7 @@ if($_SESSION["role"] != "Administrator"){
     exit();
 }
 ?>
+<div class="table_center">
 <table id="table">
     <?php   
         $date = date("Y-m-d");
@@ -46,6 +47,8 @@ if($_SESSION["role"] != "Administrator"){
                     <th><a href='?sort=branch_name'>Branch Name</a></th>
                     <th><a href='?sort=note'>Note</a></th>
                     <th><a href='?sort=assignment_status'>Status</a></th>
+                    <th><a href='?sort=time_in'>Time In</a></th>
+                    <th><a href='?sort=time_out'>Time Out</a></th>
                 </tr>";
                 for($x = 0; $x < sizeof($row); $x++){
                     echo "<tr>
@@ -70,6 +73,8 @@ if($_SESSION["role"] != "Administrator"){
                         <td>".$row[$x]['branch_name']."</td>
                         <td>".$row[$x]['note']."</td>
                         <td>".$row[$x]['assignment_status']."</td>
+                        <td>".$row[$x]['time_in']."</td>
+                        <td>".$row[$x]['time_out']."</td>
                     </tr>";
                 }
                 echo "</table>";
@@ -77,3 +82,4 @@ if($_SESSION["role"] != "Administrator"){
         }
         $conn->close();
     ?>
+    </div>
