@@ -24,8 +24,35 @@
             body{
                 display: block;
             }
-            .add-product{
+            .addproductholder{
                 display: none;
+                width: 100%;
+                height: 100vh;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(0, 0, 0, .5);
+                padding: 20px;
+                position: fixed;
+                z-index: 2;
+            }
+            .add-product{
+                position: relative;
+                background-color: wheat;
+                width: fit-content;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                border: none;
+                border-radius: 20px;
+                box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.50);
+            }
+            .add-product div{
+                border: 1px black solid;
+                padding: 20px;
+            }
+            .add-product h4{
+                margin: 0;
             }
             .remove-row{
                 display: <?php
@@ -42,8 +69,31 @@
                         }
                     ?>;
             }
-            .edit-product{
+            .editproductholder{
                 display: block;
+                position: fixed;
+                background-color: rgba(0, 0, 0, .5);
+                width: 100%;
+                height: 100vh;
+                top: 0;
+                z-index: 2;
+            }
+            .edit-product{
+                position: relative;
+                background-color: wheat;
+                width: fit-content;
+                padding: 20px;
+                border-radius: 20px;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+            .edit-product div{
+                border: 1px black solid;
+                padding: 20px;
+            }
+            .edit-product h2{
+                margin: 0;
             }
             .edit-row{
                 display: <?php
@@ -191,7 +241,8 @@
                                 <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
                             </form>
                         </td>
-                        <td><form method='get' action='remove.php'>
+                        <td>
+                            <form method='get' action='remove.php'>
                                 <input type='hidden' value='".($row[$x]['product_ID'])."' name='removeID'>
                                 <input type='hidden' value='product' name='tableName'>
                                 <input type='hidden' value='product_ID' name='columnName'>

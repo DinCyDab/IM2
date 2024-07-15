@@ -18,25 +18,63 @@ if($_SESSION["role"] != "Administrator"){
             $row = $result->fetch_all(MYSQLI_ASSOC);
             if(sizeof($row) > 0){
                 echo '
-                    <div id="edit" class="edit-branch">
-                    <button onclick="hideEdit()">Close</button>
-                    <form method="post">
-                        Branch Name:        <input type="text" value="'.$row[0]["branch_name"].'" name="branchname" required>
-                        Established Date:   <input type="date" value="'.$row[0]["established_date"].'" name="establisheddate">
-                        Street Name:        <input type="text" value="'.$row[0]["street_name"].'" name="streetname">
-                        Barangay:           <input type="text" value="'.$row[0]["barangay"].'" name="barangay">
-                        City:               <input type="text" value="'.$row[0]["city"].'" name="city">
-                        Province:           <input type="text" value="'.$row[0]["province"].'" name="province">
-                        Postal Code:        <input type="text" value="'.$row[0]["postal_code"].'" name="postalcode">
-                        Contact Number:     <input type="text" value="'.$row[0]["contact_number"].'" name="contactnumber">
-                        Status:
-                        <select name="branch-status">
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
-                        <input type="submit" value="Update" name="Update">
-                    </form>
-                </div>
+                    <div id="edit" class="editbranchholder">
+                        <div class="edit-branch">
+                            <div style="display:flex">
+                                <h2>Edit Branch</h2>
+                                <button onclick="hideEdit()">Close</button>
+                            </div>
+                            <div>
+                                <form class="edit-branch-form" method="post">
+                                    <div>
+                                        <h2>Branch Name:        </h2>
+                                        <input type="text" value="'.$row[0]["branch_name"].'" name="branchname" required>
+                                        <h2>Established Date:   </h2>
+                                        <input type="date" value="'.$row[0]["established_date"].'" name="establisheddate">
+                                    </div>
+                                    <div>
+                                        <h2>Street Name:        </h2>
+                                        <input type="text" value="'.$row[0]["street_name"].'" name="streetname">
+                                        
+                                        <h2>Barangay:           </h2>
+                                        <input type="text" value="'.$row[0]["barangay"].'" name="barangay">
+                                        
+                                        <h2>City:               </h2>
+                                        <input type="text" value="'.$row[0]["city"].'" name="city">
+                                    </div>
+                                    <div>
+                                        <h2>Province:           </h2>
+                                        <input type="text" value="'.$row[0]["province"].'" name="province">
+                                        
+                                        <h2>Postal Code:        </h2>
+                                        <input type="text" value="'.$row[0]["postal_code"].'" name="postalcode">
+                                    </div>
+                                    <div>
+                                        <h2>Contact Number:     </h2>
+                                        <input type="text" value="'.$row[0]["contact_number"].'" name="contactnumber">
+                                    </div>
+                                    <div>
+                                        <h2>Status:</h2>
+                                        <select name="branch-status">
+                                            <option value="Active">Active</option>
+                                            <option value="Inactive">Inactive</option>
+                                        </select>
+                                    </div>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <input type="submit" value="Update" name="Update">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 ';
             }
         }

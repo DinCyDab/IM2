@@ -18,19 +18,36 @@ if($_SESSION["role"] != "Administrator"){
             $row = $result->fetch_all(MYSQLI_ASSOC);
             if(sizeof($row)>0){
                 echo'
-                    <div id="edit" class="edit-product">
-                        <button onclick="hideEdit()">Close</button>
-                        <form method="post">
-                            Product Name:           <input type="text" name="productname" value="'.$row[0]["product_name"].'" required>
-                            Product Description:    <input type="text" name="productdescription" value="'.$row[0]["product_description"].'">
-                            Product Price:          <input type="number" name="productprice" value="'.$row[0]["product_price"].'">
-                            Product Status:
-                            <select name="productstatus" value="'.$row[0]["product_status"].'">
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
-                            </select>
-                            <input type="submit" value="Update" name="Update">
-                        </form>
+                    <div id="edit" class="editproductholder">
+                        <div class="edit-product">
+                            <div>
+                                <button onclick="hideEdit()">Close</button>
+                            </div>
+                            <div>
+                                <form method="post">
+                                    <div style="display:flex">
+                                        <h2>Product Name:</h2>
+                                        <input type="text" name="productname" value="'.$row[0]["product_name"].'" required>
+                                    </div>
+                                    <div style="display:flex">
+                                        <h2>Product Description:</h2>
+                                        <input type="text" name="productdescription" value="'.$row[0]["product_description"].'">
+                                    </div>
+                                    <div style="display:flex">
+                                        <h2>Product Price:</h2>
+                                        <input type="number" name="productprice" value="'.$row[0]["product_price"].'">
+                                    </div>
+                                    <div style="display:flex">
+                                        <h2>Product Status:</h2>
+                                        <select name="productstatus" value="'.$row[0]["product_status"].'">
+                                            <option value="Active">Active</option>
+                                            <option value="Inactive">Inactive</option>
+                                        </select>
+                                    </div>
+                                    <input type="submit" value="Update" name="Update">
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 ';
             }

@@ -4,19 +4,36 @@ if($_SESSION["role"] != "Administrator"){
     exit();
 }
 ?>
-<div class="add-product" id="add">
-    <button onclick="hideAdd()">Close</button>
-    <form method="POST">
-        Product Name        <input type="text" name="product-name" required>
-        Product Description <input type="text" name="product-description">
-        Product Price       <input type="number" name="product-price" min="0" max="9999999999">
-        Product Status
-        <select name="product-status">
-            <option>Active</option>
-            <option>Inactive</option>
-        </select>
-        <input type="submit" value="Submit" name="Submit">
-    </form>
+<div class="addproductholder" id="add">
+    <div class="add-product">
+        <div>
+            <button onclick="hideAdd()">Close</button>
+        </div>
+        <div>
+            <form method="POST">
+                <div style="display:flex">
+                    <h4>Product Name:</h4>
+                    <input type="text" name="product-name" required>
+                </div>
+                <div style="display:flex">
+                    <h4>Product Description:</h4>
+                    <input type="text" name="product-description">
+                </div>
+                <div style="display:flex">
+                    <h4>Product Price:</h4>
+                    <input type="number" name="product-price" min="0" max="9999999999">
+                </div>
+                <div style="display:flex">
+                    <h4>Product Status:</h4>
+                    <select name="product-status">
+                        <option>Active</option>
+                        <option>Inactive</option>
+                    </select>
+                </div>
+                <input type="submit" value="Submit" name="Submit">
+            </form>
+        </div>
+    </div>
 </div>
 
 <?php

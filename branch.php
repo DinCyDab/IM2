@@ -23,8 +23,71 @@
             body{
                 display: block;
             }
-            .add-branch{
+            .addbranchholder{
                 display: none;
+                width: 100%;
+                height: 100vh;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(0, 0, 0, .5);
+                padding: 20px;
+                position: fixed;
+                z-index: 2;
+            }
+            .add-branch{
+                position: relative;
+                background-color: wheat;
+                width: fit-content;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                border: none;
+                border-radius: 20px;
+                box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.50);
+            }
+            .add-branch div{
+                border: 1px black solid;
+                padding: 15px;
+            }
+            .add-branch h4{
+                margin: 0;
+            }
+            .add-branch-form div{
+                display: flex;
+            }
+            .editbranchholder{
+                display: block;
+                width: 100%;
+                height: 100vh;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(0, 0, 0, .5);
+                padding: 20px;
+                position: fixed;
+                z-index: 2;
+            }
+            .edit-branch{
+                position: relative;
+                background-color: wheat;
+                width: fit-content;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                border: none;
+                border-radius: 20px;
+                box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.50);
+            }
+            .edit-branch div{
+                border: 1px black solid;
+                padding: 20px;
+            }
+            .edit-branch h2{
+                margin: 0;
+            }
+            .edit-branch-form div{
+                display: flex;
             }
             .remove-row{
                 display: <?php
@@ -55,9 +118,6 @@
                             echo "none";
                         }
                     ?>;
-            }
-            .edit-branch{
-                display: block;
             }
             .functionalitybuttons{
                 /* border: 1px black solid; */

@@ -17,7 +17,7 @@
             $conn->query($sql);
         }
         $conn->close();
-        header("Location: " . $_SERVER["PHP_SELF"] . "?$query");
+        header("Location: " . $tableName.".php?".$query);
         exit();
     }
 ?>

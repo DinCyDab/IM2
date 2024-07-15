@@ -58,7 +58,7 @@ if (isset($_POST["Update"])) {
     $total_sold_qty = $_POST["total_sold_qty"];
     $status = $_POST["status"];
     if ($status == "Confirmed") {
-        $confirmedrevenue = $_POST["confirmed_revenue"];
+        $confirmedrevenue = $_POST["remittance"];
     }
 
     $conn = mysqli_connect("localhost", "root", "", "mamaflors");
@@ -78,20 +78,6 @@ if (isset($_POST["Update"])) {
                     report_ID = $valueToEdit
             ";
         $conn->query($sql);
-
-        if ($status == "Confirmed") {
-            $sql = "
-                UPDATE
-                    assignment
-                SET
-                    assignment_status = 'Present'
-                WHERE
-                    staff_ID = '$account_ID'
-                    AND
-                    assignment_date = '$report_date'
-            ";
-            $conn->query($sql);
-        }
     }
     $conn->close();
     header("Location: ".$_SERVER['PHP_SELF']);

@@ -197,6 +197,7 @@
                     <th>Total Sold</th>
                     <th>Estimated Revenue</th>
                     <th>Remittance</th>
+                    <th>Confirmed Revenue</th>
                     <th>Status</th>
                 </tr>
             ";
@@ -229,6 +230,7 @@
                     <td>".$row[$x]['total_sold_qty']."</td>
                     <td>".$row[$x]['revenue']."</td>
                     <td>".$row[$x]['remittance']."</td>
+                    <td>".$row[$x]['estimated_revenue']."</td>
                     <td>".$row[$x]['status']."</td>
                 </tr>";
             }

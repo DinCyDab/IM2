@@ -4,24 +4,49 @@ if($_SESSION["role"] != "Administrator"){
     exit();
 }
 ?>
-<div class="add-branch" id="add">
-    <button onclick="hideAdd()">Close</button>
-    <form method="post">
-        Branch Name:        <input type="text" name="branchname" required>
-        Established Date:   <input type="date" name="establisheddate">
-        Street Name:        <input type="text" name="streetname">
-        Barangay:           <input type="text" name="barangay">
-        City:               <input type="text" name="city">
-        Province:           <input type="text" name="province">
-        Postal Code:        <input type="text" name="postalcode">
-        Contact Number:     <input type="text" name="contactnumber">
-        Status:
-        <select name="branch-status">
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-        </select>
-        <input type="submit" value="Submit" name="Submit">
-    </form>
+<div class="addbranchholder" id="add">
+    <div class="add-branch">
+        <div style="display:flex">
+            <h2>Add Branch</h2>
+            <button onclick="hideAdd()">Close</button>
+        </div>
+        <div>
+            <form class="add-branch-form" method="post">
+                <div>
+                    <h4>Branch Name:</h4>
+                    <input type="text" name="branchname" required>
+                    <h4>Established Date:   </h4>
+                    <input type="date" name="establisheddate">
+                </div>
+                <div>
+                    <h4>Street Name:        </h4>
+                    <input type="text" name="streetname">
+                    <h4>Barangay:           </h4>
+                    <input type="text" name="barangay">
+                </div>
+                <div>
+                    <h4>City:               </h4>
+                    <input type="text" name="city"> 
+                    <h4>Province:           </h4>
+                    <input type="text" name="province">
+                </div>
+                <div>
+                    <h4>Postal Code:        </h4>
+                    <input type="text" name="postalcode">
+                    <h4>Contact Number:     </h4>
+                    <input type="text" name="contactnumber">
+                </div>
+                <div>
+                    <h4>Status:</h4>
+                    <select name="branch-status">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+                <input type="submit" value="Submit" name="Submit">
+            </form>
+        </div>
+    </div>
 </div>
 
 <?php
