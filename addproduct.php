@@ -6,7 +6,8 @@ if($_SESSION["role"] != "Administrator"){
 ?>
 <div class="addproductholder" id="add">
     <div class="add-product">
-        <div>
+        <div style="display:flex">
+            <h4>Add Product</h4>
             <button onclick="hideAdd()">Close</button>
         </div>
         <div>

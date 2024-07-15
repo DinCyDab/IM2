@@ -71,28 +71,32 @@
             }
             .editproductholder{
                 display: block;
-                position: fixed;
-                background-color: rgba(0, 0, 0, .5);
                 width: 100%;
                 height: 100vh;
-                top: 0;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(0, 0, 0, .5);
+                padding: 20px;
+                position: fixed;
                 z-index: 2;
             }
             .edit-product{
                 position: relative;
                 background-color: wheat;
                 width: fit-content;
-                padding: 20px;
-                border-radius: 20px;
                 left: 50%;
                 top: 50%;
                 transform: translate(-50%, -50%);
+                border: none;
+                border-radius: 20px;
+                box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.50);
             }
             .edit-product div{
                 border: 1px black solid;
                 padding: 20px;
             }
-            .edit-product h2{
+            .edit-product h4{
                 margin: 0;
             }
             .edit-row{

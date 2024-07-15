@@ -17,27 +17,48 @@ if (isset($_GET["edit"])) {
         $row = $result->fetch_all(MYSQLI_ASSOC);
         if (sizeof($row) > 0) {
             echo "
-                    <div id='edit' class='edit-report'>
-                        <button onclick='hideEdit()'>CLOSE</button>
-                        <form method='post'>
-                            Report ID: <input type='text' name='report_ID' value='".$row[0]["report_ID"]."' readonly>
-                            Report Date: <input type='text' name='report_date' value='".$row[0]["report_date"]."' readonly>
-                            Account ID: <input type='text' name='account_ID' value='".$row[0]["account_ID"]."' readonly>
-                            Product Name: <input type='text' name='product_name' value='".$row[0]["product_name"]."' readonly>
-                            Cooked Quantity <input type='text' name='cooked_qty' value='".$row[0]["cooked_qty"]."'>
-                            Reheat Quantity <input type='text' name='reheat_qty' value='".$row[0]["reheat_qty"]."'>
-                            Total Display Quantity <input type='text' name='total_display_qty' value='".$row[0]["total_display_qty"]."'>
-                            Left Over Quantity <input type='text' name='left_over_qty' value='".$row[0]["left_over_qty"]."'>
-                            Total Sold Quantity <input type='text' name='total_sold_qty' value='".$row[0]["total_sold_qty"]."'>
-                            Estimated Revenue: <input type='text' name='confirmed_revenue' value='".$row[0]["revenue"]."' readonly>
-                            Remittance: <input type='text' name='remittance' value='".$row[0]["remittance"]."' readonly>
-                            Status:
-                            <select name='status'>
-                                <option value='Pending'>Pending</option>
-                                <option value='Confirmed'>Confirmed</option>
-                            </select>
-                            <input type='submit' value='Update' name='Update'>
-                        </form>
+                    <div class='editreportholder' id='edit'>
+                        <div class='edit-report'>
+                            <div style='display:flex'>
+                                <h4>Edit Report</h4>
+                                <button onclick='hideEdit()'>CLOSE</button>
+                            </div>
+                            <div>
+                                <form method='post' class='edit-report-form'>
+                                    <div>
+                                        <h4>Report ID:</h4> <input type='text' name='report_ID' value='".$row[0]["report_ID"]."' readonly>
+                                        <h4>Report Date:</h4> <input type='text' name='report_date' value='".$row[0]["report_date"]."' readonly>
+                                    </div>
+                                    <div>
+                                        <h4>Account ID:</h4>
+                                        <input type='text' name='account_ID' value='".$row[0]["account_ID"]."' readonly>
+                                        <h4>Product Name:</h4>
+                                        <input type='text' name='product_name' value='".$row[0]["product_name"]."' readonly>
+                                    </div>
+                                    <div>
+                                        <h4>Cooked Quantity:</h4> <input type='text' name='cooked_qty' value='".$row[0]["cooked_qty"]."'>
+                                        <h4>Reheat Quantity:</h4> <input type='text' name='reheat_qty' value='".$row[0]["reheat_qty"]."'>
+                                    </div>
+                                    <div>
+                                        <h4>Total Display Quantity</h4> <input type='text' name='total_display_qty' value='".$row[0]["total_display_qty"]."'>
+                                        <h4>Left Over Quantity</h4><input type='text' name='left_over_qty' value='".$row[0]["left_over_qty"]."'>
+                                    </div>
+                                    <div>
+                                        <h4>Total Sold Quantity</h4> <input type='text' name='total_sold_qty' value='".$row[0]["total_sold_qty"]."'>
+                                    </div>
+                                    <div>
+                                        <h4>Estimated Revenue:</h4> <input type='text' name='confirmed_revenue' value='".$row[0]["revenue"]."' readonly>
+                                        <h4>Remittance:</h4> <input type='text' name='remittance' value='".$row[0]["remittance"]."' readonly>
+                                        <h4>Status:</h4>
+                                        <select name='status'>
+                                            <option value='Pending'>Pending</option>
+                                            <option value='Confirmed'>Confirmed</option>
+                                        </select>
+                                    </div>
+                                    <input type='submit' value='Update' name='Update'>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 ";
         }

@@ -20,37 +20,34 @@ if($_SESSION["role"] != "Administrator"){
             $row = $result->fetch_all(MYSQLI_ASSOC);
             if(sizeof($row)>0){
                 echo'
-                    <div id="edit" class="editAccountHolder">
-                        <div class="editAccount">
-                            <div class="headerholder">
-                                <h1>Edit Account</h1>
+                    <div id="edit" class="editaccountholder">
+                        <div class="edit-account">
+                            <div style="display:flex">
+                                <h4>Edit Account</h4>
                                 <button class="button-close" onclick="hideEdit()">Close</button>
                             </div>
-                            <div class="headerholder">
-                                <h2>Account Name: '.$row[0]["staff_name"].'</h2>
-                                <button class="button-close" onclick="hideEdit()">Close</button>
-                            </div>
-                            <form class="editaccountform" method="post">
-                                <div>
-                                    <h2>Role:</h2>
+                            <div>
+                                <form class="edit-account-form" method="post">
                                     <div>
+                                        <h4>Account Name: '.$row[0]["staff_name"].'</h4>
+                                    </div>
+                                    <div>
+                                        <h4>Role:</h4>
                                         <select name="role">
                                             <option value="Regular">Regular</option>
                                             <option value="Administrator">Administrator</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div>
-                                    <h2>Account Status:</h2>
                                     <div>
+                                        <h4>Account Status:</h4>
                                         <select name="status">
                                             <option value="Active">Active</option>
                                             <option value="Inactive">Inactive</option>
                                         </select>
                                     </div>
-                                </div>
-                                <input type="submit" value="Update" name="Update">
-                            </form>
+                                    <input type="submit" value="Update" name="Update">
+                                </form>
+                            </div>
                         </div>
                     </div>
                 ';

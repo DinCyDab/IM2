@@ -30,9 +30,6 @@ if (!isset($_SESSION["loggedin"])) {
             .addressinfo div{
                 display: flex;
             }
-            /* .addressinfo input{
-                width: 20px;
-            } */
             form input{
                 min-width: 20px;
                 max-width: 90px;
@@ -51,7 +48,12 @@ if (!isset($_SESSION["loggedin"])) {
 
     <body>
         <?php
-        include "navstaff.php";
+            if($_SESSION["role"] == "Administrator"){
+                include "navadmin.php";
+            }
+            else{
+                include "navstaff.php";
+            }
         ?>
         <div class="scheduleHeader">
             <h1>Account Settings</h1>
@@ -146,6 +148,12 @@ if (!isset($_SESSION["loggedin"])) {
 if (isset($_POST["Update"])) {
     $newpass = $_POST["newpassword"];
     $confirmpass = $_POST["confirmpassword"];
+    if($_SESSION["role"] == "Administrator"){
+        $location = "indexadmin.php";
+    }
+    else{
+        $location = "indexstaff.php";
+    }
     if ($newpass == $confirmpass) {
         $newpass = password_hash("$newpass", PASSWORD_DEFAULT);
         $oldpass = $_POST["oldpassword"];
@@ -172,7 +180,7 @@ if (isset($_POST["Update"])) {
             }
         }
         $conn->close();
-        header("Location: indexstaff.php");
+        header("Location: $location");
         exit();
     }
 }

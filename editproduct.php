@@ -20,25 +20,26 @@ if($_SESSION["role"] != "Administrator"){
                 echo'
                     <div id="edit" class="editproductholder">
                         <div class="edit-product">
-                            <div>
+                            <div style="display:flex">
+                                <h4>Edit Product</h4>
                                 <button onclick="hideEdit()">Close</button>
                             </div>
                             <div>
                                 <form method="post">
                                     <div style="display:flex">
-                                        <h2>Product Name:</h2>
+                                        <h4>Product Name:</h4>
                                         <input type="text" name="productname" value="'.$row[0]["product_name"].'" required>
                                     </div>
                                     <div style="display:flex">
-                                        <h2>Product Description:</h2>
+                                        <h4>Product Description:</h4>
                                         <input type="text" name="productdescription" value="'.$row[0]["product_description"].'">
                                     </div>
                                     <div style="display:flex">
-                                        <h2>Product Price:</h2>
+                                        <h4>Product Price:</h4>
                                         <input type="number" name="productprice" value="'.$row[0]["product_price"].'">
                                     </div>
                                     <div style="display:flex">
-                                        <h2>Product Status:</h2>
+                                        <h4>Product Status:</h4>
                                         <select name="productstatus" value="'.$row[0]["product_status"].'">
                                             <option value="Active">Active</option>
                                             <option value="Inactive">Inactive</option>

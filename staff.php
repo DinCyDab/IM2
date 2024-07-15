@@ -23,9 +23,6 @@
             body{
                 display: block;
             }
-            .add-staff{
-                display: none;
-            }
             .edit-row{
                 display: <?php
                         if(isset($_SESSION["showEdit"])){
@@ -55,6 +52,72 @@
                             echo "none";
                         }
                     ?>;
+            }
+            .addstaffholder{
+                display: none;
+                width: 100%;
+                height: 100vh;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(0, 0, 0, .5);
+                padding: 15px;
+                position: fixed;
+                z-index: 2;
+            }
+            .add-staff{
+                position: relative;
+                background-color: wheat;
+                width: fit-content;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                border: none;
+                border-radius: 20px;
+                box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.50);
+            }
+            .add-staff div{
+                border: 1px black solid;
+                padding: 15px;
+            }
+            .add-staff h4{
+                margin: 0;
+            }
+            .add-staff-form div{
+                display: flex;
+            }
+            .editstaffholder{
+                display: block;
+                width: 100%;
+                height: 100vh;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(0, 0, 0, .5);
+                padding: 15px;
+                position: fixed;
+                z-index: 2;
+            }
+            .edit-staff{
+                position: relative;
+                background-color: wheat;
+                width: fit-content;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                border: none;
+                border-radius: 20px;
+                box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.50);
+            }
+            .edit-staff div{
+                border: 1px black solid;
+                padding: 15px;
+            }
+            .edit-staff h4{
+                margin: 0;
+            }
+            .edit-staff-form div{
+                display: flex;
             }
             .functionalitybuttons{
                 /* border: 1px black solid; */
@@ -140,108 +203,107 @@
             include "remove.php";
             include "navadmin.php";
         ?>
+        <?php 
+            //Connect to db
+            $conn = mysqli_connect("localhost","root","","mamaflors");
+            if ($conn->connect_error) {
+                die("ERROR". $conn->connect_error);
+            }
+            else{
+                //Retrieve Data from staff table
+                $sql = "SELECT * FROM staff";
+                if(isset($_GET["sort"])){
+                    if($_SESSION["SORT"] == "DESC"){
+                        $_SESSION["SORT"] = "ASC";
+                    }
+                    else{
+                        $_SESSION["SORT"] = "DESC";
+                    }
+                    $sql .= " ORDER BY " . $_GET["sort"] . " " . $_SESSION["SORT"];
+                }
+                $result = $conn->query($sql);
+                $row = $result->fetch_all(MYSQLI_ASSOC);
+                if(sizeof($row) > 0){
+                    echo "
+                        <table id='table'>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th><a href='?sort=staff_ID'>Staff ID</a></th>
+                                <th><a href='?sort=last_name'>Last Name</a></th>
+                                <th><a href='?sort=first_name'>First Name</a></th>
+                                <th><a href='?sort=middle_name'>Middle Name</a></th>
+                                <th><a href='?sort=house_number'>House Number</a></th>
+                                <th><a href='?sort=street_name'>Street Name</a></th>
+                                <th><a href='?sort=barangay'>Barangay</a></th>
+                                <th><a href='?sort=city'>City</a></th>
+                                <th><a href='?sort=province'>Province</a></th>
+                                <th><a href='?sort=postal_code'>Postal Code</a></th>
+                                <th><a href='?sort=birth_date'>Birthdate</a></th>
+                                <th><a href='?sort=gender'>Gender</a></th>
+                                <th><a href='?sort=contact_1'>Contact Number(1)</a></th>
+                                <th><a href='?sort=contact_2'>Contact Number(2)</a></th>
+                                <th><a href='?sort=email'>Email</a></th>
+                                <th><a href='?sort=SSN'>SSN</a></th>
+                                <th><a href='?sort=TIN'>TIN</a></th>
+                                <th><a href='?sort=position_title'>Position Title</a></th>
+                                <th><a href='?sort=start_date'>Start Date</a></th>
+                                <th><a href='?sort=salary'>Salary</a></th>
+                                <th><a href='?sort=status'>Status</a></th>
+                            </tr>
+                        ";
+                    for($x = 0; $x < sizeof($row); $x++){
+                        echo "
+                            <tr>
+                                <td>
+                                    <form method='get'>
+                                        <input type='hidden' value='".($row[$x]['staff_ID'])."' name='edit'>
+                                        <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method='get'>
+                                        <input type='hidden' value='".($row[$x]['staff_ID'])."' name='removeID'>
+                                        <input type='hidden' value='staff' name='tableName'>
+                                        <input type='hidden' value='staff_ID' name='columnName'>
+                                        <button class='remove-row' id='remove-row$x' name='remove'>Remove</button>
+                                    </form>
+                                </td>
+                                <td>".$row[$x]['staff_ID']."</td>
+                                <td>".$row[$x]['last_name']."</td>
+                                <td>".$row[$x]['first_name']."</td>
+                                <td>".$row[$x]['middle_name']."</td>
+                                <td>".$row[$x]['house_number']."</td>
+                                <td>".$row[$x]['street_name']."</td>
+                                <td>".$row[$x]['barangay']."</td>
+                                <td>".$row[$x]['city']."</td>
+                                <td>".$row[$x]['province']."</td>
+                                <td>".$row[$x]['postal_code']."</td>
+                                <td>".$row[$x]['birth_date']."</th>
+                                <td>".$row[$x]['gender']."</td>
+                                <td>".$row[$x]['contact_1']."</td>
+                                <td>".$row[$x]['contact_2']."</td>
+                                <td>".$row[$x]['email']."</td>
+                                <td>".$row[$x]['SSN']."</td>
+                                <td>".$row[$x]['TIN']."</td>
+                                <td>".$row[$x]['position_title']."</td>
+                                <td>".$row[$x]['start_date']."</td>
+                                <td>".$row[$x]['salary']."</td>
+                                <td>".$row[$x]['status']."</td>
+                            </tr>
+                        ";
+                    }
+                    echo "</table>";
+                }
+                else{
+                    echo "Database is Empty";
+                }
+            }
+            $conn->close();
+        ?>
     </body>
     <script src="filtertable.js"></script>
 </html>
-
-<?php 
-    //Connect to db
-    $conn = mysqli_connect("localhost","root","","mamaflors");
-    if ($conn->connect_error) {
-        die("ERROR". $conn->connect_error);
-    }
-    else{
-        //Retrieve Data from staff table
-        $sql = "SELECT * FROM staff";
-        if(isset($_GET["sort"])){
-            if($_SESSION["SORT"] == "DESC"){
-                $_SESSION["SORT"] = "ASC";
-            }
-            else{
-                $_SESSION["SORT"] = "DESC";
-            }
-            $sql .= " ORDER BY " . $_GET["sort"] . " " . $_SESSION["SORT"];
-        }
-        $result = $conn->query($sql);
-        $row = $result->fetch_all(MYSQLI_ASSOC);
-        if(sizeof($row) > 0){
-            echo "
-                <table id='table'>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th><a href='?sort=staff_ID'>Staff ID</a></th>
-                        <th><a href='?sort=last_name'>Last Name</a></th>
-                        <th><a href='?sort=first_name'>First Name</a></th>
-                        <th><a href='?sort=middle_name'>Middle Name</a></th>
-                        <th><a href='?sort=house_number'>House Number</a></th>
-                        <th><a href='?sort=street_name'>Street Name</a></th>
-                        <th><a href='?sort=barangay'>Barangay</a></th>
-                        <th><a href='?sort=city'>City</a></th>
-                        <th><a href='?sort=province'>Province</a></th>
-                        <th><a href='?sort=postal_code'>Postal Code</a></th>
-                        <th><a href='?sort=birth_date'>Birthdate</a></th>
-                        <th><a href='?sort=gender'>Gender</a></th>
-                        <th><a href='?sort=contact_1'>Contact Number(1)</a></th>
-                        <th><a href='?sort=contact_2'>Contact Number(2)</a></th>
-                        <th><a href='?sort=email'>Email</a></th>
-                        <th><a href='?sort=SSN'>SSN</a></th>
-                        <th><a href='?sort=TIN'>TIN</a></th>
-                        <th><a href='?sort=position_title'>Position Title</a></th>
-                        <th><a href='?sort=start_date'>Start Date</a></th>
-                        <th><a href='?sort=salary'>Salary</a></th>
-                        <th><a href='?sort=status'>Status</a></th>
-                    </tr>
-                ";
-            for($x = 0; $x < sizeof($row); $x++){
-                echo "
-                    <tr>
-                        <td>
-                            <form method='get'>
-                                <input type='hidden' value='".($row[$x]['staff_ID'])."' name='edit'>
-                                <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
-                            </form>
-                        </td>
-                        <td>
-                            <form method='get'>
-                                <input type='hidden' value='".($row[$x]['staff_ID'])."' name='removeID'>
-                                <input type='hidden' value='staff' name='tableName'>
-                                <input type='hidden' value='staff_ID' name='columnName'>
-                                <button class='remove-row' id='remove-row$x' name='remove'>Remove</button>
-                            </form>
-                        </td>
-                        <td>".$row[$x]['staff_ID']."</td>
-                        <td>".$row[$x]['last_name']."</td>
-                        <td>".$row[$x]['first_name']."</td>
-                        <td>".$row[$x]['middle_name']."</td>
-                        <td>".$row[$x]['house_number']."</td>
-                        <td>".$row[$x]['street_name']."</td>
-                        <td>".$row[$x]['barangay']."</td>
-                        <td>".$row[$x]['city']."</td>
-                        <td>".$row[$x]['province']."</td>
-                        <td>".$row[$x]['postal_code']."</td>
-                        <td>".$row[$x]['birth_date']."</th>
-                        <td>".$row[$x]['gender']."</td>
-                        <td>".$row[$x]['contact_1']."</td>
-                        <td>".$row[$x]['contact_2']."</td>
-                        <td>".$row[$x]['email']."</td>
-                        <td>".$row[$x]['SSN']."</td>
-                        <td>".$row[$x]['TIN']."</td>
-                        <td>".$row[$x]['position_title']."</td>
-                        <td>".$row[$x]['start_date']."</td>
-                        <td>".$row[$x]['salary']."</td>
-                        <td>".$row[$x]['status']."</td>
-                    </tr>
-                ";
-            }
-            echo "</table>";
-        }
-        else{
-            echo "Database is Empty";
-        }
-    }
-    $conn->close();
-?>
 
 <?php
     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["editButton"])){

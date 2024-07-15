@@ -26,16 +26,13 @@ if (isset($_GET["date"])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="scrollbarstyles.css">
+    
     <style>
         body {
-            margin: 0;
-            padding: 0;
+            display: block;
         }
-
-        .add-attendance {
-            display: none;
-        }
-
         .remove-row {
             display: <?php
                         if (isset($_SESSION["showRemove"])) {
@@ -49,17 +46,98 @@ if (isset($_GET["date"])) {
                         }
                         ?>;
         }
-
-        table {
+        table{
+            display: flex;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+            margin-top: 120px;
+            width: fit-content;
+            top: 40px;
+            left:50%;
+            transform: translate(-50%, 0);
+        }
+        table th{
+            background-color: sandybrown;
+        }
+        table a{
+            color: brown;
+        }
+        table tr{
+            background-color: brown;
+            color: wheat;
+            text-align: center
+        }
+        table tr:nth-child(even){
+            background-color: wheat;
+            color: brown;
+        }
+        .functionalitybuttons{
+            /* border: 1px black solid; */
+            top: 100px;
+            display: flex;
+            /* width: fit-content; */
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            position: fixed;
+            left: 50%;
+            transform: translate(-50%, 0);
+            z-index: 1;
+        }
+        .functionalitybuttons button{
+            padding: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            border-radius: 10px;
+            background-color: white;
+        }
+        .functionalitybuttons input{
+            padding: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            border-radius: 10px;
+        }
+        .addattendanceholder{
+            display: none;
+            width: 100%;
+            height: 100vh;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, .5);
+            padding: 15px;
+            position: fixed;
+            z-index: 2;
+        }
+        .add-attendance{
+            position: relative;
+            background-color: wheat;
+            width: fit-content;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.50);
+        }
+        .add-attendance div{
+            border: 1px black solid;
+            padding: 15px;
+        }
+        .add-attendance h4{
+            margin: 0;
+        }
+        .add-attendance-form div{
+            display: flex;
+        }
+        /* table {
             border-collapse: separate;
-            /* Change to separate */
             border-spacing: 0;
-            /* Ensure no spacing between table cells */
             margin: 25px 0;
             font-size: 0.9em;
             border-radius: 5px;
             overflow: hidden;
-            /* Add this to apply border-radius */
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
             font-family: "Poppins";
         }
@@ -67,7 +145,6 @@ if (isset($_GET["date"])) {
 
         table th {
             padding: 12px 15px;
-
         }
 
         table td {
@@ -109,9 +186,8 @@ if (isset($_GET["date"])) {
             text-decoration: none;
             font-weight: bold;
             font-size: 18px
-        }
-
-        .table-align {
+        } */
+        /* .table-align {
             display: flex;
             justify-content: center;
             position: absolute;
@@ -201,45 +277,82 @@ if (isset($_GET["date"])) {
             border: none;
             font-size: 1.2em;
             cursor: pointer;
+        } */
+        .pageheader{
+            position: relative;
+            /* border: 1px black solid; */
+            top: 140px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            z-index: -1;
+        }
+        .pageheader h1{
+            color: wheat;
+            text-align: center;
+        }
+        .editassignmentholder{
+            display: block;
+            width: 100%;
+            height: 100vh;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, .5);
+            padding: 15px;
+            position: fixed;
+            z-index: 2;
+        }
+        .edit-assignment{
+            position: relative;
+            background-color: wheat;
+            width: fit-content;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.50);
+        }
+        .edit-assignment div{
+            border: 1px black solid;
+            padding: 15px;
+        }
+        .edit-assignment h4{
+            margin: 0;
+        }
+        .edit-assignment-form div{
+            display: flex;
         }
     </style>
 </head>
 
 <body>
+    <div class="functionalitybuttons">
+        <a href="assignmentsummarization.php"><button style="width: max-content">SUMMARY</button></a>
+        <button onclick="showAdd()" class="green">ADD</button>
+        <form method="post">
+            <button id="remover" name="removeButton" value="assignment" class="red">REMOVE</button>
+        </form>
+        <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Assignment...">
 
-    <a href="indexadmin.php">Home</a>
-    <a href="assignmentsummarization.php">Attendance Record</a>
-    <div class="table-align">
-        <div>
-            <div class="settings">
-                <button onclick="showAdd()" class="green">ADD</button>
-                <form method="post">
-                    <button id="remover" name="removeButton" value="assignment" class="red">REMOVE</button>
-                </form>
-                <form method="post">
-                    <button id="editor" name="editButton" value="assignment">EDIT</button>
-                </form>
-                <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Assignment...">
-
-                <br>
-
-                <form method="get">
-                    <input type="date" name="date" value="<?php echo $_SESSION["date"] ?>">
-                    <input type="submit" value="Filter" name="filterAttendance">
-                </form>
-            </div>
-
+        <form method="get" style="display:flex">
+            <input type="date" name="date" value="<?php echo $_SESSION["date"] ?>">
+            <input type="submit" value="Filter" name="filterAttendance">
+        </form>
+    </div>
+    <div class="pageheader">
+        <h1>Branch Assignment</h1>
+    </div>
             <?php
             include "addattendance.php";
             include "remove.php";
             include "editassignment.php";
             include "filterattendance.php";
+            include "navadmin.php";
             ?>
-</body>
-</div>
-</div>
-<script src="filtertable.js"></script>
 
+    </body>
+<script src="filtertable.js"></script>
 </html>
 
 <?php

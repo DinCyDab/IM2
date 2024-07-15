@@ -6,14 +6,14 @@ if($_SESSION["role"] != "Administrator"){
 ?>
 <div id="add" class="addaccountholder">
     <div class="add-account">
-        <div class="headerholder">
-            <h1>Add Account</h1>
+        <div style="display:flex">
+            <h4>Add Account</h4>
             <button class="button-close" onclick="hideAdd()">Close</button>
         </div>
-        <form class="addaccountform" method="post">
-            <div class="accountidholder">
-                <h2>Choose Staff:</h2>
+        <div>
+            <form class="add-account-form" method="post">
                 <div>
+                    <h4>Choose Staff:</h4>
                     <select name="accountid" required>
                         <?php
                             $conn = mysqli_connect("localhost","root","","mamaflors");
@@ -38,35 +38,29 @@ if($_SESSION["role"] != "Administrator"){
                         ?>
                     </select>
                 </div>
-            </div>
-            <div>
-                <h2>Password:</h2>
                 <div>
+                    <h4>Password:</h4>
                     <input class="subdiv" type="password" name="pass" required>
                 </div>
-            </div>
-            <div>
-                <h2>Role:</h2>
                 <div>
+                    <h4>Role:</h4>
                     <select name="role">
                         <option value="Regular">Regular</option>
                         <option value="Administrator">Administrator</option>
                     </select>
                 </div>
-            </div>
-            <div>
-                <h2>Account Status:</h2>
                 <div>
+                    <h4>Account Status:</h4>
                     <select name="accountstatus">
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>
                     </select>
                 </div>
-            </div>
-            <div class="submitHolder">
-                <input type="submit" value="Submit" name="Submit">
-            </div>
-        </form>
+                <div class="submitHolder">
+                    <input type="submit" value="Submit" name="Submit">
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

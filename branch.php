@@ -31,7 +31,7 @@
                 top: 50%;
                 transform: translate(-50%, -50%);
                 background-color: rgba(0, 0, 0, .5);
-                padding: 20px;
+                padding: 15px;
                 position: fixed;
                 z-index: 2;
             }
@@ -64,7 +64,7 @@
                 top: 50%;
                 transform: translate(-50%, -50%);
                 background-color: rgba(0, 0, 0, .5);
-                padding: 20px;
+                padding: 15px;
                 position: fixed;
                 z-index: 2;
             }
@@ -81,9 +81,9 @@
             }
             .edit-branch div{
                 border: 1px black solid;
-                padding: 20px;
+                padding: 15px;
             }
-            .edit-branch h2{
+            .edit-branch h4{
                 margin: 0;
             }
             .edit-branch-form div{

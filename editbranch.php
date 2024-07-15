@@ -21,55 +21,46 @@ if($_SESSION["role"] != "Administrator"){
                     <div id="edit" class="editbranchholder">
                         <div class="edit-branch">
                             <div style="display:flex">
-                                <h2>Edit Branch</h2>
+                                <h4>Edit Branch Details</h4>
                                 <button onclick="hideEdit()">Close</button>
                             </div>
                             <div>
                                 <form class="edit-branch-form" method="post">
                                     <div>
-                                        <h2>Branch Name:        </h2>
+                                        <h4>Branch Name:        </h4>
                                         <input type="text" value="'.$row[0]["branch_name"].'" name="branchname" required>
-                                        <h2>Established Date:   </h2>
+                                        <h4>Established Date:   </h4>
                                         <input type="date" value="'.$row[0]["established_date"].'" name="establisheddate">
                                     </div>
                                     <div>
-                                        <h2>Street Name:        </h2>
+                                        <h4>Street Name:        </h4>
                                         <input type="text" value="'.$row[0]["street_name"].'" name="streetname">
                                         
-                                        <h2>Barangay:           </h2>
+                                        <h4>Barangay:           </h4>
                                         <input type="text" value="'.$row[0]["barangay"].'" name="barangay">
-                                        
-                                        <h2>City:               </h2>
-                                        <input type="text" value="'.$row[0]["city"].'" name="city">
+
                                     </div>
                                     <div>
-                                        <h2>Province:           </h2>
+                                        <h4>City:               </h4>
+                                        <input type="text" value="'.$row[0]["city"].'" name="city">
+                                        <h4>Province:           </h4>
                                         <input type="text" value="'.$row[0]["province"].'" name="province">
                                         
-                                        <h2>Postal Code:        </h2>
-                                        <input type="text" value="'.$row[0]["postal_code"].'" name="postalcode">
+                                        
                                     </div>
                                     <div>
-                                        <h2>Contact Number:     </h2>
+                                        <h4>Postal Code:        </h4>
+                                        <input type="text" value="'.$row[0]["postal_code"].'" name="postalcode">
+                                        <h4>Contact Number:     </h4>
                                         <input type="text" value="'.$row[0]["contact_number"].'" name="contactnumber">
                                     </div>
                                     <div>
-                                        <h2>Status:</h2>
+                                        <h4>Status:</h4>
                                         <select name="branch-status">
                                             <option value="Active">Active</option>
                                             <option value="Inactive">Inactive</option>
                                         </select>
                                     </div>
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
                                     <input type="submit" value="Update" name="Update">
                                 </form>
                             </div>

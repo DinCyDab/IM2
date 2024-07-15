@@ -4,36 +4,60 @@ if($_SESSION["role"] != "Administrator"){
     exit();
 }
 ?>
-<div class="add-staff" id="add">
-    <button onclick="hideAdd()">Close</button>
-    <form method="post">
-        Staff ID:       <input type="text" name="staff-ID" required>
-        Last Name:      <input type="text" name="last-name" required>
-        First Name:     <input type="text" name="first-name" required>
-        Middle Name:    <input type="text" name="middle-name"required>
-        House Number:   <input type="text" name="house-number">
-        Street Name:    <input type="text" name="street-name">
-        Barangay:       <input type="text" name="barangay">
-        City:           <input type="text" name="city">
-        Province:       <input type="text" name="province">
-        Postal Code:    <input type="text" name="postal-code">
-        Birthday:       <input type="date" name="birth-date">
-        Gender:         <input type="text" name="gender">
-        Contact Number: <input type="text" name="contact-number-1">
-        Contact Number: <input type="text" name="contact-number-2">
-        Email:          <input type="text" name="email">
-        SSN:            <input type="text" name="ssn">
-        TIN:            <input type="text" name="tin">
-        Position:       <input type="text" name="position">
-        Start Date:     <input type="date" name="start-date">
-        Salary:         <input type="text" name="salary">
-        Status:
-        <select name="status">
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-        </select>
-        <input type="submit" value="Submit" name="Submit">
-    </form>
+<div class="addstaffholder" id="add">
+    <div class="add-staff">
+        <div style="display:flex">
+            <h4>Add Staff Details</h4>
+            <button onclick="hideAdd()">Close</button>
+        </div>
+        <div>
+            <form class="add-staff-form" method="post">
+                <div>
+                    <h4>Staff ID:       </h4>
+                    <input type="text" name="staff-ID" required>
+                </div>
+                <div>
+                    <h4>Last Name:      </h4><input type="text" name="last-name" required>
+                    <h4>First Name:     </h4><input type="text" name="first-name" required>
+                    <h4>Middle Name:    </h4><input type="text" name="middle-name"required>
+                </div>
+                <div>
+                    <h4>Birthday:       </h4><input type="date" name="birth-date">
+                    <h4>Gender:         </h4><input type="text" name="gender">
+                </div>
+                <div>
+                    <h4>House Number:   </h4><input type="text" name="house-number">
+                    <h4>Street Name:    </h4><input type="text" name="street-name">
+                    <h4>Barangay:       </h4><input type="text" name="barangay">
+                    <h4>City:           </h4><input type="text" name="city">
+                </div>
+                <div>
+                    <h4>Province:       </h4><input type="text" name="province">
+                    <h4>Postal Code:    </h4><input type="text" name="postal-code">
+                </div>
+                <div>
+                <h4>Contact Number:     </h4><input type="text" name="contact-number-1">
+                <h4>Contact Number:     </h4><input type="text" name="contact-number-2">
+                <h4>Email:              </h4><input type="text" name="email">
+                </div>
+                <div>
+                    <h4>SSN:            </h4><input type="text" name="ssn">
+                    <h4>TIN:            </h4><input type="text" name="tin">
+                    <h4>Position:       </h4><input type="text" name="position">
+                    <h4>Start Date:     </h4><input type="date" name="start-date">
+                    <h4>Salary:         </h4><input type="text" name="salary">
+                </div>
+                <div>
+                <h4>Status:</h4>
+                    <select name="status">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+                <input type="submit" value="Submit" name="Submit">
+            </form>
+        </div>
+    </div>
 </div>
 
 <?php

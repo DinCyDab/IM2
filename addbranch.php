@@ -7,7 +7,7 @@ if($_SESSION["role"] != "Administrator"){
 <div class="addbranchholder" id="add">
     <div class="add-branch">
         <div style="display:flex">
-            <h2>Add Branch</h2>
+            <h4>Add Branch Details</h4>
             <button onclick="hideAdd()">Close</button>
         </div>
         <div>

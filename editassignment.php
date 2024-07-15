@@ -42,33 +42,43 @@ if($_SESSION["role"] != "Administrator"){
             $rowBranch = $result->fetch_all(MYSQLI_ASSOC);
             if(sizeof($row)>0){
                 echo'
-                    <div id="edit" class="edit-assignment">
-                    <div class="edit-content">
-                        <button onclick="hideEdit()" class="button-close">Close</button>
-                        <form method="post">
-                            Staff ID:       <input type="text" name="staffID" value="'.$row[0]["staff_ID"].'" readonly>
-                            Staff Name:     <input type="text" name="staffName" value="'.$row[0]["staff_name"].'" readonly>
-                            Branch ID:
-                            <select name="branchID">
-                            ';
-                            echo"<option value='NULL'>No Branch Assignment</option>";
-                            for($x = 0; $x < sizeof($rowBranch); $x++){
-                                $selected = "";
-                                if(isset($branchValue) && $branchValue == $rowBranch[$x]["branch_ID"]){
-                                    $selected = "selected";
-                                }
-                                echo '
-                                    <option value="'.$rowBranch[$x]['branch_ID'].'"'.$selected.'>'.$rowBranch[$x]['branch_ID'].' '. $rowBranch[$x]['branch_name'].'</option>
-                                ';
-                            }
-                        echo '
-                            </select>
-                           
-                            Note:           <input type="text" name="note" value="'.$row[0]["note"].'">
-                            <input type="submit" value="Update" class="button"name="Update">
-                        </form>
+                    <div id="edit" class="editassignmentholder">
+                        <div class="edit-assignment">
+                            <div>
+                                <button onclick="hideEdit()">Close</button>
+                            </div>
+                            <div>
+                                <form method="post" class="edit-assignment-form">
+                                    <div>
+                                        <h4>Staff ID:</h4>       <input type="text" name="staffID" value="'.$row[0]["staff_ID"].'" readonly>
+                                        <h4>Staff Name:</h4>     <input type="text" name="staffName" value="'.$row[0]["staff_name"].'" readonly>
+                                    </div>
+                                    <div>
+                                        <h4>Branch ID:</h4>
+                                        <select name="branchID">
+                                        ';
+                                        echo"<option value='NULL'>No Branch Assignment</option>";
+                                        for($x = 0; $x < sizeof($rowBranch); $x++){
+                                            $selected = "";
+                                            if(isset($branchValue) && $branchValue == $rowBranch[$x]["branch_ID"]){
+                                                $selected = "selected";
+                                            }
+                                            echo '
+                                                <option value="'.$rowBranch[$x]['branch_ID'].'"'.$selected.'>'.$rowBranch[$x]['branch_ID'].' '. $rowBranch[$x]['branch_name'].'</option>
+                                            ';
+                                        }
+                                        echo '
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <h4>Note:</h4>
+                                        <input type="text" name="note" value="'.$row[0]["note"].'">
+                                    </div>
+                                    <input type="submit" value="Update" class="button"name="Update">
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                      </div>
                 ';
             }
         }

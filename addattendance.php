@@ -4,12 +4,21 @@ if($_SESSION["role"] != "Administrator"){
     exit();
 }
 ?>
-<div id="add" class="add-attendance">
-    <button onclick="hideAdd()">Close</button>
-    <form method="post">
-        Assignment Date: <input type="date" name="assignmentdate">
-        <input type="submit" value="Create Attendance" name="createattendance">
-    </form>
+<div class="addattendanceholder" id="add">
+    <div class="add-attendance">
+        <div style="display:flex">
+            <h4>Choose Date</h4>
+            <button onclick="hideAdd()">Close</button>
+        </div>
+        <div>
+            <form method="post" class="add-attendance-form">
+                <div>
+                    <h4>Assignment Date:</h4> <input type="date" name="assignmentdate">
+                </div>
+                <input type="submit" value="Create Attendance" name="createattendance">
+            </form>
+        </div>
+    </div>
 </div>
 
 <?php

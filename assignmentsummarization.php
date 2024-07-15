@@ -75,7 +75,7 @@
             .pageheader{
                 position: relative;
                 /* border: 1px black solid; */
-                top: 85px;
+                top: 140px;
                 left: 50%;
                 transform: translate(-50%, 0);
                 z-index: -1;
@@ -86,7 +86,7 @@
             }
             .functionalitybuttons{
                 /* border: 1px black solid; */
-                top: 140px;
+                top: 100px;
                 display: flex;
                 /* width: fit-content; */
                 justify-content: center;
@@ -96,6 +96,13 @@
                 left: 50%;
                 transform: translate(-50%, 0);
                 z-index: 1;
+            }
+            .functionalitybuttons button{
+                padding: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
+                border-radius: 10px;
+                background-color: white;
             }
             .functionalitybuttons input{
                 padding: 10px;
@@ -148,14 +155,15 @@
         </style>
     </head>
     <body>
+        <div class="pageheader">
+            <h1>Attendance Summarization</h1>
+        </div>
         <div class="functionalitybuttons">
+            <a href="assignment.php"><button style="width: max-content">BRANCH ASSIGNMENT</button></a>
             <form method="get" style="display:flex">
                 <input type="month" name="filterdate" value="<?php echo $_SESSION["date"] ?>" />
                 <input type="submit" value="Filter Date">
             </form>
-        </div>
-        <div class="pageheader">
-            <h1>Attendance Summarization</h1>
         </div>
         <?php 
             include "navadmin.php";

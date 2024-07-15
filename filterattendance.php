@@ -4,7 +4,6 @@ if($_SESSION["role"] != "Administrator"){
     exit();
 }
 ?>
-<div class="table_center">
 <table id="table">
     <?php   
         $date = date("Y-m-d");
@@ -82,4 +81,3 @@ if($_SESSION["role"] != "Administrator"){
         }
         $conn->close();
     ?>
-    </div>

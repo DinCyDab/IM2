@@ -1,17 +1,9 @@
-
-
-.add-attendance{
-    display: none;
-}
 .addStaffIndividually{
     display: none;
 }
 body{
     margin: 0;
     padding: 0;
-}
-.add-attendance{
-    display: none;
 }
 table{
     border-collapse: separate; /* Change to separate */

@@ -23,18 +23,6 @@
             body{
                 display: block;
             }
-            .add-account{
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
-                background-color: wheat;
-                padding: 20px;
-                width: fit-content;
-                border-radius: 5px;
-                box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.50);
-                position: relative;
-                border: none;
-            }
             .remove-row{
                 display: <?php
                         if(isset($_SESSION["showRemove"])){
@@ -95,6 +83,84 @@
             }
             .addaccountholder{
                 display: none;
+                width: 100%;
+                height: 100vh;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(0, 0, 0, .5);
+                padding: 15px;
+                position: fixed;
+                z-index: 2;
+            }
+            .add-account{
+                position: relative;
+                background-color: wheat;
+                width: fit-content;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                border: none;
+                border-radius: 20px;
+                box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.50);
+            }
+            .add-account div{
+                border: 1px black solid;
+                padding: 15px;
+            }
+            .add-account h4{
+                margin: 0;
+            }
+            .add-account-form div{
+                display: flex;
+            }
+            .editaccountholder{
+                display: block;
+                width: 100%;
+                height: 100vh;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(0, 0, 0, .5);
+                padding: 15px;
+                position: fixed;
+                z-index: 2;
+            }
+            .edit-account{
+                position: relative;
+                background-color: wheat;
+                width: fit-content;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                border: none;
+                border-radius: 20px;
+                box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.50);
+            }
+            .edit-account div{
+                border: 1px black solid;
+                padding: 15px;
+            }
+            .edit-account h4{
+                margin: 0;
+            }
+            .edit-account-form div{
+                display: flex;
+            }
+            /* .add-account{
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                background-color: wheat;
+                padding: 20px;
+                width: fit-content;
+                border-radius: 5px;
+                box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.50);
+                position: relative;
+                border: none;
+            }
+            .addaccountholder{
+                display: none;
                 position: fixed;
                 width: 100%;
                 background-color: rgba(0, 0, 0, .5);
@@ -116,18 +182,18 @@
                 display: block;
             }
             .addaccountform div{
-                /* border: 1px black solid; */
+                border: 1px black solid;
                 display: flex;
                 padding: 10px;
             }
             .addaccountform h2{
                 font-size: 20px;
                 width: fit-content;
-                /* border: 1px red solid; */
+                border: 1px red solid;
             }
             .addaccountform select{
                 position: relative;
-                /* border: 1px green solid; */
+                border: 1px green solid;
                 height: fit-content;
                 top: 50%;
                 padding: 10px;
@@ -143,7 +209,7 @@
                 transform: translate(0, -50%);
             }
             .submitHolder{
-                /* border: 1px black solid; */
+                border: 1px black solid;
             }
             .submitHolder input{
                 position: relative;
@@ -154,7 +220,7 @@
                 width: 50%;
             }
             .headerholder{
-                /* border: 1px black solid; */
+                border: 1px black solid;
                 margin-top: 20px;
             }
             .headerholder h1{
@@ -175,7 +241,7 @@
                 transform: translate(0%, -50%);
                 padding: 10px;
                 border-radius: 20px;
-            }
+            } */
             table{
                 display: flex;
                 position: relative;
@@ -201,28 +267,6 @@
             table tr:nth-child(even){
                 background-color: wheat;
                 color: brown;
-            }
-            .editAccountHolder{
-                top: 0;
-                position: fixed;
-                width: 100%;
-                height: 100vh;
-                background-color: rgba(0, 0, 0, .5);
-                z-index: 2;
-            }
-            .editAccountHolder div{
-                /* border: 1px black solid; */
-            }
-            .editAccount{
-                position: relative;
-                padding: 20px;
-                width: fit-content;
-                height: auto;
-                background-color: wheat;
-                border-radius: 20px;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
             }
             .pageheader{
                 position: relative;
