@@ -77,7 +77,7 @@
                             SUM(salesreport.cooked_qty) AS cooked_qty,
                             SUM(salesreport.reheat_qty) AS reheat_qty,
                             SUM(salesreport.left_over_qty) AS left_over_qty,
-                            SUM(salesreport.total_sold_qty * product.product_price) AS estimated_revenue,
+                            SUM(salesreport.estimated_revenue) AS estimated_revenue,
                             product.product_name
                         FROM
                             salesreport
