@@ -17,6 +17,8 @@
                     CONCAT(first_name, ' ', last_name) AS 'staff_name'
                 FROM
                     staff
+                ORDER BY
+                    staff_ID
         ";
         $result = $conn->query($sql);
         $rowstaff = $result->fetch_all(MYSQLI_ASSOC);
@@ -103,7 +105,45 @@
             }
             .tableholder{
                 position: relative;
-                top: 40px;
+            }
+            .legendholder{
+                position: relative;
+                display: flex;
+                /* border: 1px white solid; */
+                justify-content: center;
+                align-content: center;
+                color: wheat;
+                top: 115px;
+            }
+            .legend{
+                position: relative;
+                padding: 2px;
+                height:20px;
+                width:20px;
+                border-radius:5px;
+                top: 50%;
+                transform: translate(0%, -50%);
+                border: 1px black solid;
+            }
+            .present{
+                background-color: limegreen;
+            }
+            .absent{
+                background-color: tomato;
+            }
+            .late{
+                background-color: orange;
+            }
+            .off{
+                background-color: aqua;
+            }
+            .nodata{
+                background-color: wheat;
+            }
+            .legends{
+                display:flex;
+                margin-right:10px;
+                margin-left: 10px;
             }
         </style>
     </head>
@@ -120,6 +160,29 @@
         <?php 
             include "navadmin.php";
         ?>
+        <div class="legendholder">
+            <h6>Legend: </h6>
+            <div class="legends">
+                <div class="legend present"></div>
+                <h6> - Present</h6>
+            </div>
+            <div class="legends">
+                <div class="legend absent"></div>
+                <h6> - Absent</h6>
+            </div>
+            <div class="legends">
+                <div class="legend late"></div>
+                <h6> - Late</h6>
+            </div>
+            <div class="legends">
+                <div class="legend off"></div>
+                <h6> - Off</h6>
+            </div>
+            <div class="legends">
+                <div class="legend nodata"></div>
+                <h6> - No Data</h6>
+            </div>
+        </div>
         <div class="tableholder">
             <table>
                 <tr>
@@ -166,6 +229,21 @@
                                         if($y == date('d', strtotime($row[$z]["assignment_date"]))){
                                             if($row[$z]["assignment_status"] == "Present"){
                                                 echo "<td style='background-color: limegreen'
+                                                    title='Branch: ".$row[$z]["branch_name"]."\nTime In: ".$row[$z]["time_in"]."\nNote: ".$row[$z]["note"]."'>
+                                                    </td>";
+                                            }
+                                            else if($row[$z]["assignment_status"] == "Absent"){
+                                                echo "<td style='background-color: tomato'
+                                                    title='Branch: ".$row[$z]["branch_name"]."\nTime In: ".$row[$z]["time_in"]."\nNote: ".$row[$z]["note"]."'>
+                                                    </td>";
+                                            }
+                                            else if($row[$z]["assignment_status"] == "Late"){
+                                                echo "<td style='background-color: orange'
+                                                    title='Branch: ".$row[$z]["branch_name"]."\nTime In: ".$row[$z]["time_in"]."\nNote: ".$row[$z]["note"]."'>
+                                                    </td>";
+                                            }
+                                            else if($row[$z]["assignment_status"] == "Off"){
+                                                echo "<td style='background-color: aqua'
                                                     title='Branch: ".$row[$z]["branch_name"]."\nTime In: ".$row[$z]["time_in"]."\nNote: ".$row[$z]["note"]."'>
                                                     </td>";
                                             }
