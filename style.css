@@ -19,9 +19,51 @@ body {
     justify-content: center;
 }
 
-main {
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.main {
     height: 100%;
     width: 100%;
+}
+
+.notif {
+    margin-left: 20px;
+    padding: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+}
+
+.notif:before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    background: #dddddd;
+    border-radius: 50%;
+    opacity: 0%;
+}
+
+.notif:hover:before {
+    opacity: 30%;
+}
+
+.notif:active:before {
+    opacity: 50%;
+}
+
+.notif img {
+    width: 34px;
+    height: auto;
+    content: url("images/notifications.svg")
 }
 
 nav {

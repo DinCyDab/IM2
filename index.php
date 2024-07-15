@@ -36,7 +36,6 @@ if (isset($_POST["signin"])) {
     }
     $conn->close();
 }
-
 ?>
 
 <!DOCTYPE html>

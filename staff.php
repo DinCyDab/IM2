@@ -12,17 +12,19 @@ session_start();
 </head>
 
 <body>
-    <nav>
-        <ul>
-            <li><a href="#">Sales Report</a></li>
-            <li><a href="#">Schedule</a></li>
-            <li><a href="#">Account Settings</a></li>
-            <li><a href="?logout">Log Out</a></li>
-        </ul>
-    </nav>
-    <main>
+    <div class="header">
+        <nav>
+            <ul>
+                <li><a href="#">Sales Report</a></li>
+                <li><a href="#">Schedule</a></li>
+                <li><a href="#">Account Settings</a></li>
+                <li><a href="?logout">Log Out</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="main">
         
-    </main>
+    </div>
     <script src="script.js"></script>
 </body>
 
