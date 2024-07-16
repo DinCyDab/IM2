@@ -1,12 +1,14 @@
 :root {
     --main-color: #fff;
+    --secondary-color: #560d0d;
     --background: #1a1a1a;
     --sign-in: #1a1a1a;
     --sign-in-hover: #2a2a2a;
     --sidebar: #560d0d;
     --sidebar-hover: #6f0000;
     --sidebar-active: #1a1a1a;
-    --action-color: #560d0d;
+    --action-color: #fa5555;
+    --action-color-hover: #eb9090;
     --input-color: #e0dede;
     --spacer: 1rem;
     --font-smaller: 12px;
@@ -154,7 +156,63 @@ body {
     padding: 16px 4px;
 }
 
+.search-bar {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    color: var(--main-color);
+    font-size: var(--font-small);
+    line-height: 24px;
+    border-radius: 4px;
+    padding: 0px 10px;
+    height: 32px;
+    background-size: 16px;
+    background-repeat: no-repeat;
+    background-position: left 10px center;
+    width: 100%;
+    max-width: 320px;
+    transition: .2s;
+}
+
+.search-bar:hover {
+    border-color: var(--action-color-hover);
+}
+
+.search-bar:focus {
+    outline: none;
+    border-color: var(--action-color);
+}
+
+.add-button-wrapper {
+    position: relative;
+}
+
 .action-button {
+    border-radius: 4px;
+    height: 32px;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    display: flex;
+    align-items: center;
+    color: var(--main-color);
+    font-size: var(--font-small);
+    cursor: pointer;
+}
+
+.action-button:hover {
+    border-color: var(--action-color-hover);
+}
+
+.action-button:focus, .action-button.active {
+    outline: none;
+    color: var(--action-color);
+    border-color: var(--action-color);
+}
+
+.action-button span {
+    margin-right: 4px;
+}
+
+.icon-button {
     padding: 5px;
     position: relative;
     display: flex;
@@ -165,7 +223,7 @@ body {
     cursor: pointer;
 }
 
-.action-button:before {
+.icon-button:before {
     content: '';
     position: absolute;
     height: 100%;
@@ -175,11 +233,11 @@ body {
     opacity: 0%;
 }
 
-.action-button:hover:before {
+.icon-button:hover:before {
     opacity: 30%;
 }
 
-.action-button:active:before {
+.icon-button:active:before {
     opacity: 50%;
 }
 
@@ -234,4 +292,52 @@ body {
 
 .signin button:hover {
     background: var(--sign-in-hover);
+}
+
+.table {
+    width: 100%;
+    max-height: 100%;
+    overflow: auto;
+    padding: 0px;
+}
+
+.products-header {
+    display: flex;
+    align-items: center;
+    border-radius: 2px;
+    background-color: var(--secondary-color);
+    position: sticky;
+    top: 0;
+}
+
+.product-cell {
+    flex: 1;
+    padding: 12px 16px;
+    color: var(--main-color);
+    font-size: var(--font-small);
+    display: flex;
+    align-items: center;
+}
+
+.product-cell button {
+    color: var(--main-color);
+    border: none;
+    margin-right: 8px;
+    background-color: var(--secondary-color);
+    padding: 4px 8px;
+    border-radius: 2px;
+}
+
+.product-cell button:hover {
+    background-color: var(--background);
+}
+
+.products-row {
+    display: flex;
+    align-items: center;
+    border-radius: 2px;
+}
+
+.products-row:hover {
+    background-color: var(--secondary-color);
 }

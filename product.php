@@ -4,7 +4,6 @@ ob_start();
 session_start();
 redirectIfNotLoggedIn();
 redirectIfRegularUser();
-setDefaultDate();
 ?>
 
 <!DOCTYPE html>
@@ -21,15 +20,15 @@ setDefaultDate();
             <img src="images/logo.png" alt="Mamaflors Logo">
         </div>
         <ul class="sidebar-list">
-            <li class="active"><a href="#">
+            <li><a href="admin.php">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
                         <path d="M520-600v-240h320v240H520ZM120-440v-400h320v400H120Zm400 320v-400h320v400H520Zm-400 0v-240h320v240H120Zm80-400h160v-240H200v240Zm400 320h160v-240H600v240Zm0-480h160v-80H600v80ZM200-200h160v-80H200v80Zm160-320Zm240-160Zm0 240ZM360-280Z" />
                     </svg>
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li>
-                <a href="product.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+            <li class="active">
+                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
                         <path d="M200-80q-33 0-56.5-23.5T120-160v-451q-18-11-29-28.5T80-680v-120q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v120q0 23-11 40.5T840-611v451q0 33-23.5 56.5T760-80H200Zm0-520v440h560v-440H200Zm-40-80h640v-120H160v120Zm200 280h240v-80H360v80Zm120 20Z" />
                     </svg>
                     <span>Product</span>
@@ -102,8 +101,72 @@ setDefaultDate();
                 </svg>
             </button>
         </div>
-        <div class="content-actions"></div>
-        <div class="dashboard"></div>
+        <div class="content-actions">
+            <input onkeyup="filterByText()" id="search-bar" class="search-bar" placeholder="Search..." type="text">
+            <div class="add-button-wrapper">
+                <button class="action-button add">
+                    <span>Add</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                    </svg></button>
+            </div>
+        </div>
+        <div class="table" id="table">
+            <?php
+            $conn = mysqli_connect("localhost", "root", "", "mamaflors");
+            if ($conn->connect_error) {
+                die("ERROR" . $conn->connect_error);
+            } else {
+                $sql = "SELECT * FROM product";
+                if (isset($_GET["sort"])) {
+                    if ($_SESSION["order_by"] == "DESC") {
+                        $_SESSION["order_by"] = "ASC";
+                    } else {
+                        $_SESSION["order_by"] = "DESC";
+                    }
+                    $sql .= " ORDER BY " . $_GET["sort"] . " " . $_SESSION["order_by"];
+                }
+
+                $result = $conn->query($sql);
+                $row = $result->fetch_all(MYSQLI_ASSOC);
+                if (sizeof($row) > 0) {
+                    echo "
+                    <div class='products-header'>
+                        <div class='product-cell'><span>Product ID</span><a href='?sort=product_ID'><svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#e8eaed'><path d='M320-440v-287L217-624l-57-56 200-200 200 200-57 56-103-103v287h-80ZM600-80 400-280l57-56 103 103v-287h80v287l103-103 57 56L600-80Z'/></svg></a></div>
+                        <div class='product-cell'><span>Product Name</span><a href='?sort=product_name'><svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#e8eaed'><path d='M320-440v-287L217-624l-57-56 200-200 200 200-57 56-103-103v287h-80ZM600-80 400-280l57-56 103 103v-287h80v287l103-103 57 56L600-80Z'/></svg></a></div>
+                        <div class='product-cell'><span>Product Description</span><a href='?sort=product_description'><svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#e8eaed'><path d='M320-440v-287L217-624l-57-56 200-200 200 200-57 56-103-103v287h-80ZM600-80 400-280l57-56 103 103v-287h80v287l103-103 57 56L600-80Z'/></svg></a></div>
+                        <div class='product-cell'><span>Product Price</span><a href='?sort=product_price'><svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#e8eaed'><path d='M320-440v-287L217-624l-57-56 200-200 200 200-57 56-103-103v287h-80ZM600-80 400-280l57-56 103 103v-287h80v287l103-103 57 56L600-80Z'/></svg></a></div>
+                        <div class='product-cell'><span>Product Status</span><a href='?sort=product_status'><svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#e8eaed'><path d='M320-440v-287L217-624l-57-56 200-200 200 200-57 56-103-103v287h-80ZM600-80 400-280l57-56 103 103v-287h80v287l103-103 57 56L600-80Z'/></svg></a></div>
+                        <div class='product-cell'><span>Actions</span></div>
+                    </div>
+                    ";
+                    for ($x = 0; $x < sizeof($row); $x++) {
+                        echo "
+                        <div class='products-row' id='rows'>
+                            <div class='product-cell'>" . $row[$x]["product_ID"] . "</div>
+                            <div class='product-cell'>" . $row[$x]['product_name'] . "</div>
+                            <div class='product-cell'>" . $row[$x]['product_description'] . "</div>
+                            <div class='product-cell'>" . $row[$x]['product_price'] . "</div>
+                            <div class='product-cell'>" . $row[$x]['product_status'] . "</div>
+                            <div class='product-cell'>
+                                <form method='get'>
+                                    <input type='hidden' value='" . ($row[$x]['product_ID']) . "' name='edit'>
+                                    <button type='submit'>Edit</button>
+                                </form>
+                                <form method='get'>
+                                    <input type='hidden' value='" . ($row[$x]['product_ID']) . "' name='removeID'>
+                                    <input type='hidden' value='product' name='tableName'>
+                                    <input type='hidden' value='product_ID' name='columnName'>
+                                    <button name='remove'>Remove</button>
+                                </form>
+                            </div>
+                        </div>";
+                    }
+                }
+            }
+            $conn->close();
+            ?>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

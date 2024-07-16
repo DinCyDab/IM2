@@ -1,5 +1,6 @@
 <?php
-function setDefaultDate() {
+function setDefaultDate()
+{
     if (!isset($_GET["filterDate"])) {
         $_SESSION["currDate"] = date("Y-m-d");
     } else {
@@ -148,4 +149,19 @@ if (isset($_GET['logout'])) {
 
 if (isset($_GET['authenticate'])) {
     authenticate();
+}
+
+if (isset($_GET["remove"])) {
+    $removeID = $_GET["removeID"];
+    $tableName = $_GET["tableName"];
+    $columnName = $_GET["columnName"];
+    $conn = mysqli_connect("localhost", "root", "", "mamaflors");
+    if ($conn->connect_error) {
+        die("ERROR" . $conn->connect_error);
+    } else {
+        $sql = "DELETE FROM $tableName
+                WHERE $columnName = $removeID";
+        $conn->query($sql);
+    }
+    $conn->close();
 }
