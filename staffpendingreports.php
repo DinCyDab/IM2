@@ -57,6 +57,7 @@ if(!isset($_SESSION["SORT"])){
             .pageheader h1{
                 color: wheat;
                 text-align: center;
+                font-family: cursive;
             }
         </style>
     </head>
