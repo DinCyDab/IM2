@@ -19,6 +19,9 @@ if (isset($_GET["remove"])) {
         $conn->query($sql);
     }
     $conn->close();
+    if (isset($_GET["staffpendingreports"])) {
+        $tableName = $_GET["staffpendingreports"];
+    }
     header("Location: ".$tableName.".php?".$query);
     exit();
 }
