@@ -1,32 +1,34 @@
 <?php
-    require_once 'utils.php';
-    ob_start();
-    session_start();
-    if(!isset($_SESSION["loggedin"])){
-        header ("Location: index.php");
-        exit();
-    }
+require_once 'utils.php';
+ob_start();
+session_start();
+if (!isset($_SESSION["loggedin"])) {
+    header("Location: index.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
 <html>
+
     <head>
         <link rel="stylesheet" href="styles.css">
         <style>
-            body{
-                display:block;
+            body {
+                display: block;
                 height: auto;
                 justify-content: flex-start;
                 align-items: stretch;
             }
-            .addButton{
+
+            .addButton {
                 position: relative;
                 top: 75px;
                 /* border: 1px black solid; */
                 margin-bottom: 50px
             }
-            .addButtonGSR{
-                position: relative;
+
+            .addButtonGSR {
                 left: 50%;
                 transform: translate(-50%, 0);
                 background-color: wheat;
@@ -41,7 +43,8 @@
                 box-shadow: 0px 0px 20px 0px wheat;
                 border: 10px solid;
             }
-            button{
+
+            button {
                 position: relative;
                 padding: 10px;
                 border-radius: 20px;
@@ -49,7 +52,8 @@
                 cursor: pointer;
                 height: 100px;
             }
-            .addSalesReport{
+
+            .addSalesReport {
                 /* none */
                 position: relative;
                 border: 1px white solid;
@@ -59,10 +63,13 @@
                 background-color: wheat;
                 border-radius: 50px;
                 left: 50%;
+                overflow-y: auto;
                 transform: translate(-50%, 0);
                 top: 200px;
+                max-height: 460px;
             }
-            .addSalesReportHolder{
+
+            .addSalesReportHolder {
                 display: none;
                 z-index: 1;
                 position: fixed;
@@ -71,6 +78,7 @@
                 height: 100vh;
                 top: 0;
             }
+
             .closeButton {
                 position: absolute;
                 background-color: white;
@@ -84,7 +92,8 @@
                 font-size: 20px;
                 height: auto;
             }
-            .midAddSalesReport{
+
+            .midAddSalesReport {
                 display: block;
                 position: relative;
                 /* background-color: red; */
@@ -92,7 +101,8 @@
                 height: auto;
                 padding-bottom: 50px;
             }
-            .addToReportButton{
+
+            .addToReportButton {
                 position: absolute;
                 right: 0;
                 bottom: 0;
@@ -107,35 +117,41 @@
                 font-size: 20px;
                 height: auto;
             }
-            .addProductRowButton{
+
+            .addProductRowButton {
                 position: relative;
                 left: 50%;
                 transform: translate(-50%, 0%);
                 height: 50px;
                 margin-bottom: 30px;
             }
-            .addToReportProduct{
+
+            .addToReportProduct {
                 background-color: white;
             }
-            .productSelect{
+
+            .productSelect {
                 position: relative;
                 width: fit-content;
                 left: 50%;
                 transform: translate(-50%, 0);
                 margin-bottom: 20px;
             }
-            .productSelect button{
+
+            .productSelect button {
                 margin-right: 10px;
                 padding: 5px;
                 height: auto;
             }
-            .productSelect select{
+
+            .productSelect select {
                 border-radius: 20px;
                 padding: 10px;
                 margin-left: 10px;
                 height: 50px;
             }
-            .formDailySalesReport{
+
+            .formDailySalesReport {
                 position: relative;
                 /* border: 1px black solid; */
                 background-color: wheat;
@@ -145,17 +161,20 @@
                 left: 50%;
                 transform: translate(-50%, 0);
             }
-            .formDailySalesReport form{
+
+            .formDailySalesReport form {
                 position: relative;
 
                 width: 100%;
                 left: 50%;
                 transform: translate(-50%, 0);
             }
-            .formDailySalesReport div{
+
+            .formDailySalesReport div {
                 margin: 30px;
             }
-            .formDailySalesReport button{
+
+            .formDailySalesReport button {
                 margin-top: 20px;
                 height: 40px;
                 background-color: crimson;
@@ -165,13 +184,15 @@
                 font-family: fantasy;
                 letter-spacing: 1px;
             }
-            .formDailySalesReport input{
+
+            .formDailySalesReport input {
                 border-radius: 10px;
                 height: 40px;
                 margin: 10px;
                 width: 70%;
             }
-            .formDailySalesReport .subdiv{
+
+            .formDailySalesReport .subdiv {
                 display: flex;
                 /* border: 1px red solid; */
                 height: auto;
@@ -181,7 +202,8 @@
                 padding: 10px;
                 border-radius: 20px;
             }
-            #submitReport{
+
+            #submitReport {
                 position: relative;
                 margin-left: 0px;
                 margin-bottom: 50px;
@@ -197,15 +219,18 @@
                 font-family: fantasy;
                 letter-spacing: 3px
             }
-            .subdiv p{
+
+            .subdiv p {
                 width: 30%;
                 font-family: system-ui;
             }
-            .headersubdiv{
+
+            .headersubdiv {
                 display: flex;
                 border: 0px;
             }
-            .headersubdiv h2{
+
+            .headersubdiv h2 {
                 position: absolute;
                 left: 50%;
                 transform: translate(-50%, 0px);
@@ -215,17 +240,20 @@
                 font-size: 30px;
                 color: brown;
             }
-            .gsrHeader{
+
+            .gsrHeader {
                 position: relative;
                 /* border: 1px white solid; */
                 top: 75px;
             }
-            .gsrHeader h1{
+
+            .gsrHeader h1 {
                 text-align: center;
                 color: whitesmoke;
                 font-family: cursive;
             }
-            .errorMsgHolder{
+
+            .errorMsgHolder {
                 position: fixed;
                 width: 100%;
                 height: 100vh;
@@ -233,7 +261,8 @@
                 top: 0px;
                 z-index: 1;
             }
-            .errorMSG{
+
+            .errorMSG {
                 position: relative;
                 width: 30%;
                 height: auto;
@@ -246,15 +275,18 @@
                 border-radius: 20px;
                 padding: 20px;
             }
-            .errorMSG h1{
+
+            .errorMSG h1 {
                 color: red;
             }
-            .errorMSG p{
+
+            .errorMSG p {
                 color: black;
                 text-decoration: underline;
             }
         </style>
     </head>
+
     <body>
         <div class="gsrHeader">
             <h1>Generate Sales Report</h1>
@@ -263,33 +295,34 @@
             <button class="addButtonGSR" onclick="showAdd()">ADD PRODUCT</button>
         </div>
         <?php
-            include "addsalesreport.php";
-            include "remove.php";
-            include "navstaff.php";
+        include "addsalesreport.php";
+        include "remove.php";
+        include "navstaff.php";
         ?>
     </body>
     <script src="filtertable.js"></script>
     <script>
         var overlay = document.getElementById("addSalesReport");
         var errorMsg = document.getElementById("errorMsg");
-        var errorMsg1 =document.getElementById("errorMsg1");
+        var errorMsg1 = document.getElementById("errorMsg1");
         var addSalesReport = document.getElementById("addSalesReport");
-        function showAdd(){
+        function showAdd() {
             addSalesReport.style.display = "block";
         }
-        function closeAddSalesReport(){
+        function closeAddSalesReport() {
             addSalesReport.style.display = "none";
         }
-        window.onclick = function(event) {
-            if(event.target == overlay) {
+        window.onclick = function (event) {
+            if (event.target == overlay) {
                 overlay.style.display = 'none';
             }
-            if(event.target == errorMsg){
+            if (event.target == errorMsg) {
                 errorMsg.style.display = 'none';
             }
-            if(event.target == errorMsg1){
+            if (event.target == errorMsg1) {
                 errorMsg.style.display = 'none';
             }
         }
     </script>
+
 </html>

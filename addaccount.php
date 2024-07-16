@@ -1,5 +1,5 @@
 <?php
-if($_SESSION["role"] == "Regular") {
+if ($_SESSION["role"] == "Regular") {
     header("Location: indexstaff.php");
     exit();
 }
@@ -16,25 +16,25 @@ if($_SESSION["role"] == "Regular") {
                     <h4>Choose Staff:</h4>
                     <select name="accountid" required>
                         <?php
-                            $conn = mysqli_connect("localhost","root","","mamaflors");
-                            if(!$conn->connect_error){
-                                $sql = "SELECT 
-                                            staff_ID,
-                                            CONCAT(last_name, ', ', first_name, ' ', middle_name) AS 'staff_name'
-                                        FROM 
-                                            staff
-                                        WHERE
-                                            status = 'Active'
-                                        ";
-                                $result = $conn->query($sql);
-                                $row = $result->fetch_all(MYSQLI_ASSOC);
-                                if(sizeof($row) > 0){
-                                    for($x = 0; $x < sizeof($row); $x++){
-                                        echo "<option value='".$row[$x]['staff_ID']."'>".$row[$x]['staff_ID']." ".$row[$x]['staff_name']."</option>";
-                                    }
+                        $conn = mysqli_connect("localhost", "root", "", "mamaflors");
+                        if (!$conn->connect_error) {
+                            $sql = "SELECT 
+                                        staff_ID,
+                                        CONCAT(last_name, ', ', first_name, ' ', middle_name) AS 'staff_name'
+                                    FROM 
+                                        staff
+                                    WHERE
+                                        status = 'Active'
+                                    ";
+                            $result = $conn->query($sql);
+                            $row = $result->fetch_all(MYSQLI_ASSOC);
+                            if (sizeof($row) > 0) {
+                                for ($x = 0; $x < sizeof($row); $x++) {
+                                    echo "<option value='".$row[$x]['staff_ID']."'>".$row[$x]['staff_ID']." ".$row[$x]['staff_name']."</option>";
                                 }
                             }
-                            $conn->close();
+                        }
+                        $conn->close();
                         ?>
                     </select>
                 </div>
@@ -43,8 +43,8 @@ if($_SESSION["role"] == "Regular") {
                     <input class="subdiv" type="password" name="pass" required>
                 </div>
                 <?php
-                    if($_SESSION["role"] == "Owner"){
-                        echo '
+                if ($_SESSION["role"] == "Owner") {
+                    echo '
                             <div>
                                 <h4>Role:</h4>
                                 <select name="role">
@@ -53,15 +53,15 @@ if($_SESSION["role"] == "Regular") {
                                 </select>
                             </div>
                         ';
-                    }
-                    if($_SESSION["role"] == "Administrator"){
-                        echo '
+                }
+                if ($_SESSION["role"] == "Administrator") {
+                    echo '
                             <div>
                                 <h4>Role:</h4>
                                 <input name="role" value="Regular" readonly>
                             </div>
                         ';
-                    }
+                }
                 ?>
                 <div>
                     <h4>Account Status:</h4>
@@ -79,16 +79,21 @@ if($_SESSION["role"] == "Regular") {
 </div>
 
 <?php
-    if(isset($_POST["Submit"])){
-        $accountid = $_POST["accountid"];
-        $pass = password_hash($_POST["pass"], PASSWORD_DEFAULT);
-        $role = $_POST["role"];
-        $status = $_POST["accountstatus"];
-        $conn = mysqli_connect("localhost", "root", "", "mamaflors");
-        if($conn->connect_error){
-            die("ERROR". $conn->connect_error);
-        }
-        else{
+if (isset($_POST["Submit"])) {
+    $accountid = $_POST["accountid"];
+    $pass = password_hash($_POST["pass"], PASSWORD_DEFAULT);
+    $role = $_POST["role"];
+    $status = $_POST["accountstatus"];
+    $conn = mysqli_connect("localhost", "root", "", "mamaflors");
+
+    $result = $conn->query("SELECT * FROM account WHERE account_ID = '$accountid'");
+    $row = $result->fetch_all(MYSQLI_ASSOC);
+    if (sizeof($row) > 0) {
+        include "errorfolder/noDuplicateAcc.php";
+    } else {
+        if ($conn->connect_error) {
+            die("ERROR".$conn->connect_error);
+        } else {
             $sql = "INSERT INTO account(
                         account_ID,
                         password,
@@ -104,4 +109,5 @@ if($_SESSION["role"] == "Regular") {
         }
         $conn->close();
     }
+}
 ?>
