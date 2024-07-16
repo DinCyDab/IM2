@@ -93,7 +93,13 @@ setDefaultDate();
             </a>
         </div>
     </div>
-    <div class="main">
+    <div class="content">
+        <div class="content-header">
+            <h1>Dashboard</h1>
+            <button class="notifications"></button>
+        </div>
+        <div class="content-actions"></div>
+        <div class="dashboard"></div>
     </div>
     <script src="script.js"></script>
 </body>
