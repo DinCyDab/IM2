@@ -46,12 +46,12 @@ if (isset($_POST["signin"])) {
     <link rel="stylesheet" href="./style.css">
 </head>
 
-<body>
-    <div class="grid-40-60">
-        <div>
+<body style="display: flex; justify-content: center; align-items: center;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; width: 50vw; height: 100vh;">
+        <div style="display: flex; justify-content: center; align-items: center;">
             <img src="images/logo.png" alt="Mamaflors Logo">
         </div>
-        <div>
+        <div style="display: flex; justify-content: center; align-items: center;">
             <form method="post" class="signin">
                 <span>Sign in</span>
                 <input type="text" id="accountID" name="accountID" placeholder="Account ID" required>

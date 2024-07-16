@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded',
     function () {
-        const navItems = document.querySelectorAll('nav li a');
+        const navItems = document.querySelectorAll('.sidebar-list li');
         navItems.forEach(item => {
             item.addEventListener('click',
                 function () {
