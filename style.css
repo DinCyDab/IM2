@@ -9,6 +9,10 @@
     --action-color: #560d0d;
     --input-color: #e0dede;
     --spacer: 1rem;
+    --font-smaller: 12px;
+    --font-small: 14px;
+    --font-medium: 16px;
+    --font-large: 24px;
 }
 
 body,
@@ -93,7 +97,7 @@ body {
     padding: 10px 16px;
     color: #fff;
     text-decoration: none;
-    font-size: small;
+    font-size: var(--font-small);
     line-height: 24px;
 }
 
@@ -108,9 +112,8 @@ body {
     border-radius: 5px;
     padding: 8px 10px;
     background-color: var(--background);
-    font-size: small;
+    font-size: var(--font-smaller);
     color: #fff;
-    margin: 0 8px;
     overflow: hidden;
     max-width: 100%;
 }
@@ -139,7 +142,7 @@ body {
 
 .content-header h1 {
     color: var(--main-color);
-    font-size: large;
+    font-size: var(--font-large);
     line-height: 32px;
     margin: 0;
 }
@@ -189,7 +192,7 @@ body {
 
 .signin span {
     color: black;
-    font-size: 2.5em;
+    font-size: var(--font-medium);
     justify-content: center;
     display: flex;
     margin: 50px;
@@ -218,7 +221,7 @@ body {
     display: block;
     color: white;
     background: var(--sign-in);
-    font-size: 1em;
+    font-size: var(--font-small);
     font-weight: bold;
     margin-top: 30px;
     margin-bottom: 30px;
