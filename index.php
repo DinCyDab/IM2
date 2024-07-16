@@ -2,15 +2,7 @@
 require_once 'utils.php';
 ob_start();
 session_start();
-if (isset($_SESSION["loggedin"])) {
-    if ($_SESSION["role"] == "Administrator") {
-        header("Location: admin.php");
-        exit();
-    } else {
-        header("Location: staff.php");
-        exit();
-    }
-}
+redirectIfLoggedIn();
 
 if (isset($_POST["signin"])) {
     $accountID = $_POST["accountID"];

@@ -1,4 +1,49 @@
 <?php
+function setDefaultDate() {
+    if (!isset($_GET["filterDate"])) {
+        $_SESSION["currDate"] = date("Y-m-d");
+    } else {
+        $_SESSION["currDate"] = $_GET["currDate"];
+    }
+
+    //Make Filter Date Default
+    if (!isset($_GET["filterDate"])) {
+        $_SESSION["filterDateBy"] = 0;
+    } else {
+        $_SESSION["filterDateBy"] = $_GET["filterDateBy"];
+    }
+}
+
+
+function redirectIfLoggedIn()
+{
+    if (isset($_SESSION["loggedin"])) {
+        if ($_SESSION["role"] != "Administrator") {
+            header("Location: staff.php");
+            exit();
+        }
+        if ($_SESSION["role"] == "Administrator" || $_SESSION["role"] == "Owner") {
+            header("Location: admin.php");
+            exit();
+        }
+    }
+}
+
+function redirectIfRegularUser()
+{
+    if ($_SESSION["role"] == "Regular") {
+        header("Location: staff.php");
+    }
+}
+
+function redirectIfNotLoggedIn()
+{
+    if (!isset($_SESSION["loggedin"])) {
+        header("Location: index.php");
+        exit();
+    }
+}
+
 function logout()
 {
     ob_start();
@@ -13,9 +58,9 @@ function authenticate()
 {
     ob_start();
     session_start();
+    date_default_timezone_set('Asia/Manila');
     $conn = mysqli_connect("localhost", "root", "", "mamaflors");
-    $sql = "
-    SELECT
+    $sql = "SELECT
         account.*,
         staff.*
     FROM
@@ -43,8 +88,7 @@ function authenticate()
             $_SESSION["email"] = $row[0]["email"];
             $_SESSION["role"] = $row[0]["role"];
 
-            $sql = "
-                SELECT
+            $sql = "SELECT
                     branch.branch_ID,
                     branch.branch_name,
                     account.account_ID
@@ -53,15 +97,41 @@ function authenticate()
                     INNER JOIN branch ON assignment.branch_ID = branch.branch_ID)
                     INNER JOIN account ON assignment.staff_ID = account.account_ID
                 WHERE
-                    account.account_ID = '" . $_SESSION["account_ID"] . "'
+                    account.account_ID = " . $_SESSION["account_ID"] . "
                     AND
                     assignment.assignment_date = CURRENT_DATE
             ";
             $result = $conn->query($sql);
-            $row = $result->fetch_all();
+            $row = $result->fetch_all(MYSQLI_ASSOC);
+            $_SESSION["branch_ID"] = $row[0]["branch_ID"];
             $_SESSION["branch_assigned"] = $row[0]["branch_name"];
-            //check for Role in account
-            if ($_SESSION["role"] == "Administrator") {
+            $current_time = date('H:i:s');
+            $status = "Off";
+            $time_in = 'NULL';
+            if (isset($_SESSION["branch_ID"])) {
+                $status = "Present";
+                $time_in = "CURRENT_TIME";
+                if ($current_time > '08:00:00') {
+                    $status = "Late";
+                }
+            }
+
+            $sql = "
+                UPDATE
+                    assignment
+                SET
+                    time_in = $time_in,
+                    assignment_status = '$status'
+                WHERE
+                    staff_ID = '" . $_SESSION["account_ID"] . "'
+                    AND
+                    time_in IS NULL
+                    AND
+                    assignment_date = CURRENT_DATE
+            ";
+            $conn->query($sql);
+
+            if ($_SESSION["role"] == "Administrator" || $_SESSION["role"] == "Owner") {
                 header("Location: admin.php");
             } else {
                 header("Location: staff.php");

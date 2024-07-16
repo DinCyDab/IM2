@@ -1,8 +1,9 @@
 :root {
-    --darker: #973131;
-    --dark: #E0A75E;
-    --light: #F9D689;
-    --lighter: #F5E7B2;
+    --background: #1a1a1a;
+    --sidebar: #560d0d ;
+    --sidebar-hover: #6f0000;
+    --sidebar-active: #940000 ;
+    --action-color: #2d0606;
     --input-color: #e0dede;
     --spacer: 1rem;
 }
@@ -17,14 +18,14 @@ html {
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: white;
+    background-color: var(--background);
     overflow: hidden;
 }
 
 .sidebar {
     height: 100%;
     max-width: 200px;
-    background-color: var(--darker);
+    background-color: var(--sidebar);
     display: flex;
     flex-direction: column;
     font-weight: bold;
@@ -54,11 +55,11 @@ body {
 }
 
 .sidebar-list li:hover {
-    background-color: var(--dark);
+    background-color: var(--sidebar-hover);
 }
 
 .sidebar-list li.active {
-    background-color: var(--light);
+    background-color: var(--sidebar-active);
 }
 
 .sidebar-list li.active:before {
@@ -143,25 +144,6 @@ body {
     width: 34px;
     height: auto;
     content: url("images/notifications.svg")
-}
-
-
-
-.mt-0 {
-    margin-top: 0 !important;
-}
-
-.ml-1 {
-    margin-left: var(--spacer) * .25 !important;
-}
-
-.px-2 {
-    padding-left: var(--spacer) * .5 !important;
-    padding-right: var(--spacer) * .5 !important;
-}
-
-.p-3 {
-    padding: var(--spacer) !important;
 }
 
 .signin {
