@@ -118,7 +118,7 @@ if (!isset($_SESSION["loggedin"])) {
             <h1>Account Settings</h1>
         </div>
         <div class="accountsettingsholder">
-            <form method="post" class="account-settings-form">
+            <form name="passForm" method="post" class="account-settings-form" onsubmit="return validateForm()" id="passForm">
                 <div class="form-header">
                     <h4>Account ID:</h4>
                     <input type="text" value="<?php echo $_SESSION["account_ID"] ?>" readonly>
@@ -241,3 +241,23 @@ if (isset($_POST["Update"])) {
     }
 }
 ?>
+
+<?php 
+    include "errorfolder/error.php";
+    include "confirmationfolder/confirmationpass.php";
+?>
+
+<script>
+    function validateForm(){
+        var newpassword = document.forms["passForm"]["newpassword"].value;
+        var confirmpassword = document.forms["passForm"]["confirmpassword"].value;
+        if(newpassword != confirmpassword){
+            document.getElementById("errorMsg").style.display = "block";
+            return false;
+        }
+        else{
+            document.getElementById("confirmationpass").style.display = "block";
+        }
+        return false;
+    }
+</script>

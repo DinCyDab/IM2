@@ -49,7 +49,7 @@ if($_SESSION["role"] == "Regular") {
                                 <button onclick="hideEdit()">Close</button>
                             </div>
                             <div>
-                                <form method="post" class="edit-assignment-form">
+                                <form method="post" class="edit-assignment-form" onsubmit="return validateEditForm()" id="editform">
                                     <div>
                                         <h4>Staff ID:</h4>       <input type="text" name="staffID" value="'.$row[0]["staff_ID"].'" readonly>
                                         <h4>Staff Name:</h4>     <input type="text" name="staffName" value="'.$row[0]["staff_name"].'" readonly>
@@ -75,7 +75,9 @@ if($_SESSION["role"] == "Regular") {
                                         <h4>Note:</h4>
                                         <input type="text" name="note" value="'.$row[0]["note"].'">
                                     </div>
-                                    <input type="submit" value="Update" class="button"name="Update">
+                                    <input type="submit" value="Update" class="button">
+                                    <input type="hidden" value="Update" name="Update">
+                                    
                                 </form>
                             </div>
                         </div>
@@ -112,4 +114,5 @@ if($_SESSION["role"] == "Regular") {
         header("Location: assignment.php?".$date);
         exit();
     }
+    include "confirmationfolder/confirmationedit.php";
 ?>
