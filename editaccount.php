@@ -27,25 +27,35 @@ if($_SESSION["role"] == "Regular") {
                                 <button class="button-close" onclick="hideEdit()">Close</button>
                             </div>
                             <div>
-                                <form class="edit-account-form" method="post">
+                                <form class="edit-account-form" method="post" onsubmit="return validateEditForm()" id="editform">
                                     <div>
                                         <h4>Account Name: '.$row[0]["staff_name"].'</h4>
                                     </div>
                                     <div>
-                                        <h4>Role:</h4>
-                                        <select name="role">
-                                            <option value="Regular">Regular</option>
-                                            <option value="Administrator">Administrator</option>
-                                        </select>
+                                        <h4>Update password: </h4>
+                                        <input type="password" name="pass" placeholder="unchanged">
                                     </div>
-                                    <div>
+                                    ';
+                                    if($_SESSION["role"] == "Owner"){
+                                        echo '
+                                            <div>
+                                                <h4>Role:</h4>
+                                                <select name="role">
+                                                    <option value="Regular">Regular</option>
+                                                    <option value="Administrator">Administrator</option>
+                                                </select>
+                                            </div>
+                                        ';
+                                    }
+                            echo'    <div>
                                         <h4>Account Status:</h4>
                                         <select name="status">
                                             <option value="Active">Active</option>
                                             <option value="Inactive">Inactive</option>
                                         </select>
                                     </div>
-                                    <input type="submit" value="Update" name="Update">
+                                    <input type="submit" value="Update">
+                                    <input type="hidden" value="Update" name="Update">
                                 </form>
                             </div>
                         </div>
@@ -64,6 +74,11 @@ if($_SESSION["role"] == "Regular") {
     if(isset($_POST["Update"])){
         $role = $_POST["role"];
         $status = $_POST["status"];
+        $query = "";
+        if($_POST["pass"] != ""){
+            $pass = password_hash($_POST["pass"], PASSWORD_DEFAULT);
+            $query = ",password = '$pass'";
+        }
 
         $conn = mysqli_connect("localhost","root","","mamaflors");
         if($conn->connect_error){
@@ -73,7 +88,7 @@ if($_SESSION["role"] == "Regular") {
             $sql = "UPDATE account
                     SET
                         role = '$role',
-                        account_status = '$status'
+                        account_status = '$status'".$query."
                     WHERE account_ID = $editID
                     ";
             $conn->query($sql);
@@ -82,4 +97,5 @@ if($_SESSION["role"] == "Regular") {
         header("Location: account.php");
         exit();
     }
+    include "confirmationfolder/confirmationedit.php";
 ?>

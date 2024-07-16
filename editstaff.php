@@ -25,7 +25,7 @@ if($_SESSION["role"] == "Regular") {
                                 <button onclick="hideEdit()">Close</button>
                             </div>
                             <div>
-                                <form class="edit-staff-form" method="post">
+                                <form class="edit-staff-form" method="post" onsubmit="return validateEditForm()" id="editform">
                                     <div>
                                         <h4>Staff ID:       </h4>
                                         <input type="text" value="'.$row[0]['staff_ID'].'" name="staff-ID" readonly>
@@ -68,7 +68,8 @@ if($_SESSION["role"] == "Regular") {
                                             <option value="Inactive">Inactive</option>
                                         </select>
                                     </div>
-                                    <input type="submit" value="Update" name="Update">
+                                    <input type="submit" value="Update">
+                                    <input type="hidden" value="Update" name="Update">
                                 </form>
                             </div>
                         </div>
@@ -140,4 +141,5 @@ if($_SESSION["role"] == "Regular") {
         header("Location: staff.php");
         exit();
     }
+    include "confirmationfolder/confirmationedit.php";
 ?>

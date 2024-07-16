@@ -11,7 +11,7 @@ if ($_SESSION["role"] == "Regular") {
             <button class="button-close" onclick="hideAdd()">Close</button>
         </div>
         <div>
-            <form class="add-account-form" method="post">
+            <form class="add-account-form" method="post" onsubmit="return validateAddForm()" id="addform">
                 <div>
                     <h4>Choose Staff:</h4>
                     <select name="accountid" required>
@@ -71,7 +71,8 @@ if ($_SESSION["role"] == "Regular") {
                     </select>
                 </div>
                 <div class="submitHolder">
-                    <input type="submit" value="Submit" name="Submit">
+                    <input type="submit" value="Submit">
+                    <input type="hidden" value="Submit" name="Submit">
                 </div>
             </form>
         </div>
@@ -110,4 +111,5 @@ if (isset($_POST["Submit"])) {
         $conn->close();
     }
 }
+include "confirmationfolder/confirmationadd.php";
 ?>

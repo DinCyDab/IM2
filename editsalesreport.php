@@ -24,7 +24,7 @@ if (isset($_GET["edit"])) {
                                 <button onclick='hideEdit()'>CLOSE</button>
                             </div>
                             <div>
-                                <form method='post' class='edit-report-form'>
+                                <form method='post' class='edit-report-form' onsubmit='return validateEditForm()' id='editform'>
                                     <div>
                                         <h4>Report ID:</h4> <input type='text' name='report_ID' value='".$row[0]["report_ID"]."' readonly>
                                         <h4>Report Date:</h4> <input type='text' name='report_date' value='".$row[0]["report_date"]."' readonly>
@@ -56,6 +56,7 @@ if (isset($_GET["edit"])) {
                                         </select>
                                     </div>
                                     <input type='submit' value='Update' name='Update'>
+                                    <input type='hidden' value='Update' name='Update'>
                                 </form>
                             </div>
                         </div>
@@ -78,6 +79,7 @@ if (isset($_POST["Update"])) {
     $left_over_qty = $_POST["left_over_qty"];
     $total_sold_qty = $_POST["total_sold_qty"];
     $status = $_POST["status"];
+    $remittance = $_POST["remittance"];
     if ($status == "Confirmed") {
         $confirmedrevenue = $_POST["remittance"];
     }
@@ -94,7 +96,8 @@ if (isset($_POST["Update"])) {
                     left_over_qty = '$left_over_qty',
                     total_sold_qty = '$total_sold_qty',
                     status = '$status',
-                    estimated_revenue = '$confirmedrevenue'
+                    estimated_revenue = '$confirmedrevenue',
+                    remittance = '$remittance'
                 WHERE
                     report_ID = $valueToEdit
             ";
@@ -104,4 +107,5 @@ if (isset($_POST["Update"])) {
     header("Location: ".$_SERVER['PHP_SELF']);
     exit();
 }
+include "confirmationfolder/confirmationedit.php";
 ?>

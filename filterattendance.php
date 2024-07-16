@@ -50,13 +50,17 @@ if($_SESSION["role"] == "Regular") {
                 </tr>";
                 for($x = 0; $x < sizeof($row); $x++){
                     echo "<tr>
-                        <td>
-                            <form method='get'>
-                                <input type='hidden' value='$date' name='date'>
-                                <input type='hidden' value='".($row[$x]['assignment_ID'])."' name='edit'>
-                                <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
-                            </form>
-                        </td>";
+                        <td>";
+                            if($date >= date("Y-m-d")){
+                                echo "
+                                    <form method='get'>
+                                        <input type='hidden' value='$date' name='date'>
+                                        <input type='hidden' value='".($row[$x]['assignment_ID'])."' name='edit'>
+                                        <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
+                                    </form>
+                                ";
+                            }   
+                    echo"</td>";
                         // <td>
                         //     <form method='get'>
                         //         <input type='hidden' value='$date' name='date'>

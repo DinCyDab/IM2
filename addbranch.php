@@ -11,7 +11,7 @@ if($_SESSION["role"] == "Regular") {
             <button onclick="hideAdd()">Close</button>
         </div>
         <div>
-            <form class="add-branch-form" method="post">
+            <form class="add-branch-form" method="post" onsubmit="return validateAddForm()" id="addform"> 
                 <div>
                     <h4>Branch Name:</h4>
                     <input type="text" name="branchname" required>
@@ -43,7 +43,8 @@ if($_SESSION["role"] == "Regular") {
                         <option value="Inactive">Inactive</option>
                     </select>
                 </div>
-                <input type="submit" value="Submit" name="Submit">
+                <input type="submit" value="Submit">
+                <input type="hidden" value="Submit" name="Submit">
             </form>
         </div>
     </div>
@@ -94,4 +95,5 @@ if($_SESSION["role"] == "Regular") {
         header("Location: branch.php");
         exit();
     }
+    include "confirmationfolder/confirmationadd.php";
 ?>

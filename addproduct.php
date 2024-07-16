@@ -11,7 +11,7 @@ if($_SESSION["role"] == "Regular") {
             <button onclick="hideAdd()">Close</button>
         </div>
         <div>
-            <form method="POST">
+            <form method="POST" onsubmit="return validateAddForm()" id="addform">
                 <div style="display:flex">
                     <h4>Product Name:</h4>
                     <input type="text" name="product-name" required>
@@ -31,16 +31,17 @@ if($_SESSION["role"] == "Regular") {
                         <option>Inactive</option>
                     </select>
                 </div>
-                <input type="submit" value="Submit" name="Submit">
+                <input type="submit" value="Submit">
+                <input type="hidden" value="Submit" name="Submit">
             </form>
         </div>
     </div>
 </div>
 
 <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Submit"])){
+    if(isset($_POST["Submit"])){
         $productName = $_POST["product-name"];
-        $productDesc = $_POST["product-description"];
+        $productDesc = $_POST["product-description"];   
         $productPrice = $_POST["product-price"];
         $productStatus = $_POST["product-status"];
 
@@ -59,4 +60,5 @@ if($_SESSION["role"] == "Regular") {
         header("Location: product.php");
         exit();
     }
+    include "confirmationfolder/confirmationadd.php";
 ?>

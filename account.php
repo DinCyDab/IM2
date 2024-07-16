@@ -288,15 +288,9 @@
             <form method="post">
                 <button id="remover" name="removeButton" value="account">REMOVE</button>
             </form>
-            <?php 
-                if($_SESSION["role"] == "Owner"){
-                    echo '
-                        <form method="post">
-                            <button id="editor" name="editButton" value="account">EDIT</button>
-                        </form>
-                    ';
-                }
-            ?>
+            <form method="post">
+                <button id="editor" name="editButton" value="account">EDIT</button>
+            </form>
             <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Account...">
         </div>
         <div class="pageheader">
@@ -353,7 +347,6 @@
                             <tr>
                                 <td>
                                     ";
-                                if($_SESSION["role"] == "Owner"){
                                     if($row[$x]["role"] != "Owner"){
                                         echo "
                                         <form method='get'>
@@ -362,7 +355,6 @@
                                         </form>
                                     ";
                                     }
-                                }
                         echo"   </td>
                                 <td>";
                                 if($_SESSION["role"] == "Owner"){

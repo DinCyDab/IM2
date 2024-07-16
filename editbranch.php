@@ -25,7 +25,7 @@ if($_SESSION["role"] == "Regular") {
                                 <button onclick="hideEdit()">Close</button>
                             </div>
                             <div>
-                                <form class="edit-branch-form" method="post">
+                                <form class="edit-branch-form" method="post" onsubmit="return validateEditForm()" id="editform">
                                     <div>
                                         <h4>Branch Name:        </h4>
                                         <input type="text" value="'.$row[0]["branch_name"].'" name="branchname" required>
@@ -61,7 +61,8 @@ if($_SESSION["role"] == "Regular") {
                                             <option value="Inactive">Inactive</option>
                                         </select>
                                     </div>
-                                    <input type="submit" value="Update" name="Update">
+                                    <input type="submit" value="Update">
+                                    <input type="hidden" value="Update" name="Update">
                                 </form>
                             </div>
                         </div>
@@ -109,4 +110,5 @@ if($_SESSION["role"] == "Regular") {
         header("Location: branch.php");
         exit();
     }
+    include "confirmationfolder/confirmationedit.php";
 ?>
