@@ -332,9 +332,9 @@ else {
     <div class="functionalitybuttons">
         <a href="assignmentsummarization.php"><button style="width: max-content">SUMMARY</button></a>
         <button onclick="showAdd()" class="green">ADD</button>
-        <form method="post">
+        <!-- <form method="post">
             <button id="remover" name="removeButton" value="assignment" class="red">REMOVE</button>
-        </form>
+        </form> -->
         <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Assignment...">
 
         <form method="get" style="display:flex">

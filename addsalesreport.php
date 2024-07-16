@@ -104,6 +104,9 @@
                                         </div>
                                         <input id='productID$y' type='hidden' name='productID$y' value='".$rowProduct[0]['product_ID']."'>
                                         <div class='subdiv'>
+                                            <h2>DATE:</h2> <input type='date' name='date$y' value='".date("Y-m-d")."'> 
+                                        </div>
+                                        <div class='subdiv'>
                                             <p>Cooked Quantity:</p>         <input type='number' name='cookedqty$y'>
                                         </div>
                                         <div class='subdiv'>
@@ -183,6 +186,7 @@
             if(!$conn->connect_error){
                 for($x = 0; $x < $_GET["sizeHolder"]; $x++){
                     if($_POST["productID$x"] != "Removed" && isset($_POST["productID$x"])){
+                        $date = $_POST["date$x"];
                         $pulloutqty = $_POST["pulloutqty$x"];
                         $remittance = $_POST["remittance$x"];
                         $productID = $_POST["productID$x"];
@@ -192,6 +196,7 @@
                         $leftoverqty = $_POST["leftoverqty$x"];
                         $totalsoldqty = $_POST["totalsoldqty$x"];
                         $sql = "INSERT INTO salesreport(
+                            report_date,
                             account_ID,
                             branch_ID,
                             product_ID,
@@ -204,6 +209,7 @@
                             remittance
                         )
                         VALUES(
+                            '".$date."',
                             '".$_SESSION["account_ID"]."',
                             '".$_SESSION["branch_ID"]."',
                             '$productID',

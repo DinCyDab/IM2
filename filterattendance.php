@@ -38,7 +38,6 @@ if($_SESSION["role"] == "Regular") {
             if(sizeof($row) > 0){
                 echo "<tr>
                     <th></th>
-                    <th></th>
                     <th>No.</th>
                     <th><a href='?sort=staff_ID'>Staff ID</a></th>
                     <th><a href='?sort=staff_name'>Staff Name</a></th>
@@ -57,16 +56,16 @@ if($_SESSION["role"] == "Regular") {
                                 <input type='hidden' value='".($row[$x]['assignment_ID'])."' name='edit'>
                                 <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
                             </form>
-                        </td>
-                        <td>
-                            <form method='get'>
-                                <input type='hidden' value='$date' name='date'>
-                                <input type='hidden' value='".($row[$x]['assignment_ID'])."' name='removeID'>
-                                <input type='hidden' value='assignment' name='tableName'>
-                                <input type='hidden' value='assignment_ID' name='columnName'>
-                                <button class='remove-row' id='remove-row$x' name='remove'>Remove</button>
-                            </form>
-                        </td>
+                        </td>";
+                        // <td>
+                        //     <form method='get'>
+                        //         <input type='hidden' value='$date' name='date'>
+                        //         <input type='hidden' value='".($row[$x]['assignment_ID'])."' name='removeID'>
+                        //         <input type='hidden' value='assignment' name='tableName'>
+                        //         <input type='hidden' value='assignment_ID' name='columnName'>
+                        //         <button class='remove-row' id='remove-row$x' name='remove'>Remove</button>
+                        //     </form>
+                    echo"</td>
                         <td>".($x+1)."</td>
                         <td>".$row[$x]['staff_ID']."</td>
                         <td>".$row[$x]['staff_name']."</td>

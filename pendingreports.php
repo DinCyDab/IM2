@@ -130,6 +130,39 @@ if (!isset($_SESSION["SORT"])) {
                 color: wheat;
                 text-align: center;
             }
+            .editreportholder{
+                display: block;
+                width: 100%;
+                height: 100vh;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(0, 0, 0, .5);
+                padding: 15px;
+                position: fixed;
+                z-index: 2;
+            }
+            .edit-report{
+                position: relative;
+                background-color: wheat;
+                width: fit-content;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                border: none;
+                border-radius: 20px;
+                box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.50);
+            }
+            .edit-report div{
+                border: 1px black solid;
+                padding: 15px;
+            }
+            .edit-report h4{
+                margin: 0;
+            }
+            .edit-report-form div{
+                display: flex;
+            }
         </style>
     </head>
 

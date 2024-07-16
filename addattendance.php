@@ -38,14 +38,15 @@ if($_SESSION["role"] == "Regular") {
             $row = $result->fetch_all(MYSQLI_ASSOC);
             if(sizeof($row) > 0){
                 for($x = 0; $x < sizeof($row); $x++){
-                    $sql = "INSERT INTO assignment(
-                        staff_ID,
-                        assignment_date
-                    )
-                    VALUES(
-                        '".$row[$x]['staff_ID']."',
-                        '$assignmentdate'
-                    )
+                    $sql = "INSERT INTO assignment (staff_ID, assignment_date)
+                            SELECT '".$row[$x]['staff_ID']."', '$assignmentdate'
+                            WHERE NOT EXISTS (
+                                SELECT 1
+                                FROM assignment
+                                WHERE staff_ID = '".$row[$x]['staff_ID']."'
+                                AND assignment_date = '$assignmentdate'
+                            )
+
                     ";
                     $conn->query($sql);
                 }
