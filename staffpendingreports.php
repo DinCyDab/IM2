@@ -5,6 +5,9 @@ if (!isset($_SESSION["loggedin"])) {
     header("Location: index.php");
     exit();
 }
+if(!isset($_SESSION["SORT"])){
+    $_SESSION["SORT"] = "DESC";
+}
 ?>
 
 <!DOCTYPE html>
@@ -13,10 +16,55 @@ if (!isset($_SESSION["loggedin"])) {
     <head>
         <link rel="stylesheet" href="styles.css">
         <link rel="stylesheet" href="staffeditreport.css">
+        <style>
+            body{
+                display: block;
+            }
+            table{
+                display: flex;
+                position: relative;
+                align-items: center;
+                justify-content: center;
+                margin-top: 120px;
+                width: fit-content;
+                top: 0px;
+                left:50%;
+                transform: translate(-50%, 0);
+            }
+            table th{
+                background-color: sandybrown;
+            }
+            table a{
+                color: brown;
+            }
+            table tr{
+                background-color: brown;
+                color: wheat;
+                text-align: center
+            }
+            table tr:nth-child(even){
+                background-color: wheat;
+                color: brown;
+            }
+            .pageheader{
+                position: relative;
+                /* border: 1px black solid; */
+                top: 90px;
+                left: 50%;
+                transform: translate(-50%, 0);
+                z-index: -1;
+            }
+            .pageheader h1{
+                color: wheat;
+                text-align: center;
+            }
+        </style>
     </head>
 
     <body>
-
+        <div class="pageheader">
+            <h1>Pending Reports</h1>
+        </div>
         <?php
         include "staffeditreport.php";
         include "remove.php";
@@ -38,6 +86,15 @@ if (!isset($_SESSION["loggedin"])) {
                         AND
                         status = 'Pending'
             ";
+            if(isset($_GET["sort"])){
+                if($_SESSION["SORT"] == "DESC"){
+                    $_SESSION["SORT"] = "ASC";
+                }
+                else{
+                    $_SESSION["SORT"] = "DESC";
+                }
+                $sql .= " ORDER BY " . $_GET["sort"] . " " . $_SESSION["SORT"];
+            }
             $result = $conn->query($sql);
             $row = $result->fetch_all(MYSQLI_ASSOC);
             if (sizeof($row) > 0) {
@@ -46,17 +103,17 @@ if (!isset($_SESSION["loggedin"])) {
                         <tr>
                             <th></th>
                             <th></th>
-                            <th>Report ID</th>
-                            <th>Product Name</th>
-                            <th>Report Date</th>
-                            <th>Cooked</th>
-                            <th>Reheat</th>
-                            <th>Total Display</th>
-                            <th>Leftover</th>
-                            <th>Pull Out</th>
-                            <th>Total Sold</th>
-                            <th>Remittance</th>
-                            <th>Status</th>
+                            <th><a href='?sort=report_ID'>Report ID</a></th>
+                            <th><a href='?sort=product_name'>Product Name</a></th>
+                            <th><a href='?sort=report_date'>Report Date</a></th>
+                            <th><a href='?sort=cooked_qty'>Cooked</a></th>
+                            <th><a href='?sort=reheat_qty'>Reheat</a></th>
+                            <th><a href='?sort=total_display_qty'>Total Display</a></th>
+                            <th><a href='?sort=left_over_qty'>Leftover</a></th>
+                            <th><a href='?sort=pull_out_qty'>Pull Out</a></th>
+                            <th><a href='?sort=total_sold_qty'>Total Sold</a></th>
+                            <th><a href='?sort=remittance'>Remittance</a></th>
+                            <th><a href='?sort=status'>Status</a></th>
                         </tr>
                 ";
                 for ($x = 0; $x < sizeof($row); $x++) {
@@ -70,6 +127,7 @@ if (!isset($_SESSION["loggedin"])) {
                             </td>
                             <td>
                                 <form method='get'>
+                                    <input type='hidden' value='staffpendingreports' name='staffpendingreports'>
                                     <input type='hidden' value='".($row[$x]['report_ID'])."' name='removeID'>
                                     <input type='hidden' value='salesreport' name='tableName'>
                                     <input type='hidden' value='report_ID' name='columnName'>
