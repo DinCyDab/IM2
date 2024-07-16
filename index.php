@@ -19,6 +19,36 @@
     <head>
         <title>Mama Flor's Lechon House</title>
         <link rel="stylesheet" href="styles.css">
+        <style>
+            .errorMsgHolder{
+                position: fixed;
+                width: 100%;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, .4);
+                top: 0px;
+                z-index: 1;
+            }
+            .errorMSG{
+                position: relative;
+                width: 30%;
+                height: auto;
+                color: white;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                background-color: wheat;
+                border-radius: 20px;
+                padding: 20px;
+            }
+            .errorMSG h1{
+                color: red;
+            }
+            .errorMSG p{
+                color: black;
+                text-decoration: underline;
+            }
+        </style>
     </head>
     <body>
         <div class="grid-40-60">
@@ -52,13 +82,40 @@
             ";
             $result = $conn->query($sql);
             $row = $result->fetch_all(MYSQLI_ASSOC);
-            if(sizeof($row) > 0 && password_verify($pass, $row[0]["password"])){
+            $conn->close();
+            if($row[0]["account_status"] == "Inactive"){
+                include "errorfolder/loginerror.php";
+            }
+            else if(sizeof($row) > 0 && password_verify($pass, $row[0]["password"])){
                 $_SESSION["account_ID"] = $row[0]["account_ID"];
                 $_SESSION["pass"] = $pass;
                 header("Location: authentication.php");
                 exit();
             }
         }
-        $conn->close();
     }
 ?>
+
+<script>
+        var overlay = document.getElementById("addSalesReport");
+        var errorMsg = document.getElementById("errorMsg");
+        var errorMsg1 =document.getElementById("errorMsg1");
+        var addSalesReport = document.getElementById("addSalesReport");
+        function showAdd(){
+            addSalesReport.style.display = "block";
+        }
+        function closeAddSalesReport(){
+            addSalesReport.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if(event.target == overlay) {
+                overlay.style.display = 'none';
+            }
+            if(event.target == errorMsg){
+                errorMsg.style.display = 'none';
+            }
+            if(event.target == errorMsg1){
+                errorMsg.style.display = 'none';
+            }
+        }
+    </script>
