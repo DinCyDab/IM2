@@ -1,25 +1,27 @@
 <?php
-    require_once 'utils.php';
-    ob_start();
-    session_start();
-    if(isset($_SESSION["loggedin"])){
-        if($_SESSION["role"] != "Administrator"){
-            header("Location: indexstaff.php");
-            exit();
-        }
-        if($_SESSION["role"] == "Administrator" || $_SESSION["role"] == "Owner"){
-            header("Location: indexadmin.php");
-            exit();
-        }
+require_once 'utils.php';
+ob_start();
+session_start();
+if (isset($_SESSION["loggedin"])) {
+    if ($_SESSION["role"] != "Administrator") {
+        header("Location: indexstaff.php");
+        exit();
     }
+    if ($_SESSION["role"] == "Administrator" || $_SESSION["role"] == "Owner") {
+        header("Location: indexadmin.php");
+        exit();
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html>
+
     <head>
         <title>Mama Flor's Lechon House</title>
         <link rel="stylesheet" href="styles.css">
     </head>
+
     <body>
         <div class="grid-40-60">
             <div>
@@ -35,33 +37,37 @@
             </div>
         </div>
     </body>
+
 </html>
 
 <?php
-    if(isset($_POST["signin"])){
-        $accountID = $_POST["accountID"];
-        $pass = $_POST["password"];
-        $conn = mysqli_connect("localhost","root","","mamaflors");
-        if(!$conn->connect_error){
-            $sql = "SELECT
+if (isset($_POST["signin"])) {
+    $accountID = $_POST["accountID"];
+    $pass = $_POST["password"];
+    $conn = mysqli_connect("localhost", "root", "", "mamaflors");
+    if (!$conn->connect_error) {
+        $sql = "SELECT
                         *
                     FROM
                         account
                     WHERE
                         account_ID = '$accountID'
             ";
-            $result = $conn->query($sql);
-            $row = $result->fetch_all(MYSQLI_ASSOC);
-            $conn->close();
-            if($row[0]["account_status"] == "Inactive"){
-                include "errorfolder/loginerror.php";
-            }
-            else if(sizeof($row) > 0 && password_verify($pass, $row[0]["password"])){
-                $_SESSION["account_ID"] = $row[0]["account_ID"];
-                $_SESSION["pass"] = $pass;
-                header("Location: authentication.php");
-                exit();
-            }
+        $result = $conn->query($sql);
+        $row = $result->fetch_all(MYSQLI_ASSOC);
+        $conn->close();
+        if (sizeof($row) == 0) {
+            include "errorfolder/incorrectID.php";
+        } else if ($row[0]["account_status"] == "Inactive") {
+            include "errorfolder/loginerror.php";
+        } else if (password_verify($pass, $row[0]["password"]) == false) {
+            include "errorfolder/incorrectPass.php";
+        } else if (sizeof($row) > 0 && password_verify($pass, $row[0]["password"])) {
+            $_SESSION["account_ID"] = $row[0]["account_ID"];
+            $_SESSION["pass"] = $pass;
+            header("Location: authentication.php");
+            exit();
         }
     }
+}
 ?>
