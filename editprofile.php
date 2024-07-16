@@ -48,7 +48,7 @@ if (!isset($_SESSION["loggedin"])) {
 
     <body>
         <?php
-            if($_SESSION["role"] == "Administrator"){
+            if($_SESSION["role"] == "Administrator" || $_SESSION["role"] == "Owner"){
                 include "navadmin.php";
             }
             else{

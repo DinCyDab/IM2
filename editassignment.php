@@ -1,5 +1,5 @@
 <?php
-if($_SESSION["role"] != "Administrator"){
+if($_SESSION["role"] == "Regular") {
     header("Location: indexstaff.php");
     exit();
 }
@@ -10,6 +10,7 @@ if($_SESSION["role"] != "Administrator"){
 <?php
     if(isset($_GET["edit"])){
         $assignmentID = $_GET["edit"];
+        $date = "date=".$_GET["date"]."&filterAttendance=Filter";
         $conn = mysqli_connect("localhost","root","","mamaflors");
         if($conn->connect_error){
             die("ERROR". $conn->connect_error);
@@ -108,7 +109,7 @@ if($_SESSION["role"] != "Administrator"){
             $conn->query($sql);
         }
         $conn->close();
-        header("Location: assignment.php");
+        header("Location: assignment.php?".$date);
         exit();
     }
 ?>

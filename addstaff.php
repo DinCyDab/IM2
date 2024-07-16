@@ -1,5 +1,5 @@
 <?php
-if($_SESSION["role"] != "Administrator"){
+if($_SESSION["role"] == "Regular") {
     header("Location: indexstaff.php");
     exit();
 }
@@ -19,7 +19,7 @@ if($_SESSION["role"] != "Administrator"){
                 <div>
                     <h4>Last Name:      </h4><input type="text" name="last-name" required>
                     <h4>First Name:     </h4><input type="text" name="first-name" required>
-                    <h4>Middle Name:    </h4><input type="text" name="middle-name"required>
+                    <h4>Middle Name:    </h4><input type="text" name="middle-name">
                 </div>
                 <div>
                     <h4>Birthday:       </h4><input type="date" name="birth-date">

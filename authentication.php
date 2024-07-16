@@ -2,6 +2,7 @@
 <?php
     ob_start();
     session_start();
+    date_default_timezone_set('Asia/Manila');
     $conn = mysqli_connect("localhost","root","","mamaflors");
     $sql = "SELECT
         account.*,
@@ -48,12 +49,23 @@
             $row = $result->fetch_all(MYSQLI_ASSOC);
             $_SESSION["branch_ID"] = $row[0]["branch_ID"];
             $_SESSION["branch_assigned"] = $row[0]["branch_name"];
+            $current_time = date('H:i:s');
+            $status = "Off";
+            $time_in = 'NULL';
+            if(isset($_SESSION["branch_ID"])){
+                $status = "Present";
+                $time_in = "CURRENT_TIME";
+                if($current_time > '08:00:00'){
+                    $status = "Late";
+                }
+            }
+
             $sql = "
                 UPDATE
                     assignment
                 SET
-                    time_in = CURRENT_TIME,
-                    assignment_status = 'Present'
+                    time_in = $time_in,
+                    assignment_status = '$status'
                 WHERE
                     staff_ID = '".$_SESSION["account_ID"]."'
                     AND
@@ -63,7 +75,7 @@
             ";
             $conn->query($sql);
             //check for Role in account
-            if($_SESSION["role"] == "Administrator"){
+            if($_SESSION["role"] == "Administrator" || $_SESSION["role"] == "Owner"){
                 header("Location: indexadmin.php");
             }
             else{

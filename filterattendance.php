@@ -1,5 +1,5 @@
 <?php
-if($_SESSION["role"] != "Administrator"){
+if($_SESSION["role"] == "Regular") {
     header("Location: indexstaff.php");
     exit();
 }
@@ -53,12 +53,14 @@ if($_SESSION["role"] != "Administrator"){
                     echo "<tr>
                         <td>
                             <form method='get'>
+                                <input type='hidden' value='$date' name='date'>
                                 <input type='hidden' value='".($row[$x]['assignment_ID'])."' name='edit'>
                                 <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
                             </form>
                         </td>
                         <td>
                             <form method='get'>
+                                <input type='hidden' value='$date' name='date'>
                                 <input type='hidden' value='".($row[$x]['assignment_ID'])."' name='removeID'>
                                 <input type='hidden' value='assignment' name='tableName'>
                                 <input type='hidden' value='assignment_ID' name='columnName'>

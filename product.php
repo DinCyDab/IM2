@@ -2,8 +2,9 @@
     require_once 'utils.php';
     ob_start();
     session_start();
-    if($_SESSION["role"] != "Administrator"){
+    if($_SESSION["role"] == "Regular") {
         header("Location: indexstaff.php");
+        exit();
     }
     if(!isset($_SESSION["session_started"])){
         $_SESSION["session_started"] = TRUE;

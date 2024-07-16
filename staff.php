@@ -1,8 +1,9 @@
 <?php
     ob_start();
     session_start();
-    if($_SESSION["role"] != "Administrator"){
+    if($_SESSION["role"] == "Regular") {
         header("Location: indexstaff.php");
+        exit();
     }
     if(!isset($_SESSION["session_started"])){
         $_SESSION["session_started"] = TRUE;
@@ -188,9 +189,15 @@
             <form method="post">
                 <button id="remover" name="removeButton" value="staff">REMOVE</button>
             </form>
-            <form method="post">
-                <button id="editor" name="editButton" value="staff">EDIT</button>
-            </form>
+            <?php 
+                if($_SESSION["role"] == "Owner"){
+                    echo '
+                        <form method="post">
+                            <button id="editor" name="editButton" value="staff">EDIT</button>
+                        </form>
+                    ';
+                }
+            ?>
             <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Staff...">
         </div>
         <div class="pageheader">
@@ -256,10 +263,15 @@
                         echo "
                             <tr>
                                 <td>
+                                    ";
+                                if($_SESSION["role"] == "Owner"){
+                                    echo "
                                     <form method='get'>
                                         <input type='hidden' value='".($row[$x]['staff_ID'])."' name='edit'>
                                         <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
-                                    </form>
+                                    </form>";
+                                }
+                        echo "
                                 </td>
                                 <td>
                                     <form method='get'>

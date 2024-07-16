@@ -1,5 +1,5 @@
 <?php
-if($_SESSION["role"] != "Administrator"){
+if($_SESSION["role"] == "Regular") {
     header("Location: indexstaff.php");
     exit();
 }
@@ -28,12 +28,12 @@ if($_SESSION["role"] != "Administrator"){
                                 <form class="edit-staff-form" method="post">
                                     <div>
                                         <h4>Staff ID:       </h4>
-                                        <input type="text" value="'.$row[0]['staff_ID'].'" name="staff-ID" required>
+                                        <input type="text" value="'.$row[0]['staff_ID'].'" name="staff-ID" readonly>
                                     </div>
                                     <div>
                                         <h4>Last Name:      </h4><input type="text" value="'.$row[0]['last_name'].'" name="last-name" required>
                                         <h4>First Name:     </h4><input type="text" value="'.$row[0]['first_name'].'" name="first-name" required>
-                                        <h4>Middle Name:    </h4><input type="text" value="'.$row[0]['middle_name'].'" name="middle-name"required>
+                                        <h4>Middle Name:    </h4><input type="text" value="'.$row[0]['middle_name'].'" name="middle-name">
                                     </div>
                                     <div>
                                         <h4>Birthday:       </h4><input type="date" value="'.$row[0]['birth_date'].'" name="birth-date">
@@ -68,7 +68,7 @@ if($_SESSION["role"] != "Administrator"){
                                             <option value="Inactive">Inactive</option>
                                         </select>
                                     </div>
-                                    <input type="submit" value="Submit" name="Submit">
+                                    <input type="submit" value="Update" name="Update">
                                 </form>
                             </div>
                         </div>

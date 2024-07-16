@@ -1,7 +1,7 @@
 <?php
     ob_start();
     session_start();
-    if($_SESSION["role"] != "Administrator"){
+    if ($_SESSION["role"] == "Regular") {
         header("Location: indexstaff.php");
     }
     if(!isset($_SESSION["session_started"])){

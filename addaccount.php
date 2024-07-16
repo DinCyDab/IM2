@@ -1,5 +1,5 @@
 <?php
-if($_SESSION["role"] != "Administrator"){
+if($_SESSION["role"] == "Regular") {
     header("Location: indexstaff.php");
     exit();
 }
@@ -42,13 +42,27 @@ if($_SESSION["role"] != "Administrator"){
                     <h4>Password:</h4>
                     <input class="subdiv" type="password" name="pass" required>
                 </div>
-                <div>
-                    <h4>Role:</h4>
-                    <select name="role">
-                        <option value="Regular">Regular</option>
-                        <option value="Administrator">Administrator</option>
-                    </select>
-                </div>
+                <?php
+                    if($_SESSION["role"] == "Owner"){
+                        echo '
+                            <div>
+                                <h4>Role:</h4>
+                                <select name="role">
+                                    <option value="Regular">Regular</option>
+                                    <option value="Administrator">Administrator</option>
+                                </select>
+                            </div>
+                        ';
+                    }
+                    if($_SESSION["role"] == "Administrator"){
+                        echo '
+                            <div>
+                                <h4>Role:</h4>
+                                <input name="role" value="Regular" readonly>
+                            </div>
+                        ';
+                    }
+                ?>
                 <div>
                     <h4>Account Status:</h4>
                     <select name="accountstatus">

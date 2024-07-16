@@ -1,9 +1,12 @@
 <?php
     if(isset($_GET["remove"])){
         $query = "";
-        if(isset($_SESSION["chosendate"])){
-            $query = "filterdate=".$_SESSION["chosendate"];
+        if(isset($_GET["date"])){
+            $query = "date=".$_GET["date"]."&filterAttendance=Filter";
         }
+        // if(isset($_SESSION["chosendate"])){
+        //     $query = "filterdate=".$_SESSION["chosendate"];
+        // }
         $removeID = $_GET["removeID"];
         $tableName = $_GET["tableName"];
         $columnName = $_GET["columnName"];

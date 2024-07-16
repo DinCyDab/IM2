@@ -1,7 +1,7 @@
 <?php
     ob_start();
     session_start();
-    if($_SESSION["role"] != "Administrator"){
+    if ($_SESSION["role"] == "Regular") {
         header("Location: indexstaff.php");
     }
     if(!isset($_SESSION["session_started"])){
@@ -237,20 +237,28 @@
                     
             for($x = 0; $x < sizeof($row); $x++){
                 echo "<tr>
-                    <td>
-                        <form method='get'>
-                            <input type='hidden' value='".($row[$x]['report_ID'])."' name='edit'>
-                            <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form method='get'>
-                            <input type='hidden' value='".($row[$x]['report_ID'])."' name='removeID'>
-                            <input type='hidden' value='salesreport' name='tableName'>
-                            <input type='hidden' value='report_ID' name='columnName'>
-                            <button class='remove-row' id='remove-row$x' name='remove'>Remove</button>
-                        </form>
-                    </td>
+                    <td>";
+                        if($row[$x]["status"] != "Confirmed"){
+                            echo"
+                                <form method='get'>
+                                    <input type='hidden' value='".($row[$x]['report_ID'])."' name='edit'>
+                                    <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
+                                </form>
+                            ";
+                        }
+                echo"</td>
+                    <td>";
+                        if($row[$x]['status'] != "Confirmed"){
+                            echo"
+                                <form method='get'>
+                                    <input type='hidden' value='".($row[$x]['report_ID'])."' name='removeID'>
+                                    <input type='hidden' value='salesreport' name='tableName'>
+                                    <input type='hidden' value='report_ID' name='columnName'>
+                                    <button class='remove-row' id='remove-row$x' name='remove'>Remove</button>
+                                </form>
+                            ";
+                        }
+                echo"</td>
                     <td>".$row[$x]['report_ID']."</td>
                     <td>".$row[$x]['first_name']."</td>
                     <td>".$row[$x]['branch_name']."</td>

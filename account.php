@@ -1,7 +1,7 @@
 <?php
     ob_start();
     session_start();
-    if($_SESSION["role"] != "Administrator"){
+    if ($_SESSION["role"] == "Regular") {
         header("Location: indexstaff.php");
     }
     if(!isset($_SESSION["session_started"])){
@@ -288,9 +288,15 @@
             <form method="post">
                 <button id="remover" name="removeButton" value="account">REMOVE</button>
             </form>
-            <form method="post">
-                <button id="editor" name="editButton" value="account">EDIT</button>
-            </form>
+            <?php 
+                if($_SESSION["role"] == "Owner"){
+                    echo '
+                        <form method="post">
+                            <button id="editor" name="editButton" value="account">EDIT</button>
+                        </form>
+                    ';
+                }
+            ?>
             <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Account...">
         </div>
         <div class="pageheader">
@@ -346,19 +352,32 @@
                         echo "
                             <tr>
                                 <td>
-                                    <form method='get'>
-                                        <input type='hidden' value='".($row[$x]['account_ID'])."' name='edit'>
-                                        <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form method='get' action='remove.php'>
-                                        <input type='hidden' value='".($row[$x]['account_ID'])."' name='removeID'>
-                                        <input type='hidden' value='account' name='tableName'>
-                                        <input type='hidden' value='account_ID' name='columnName'>
-                                        <button class='remove-row' id='remove-row$x' name='remove'>Remove</button>
-                                    </form>
-                                </td>
+                                    ";
+                                if($_SESSION["role"] == "Owner"){
+                                    if($row[$x]["role"] != "Owner"){
+                                        echo "
+                                        <form method='get'>
+                                            <input type='hidden' value='".($row[$x]['account_ID'])."' name='edit'>
+                                            <button class='edit-row' id='edit-row$x' type='submit'>EDIT</button>
+                                        </form>
+                                    ";
+                                    }
+                                }
+                        echo"   </td>
+                                <td>";
+                                if($_SESSION["role"] == "Owner"){
+                                    if($row[$x]["role"] != "Owner"){
+                                        echo "
+                                            <form method='get' action='remove.php'>
+                                                <input type='hidden' value='".($row[$x]['account_ID'])."' name='removeID'>
+                                                <input type='hidden' value='account' name='tableName'>
+                                                <input type='hidden' value='account_ID' name='columnName'>
+                                                <button class='remove-row' id='remove-row$x' name='remove'>Remove</button>
+                                            </form>
+                                        ";
+                                    }
+                                }
+                        echo"   </td>
                                 <td>".$row[$x]["account_ID"]."</td>
                                 <td>".$row[$x]["last_name"]."</td>
                                 <td>".$row[$x]["first_name"]."</td>

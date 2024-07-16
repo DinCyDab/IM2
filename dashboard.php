@@ -1,8 +1,9 @@
 <?php
     require_once 'utils.php';
     session_start();
-    if ($_SESSION["role"] != "Administrator") {
+    if($_SESSION["role"] == "Regular") {
         header("Location: indexstaff.php");
+        exit();
     }
     //Make Date Default
     if (!isset($_GET["filterDate"])) {

@@ -48,7 +48,7 @@ if (isset($_GET["edit"])) {
                                     </div>
                                     <div>
                                         <h4>Estimated Revenue:</h4> <input type='text' name='confirmed_revenue' value='".$row[0]["revenue"]."' readonly>
-                                        <h4>Remittance:</h4> <input type='text' name='remittance' value='".$row[0]["remittance"]."' readonly>
+                                        <h4>Remittance:</h4> <input type='text' name='remittance' value='".$row[0]["remittance"]."'>
                                         <h4>Status:</h4>
                                         <select name='status'>
                                             <option value='Pending'>Pending</option>

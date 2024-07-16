@@ -7,7 +7,7 @@
             header("Location: indexstaff.php");
             exit();
         }
-        if($_SESSION["role"] == "Administrator"){
+        if($_SESSION["role"] == "Administrator" || $_SESSION["role"] == "Owner"){
             header("Location: indexadmin.php");
             exit();
         }
@@ -20,7 +20,6 @@
         <title>Mama Flor's Lechon House</title>
         <link rel="stylesheet" href="styles.css">
     </head>
-
     <body>
         <div class="grid-40-60">
             <div>

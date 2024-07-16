@@ -1,8 +1,9 @@
 <?php
 ob_start();
 session_start();
-if ($_SESSION["role"] != "Administrator") {
+if($_SESSION["role"] == "Regular") {
     header("Location: indexstaff.php");
+    exit();
 }
 if (!isset($_SESSION["session_started"])) {
     $_SESSION["session_started"] = TRUE;
@@ -14,7 +15,8 @@ if (!isset($_SESSION["SORT"])) {
 }
 if (isset($_GET["date"])) {
     $_SESSION["date"] = $_GET["date"];
-} else {
+}
+else {
     $_SESSION["date"] = date("Y-m-d");
 }
 ?>
