@@ -151,21 +151,20 @@ body {
     padding: 16px 4px;
 }
 
-.notif {
-    margin-left: 20px;
-    padding: 10px;
+.action-button {
+    padding: 5px;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     border: none;
     background: none;
+    cursor: pointer;
 }
 
-.notif:before {
+.action-button:before {
     content: '';
     position: absolute;
-    z-index: -1;
     height: 100%;
     width: 100%;
     background: #dddddd;
@@ -173,18 +172,12 @@ body {
     opacity: 0%;
 }
 
-.notif:hover:before {
+.action-button:hover:before {
     opacity: 30%;
 }
 
-.notif:active:before {
+.action-button:active:before {
     opacity: 50%;
-}
-
-.notif img {
-    width: 34px;
-    height: auto;
-    content: url("images/notifications.svg")
 }
 
 .signin {
