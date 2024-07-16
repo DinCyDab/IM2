@@ -24,7 +24,7 @@ function redirectIfLoggedIn()
             exit();
         }
         if ($_SESSION["role"] == "Administrator" || $_SESSION["role"] == "Owner") {
-            header("Location: admin.php");
+            header("Location: dashboard.php");
             exit();
         }
     }
@@ -133,7 +133,7 @@ function authenticate()
             $conn->query($sql);
 
             if ($_SESSION["role"] == "Administrator" || $_SESSION["role"] == "Owner") {
-                header("Location: admin.php");
+                header("Location: dashboard.php");
             } else {
                 header("Location: staff.php");
             }
