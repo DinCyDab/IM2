@@ -97,6 +97,7 @@ if (!isset($_SESSION["loggedin"])) {
                 border-radius: 10px;
                 margin-right: 10px;
                 margin: 5px;
+                box-shadow: 0px 0px 10px 0px;
             }
             .form-content h4{
                 color: brown;
@@ -209,12 +210,6 @@ if (!isset($_SESSION["loggedin"])) {
 if (isset($_POST["Update"])) {
     $newpass = $_POST["newpassword"];
     $confirmpass = $_POST["confirmpassword"];
-    if($_SESSION["role"] == "Administrator"){
-        $location = "indexadmin.php";
-    }
-    else{
-        $location = "indexstaff.php";
-    }
     if ($newpass == $confirmpass) {
         $newpass = password_hash("$newpass", PASSWORD_DEFAULT);
         $oldpass = $_POST["oldpassword"];
@@ -241,7 +236,7 @@ if (isset($_POST["Update"])) {
             }
         }
         $conn->close();
-        header("Location: $location");
+        header("Location: ".$_SERVER["PHP_SELF"]);
         exit();
     }
 }

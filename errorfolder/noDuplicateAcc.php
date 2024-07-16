@@ -32,7 +32,7 @@
   }
 </style>
 
-<div class="errorMsgHolder" id="errorMsg">
+<div onclick="hideError()" class="errorMsgHolder" id="errorMsg">
   <div class="errorMSG" id="errorMsg1">
     <h1>Error</h1>
     <p>Account already exists</p>
@@ -51,9 +51,12 @@
   function closeAddSalesReport() {
     addSalesReport.style.display = "none";
   }
-  window.onclick = function (event) {
-    console.log(event.target);
 
+  function hideError(){
+    errorMsg.style.display = "none";
+  }
+
+  window.onclick = function (event) {
     if (event.target == overlay) {
       overlay.style.display = 'none';
     }
