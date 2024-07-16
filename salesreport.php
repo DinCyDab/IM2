@@ -208,9 +208,16 @@
                     INNER JOIN staff on salesreport.account_ID = staff.staff_ID
                 WHERE
                     salesreport.report_date = '".$_SESSION["chosendate"]."'
-                ORDER BY
-                    salesreport.report_date, salesreport.report_time, salesreport.report_ID
                     ";
+        if(isset($_GET["sort"])){
+            if($_SESSION["SORT"] == "DESC"){
+                $_SESSION["SORT"] = "ASC";
+            }
+            else{
+                $_SESSION["SORT"] = "DESC";
+            }
+            $sql .= " ORDER BY " . $_GET["sort"] . " " . $_SESSION["SORT"];
+        }
         $result = $conn->query( $sql );
         $row = $result->fetch_all(MYSQLI_ASSOC);
         if(sizeof($row) > 0){
@@ -218,20 +225,20 @@
                 <tr>
                     <th></th>
                     <th></th>
-                    <th>Report ID</th>
-                    <th>First Name</th>
-                    <th>Branch Name</th>
-                    <th>Product Name</th>
-                    <th>Cooked</th>
-                    <th>Reheat</th>
-                    <th>Total Display</th>
-                    <th>Leftover</th>
-                    <th>Pull Out</th>
-                    <th>Total Sold</th>
-                    <th>Estimated Revenue</th>
-                    <th>Remittance</th>
-                    <th>Confirmed Revenue</th>
-                    <th>Status</th>
+                    <th><a href='?sort=report_ID'>Report ID</a></th>
+                    <th><a href='?sort=first_name'>First Name</a></th>
+                    <th><a href='?sort=branch_name'>Branch Name</a></th>
+                    <th><a href='?sort=product_name'>Product Name</a></th>
+                    <th><a href='?sort=cooked_qty'>Cooked</a></th>
+                    <th><a href='?sort=reheat_qty'>Reheat</a></th>
+                    <th><a href='?sort=total_display_qty'>Total Display</a></th>
+                    <th><a href='?sort=left_over_qty'>Leftover</a></th>
+                    <th><a href='?sort=pull_out_qty'>Pull Ou</a>t</th>
+                    <th><a href='?sort=total_sold_qty'>Total Sold</a></th>
+                    <th><a href='?sort=estimated_revenue'>Estimated Revenue</a></th>
+                    <th><a href='?sort=remittance'>Remittance</a></th>
+                    <th><a href='?sort=estimated_revenue'>Confirmed Revenue</a></th>
+                    <th><a href='?sort=status'>Status</a></th>
                 </tr>
             ";
                     

@@ -13,6 +13,13 @@ if (!isset($_SESSION["session_started"])) {
 if (!isset($_SESSION["SORT"])) {
     $_SESSION["SORT"] = "DESC";
 }
+
+if(!isset($_SESSION["chosendate"])){
+    $_SESSION["chosendate"] = date("Y-m-d");
+}
+else if(isset($_GET["filterdate"])){
+    $_SESSION["chosendate"] = $_GET["filterdate"];
+}
 ?>
 
 <!DOCTYPE html>
@@ -168,7 +175,7 @@ if (!isset($_SESSION["SORT"])) {
 
     <body>
         <div class="functionalitybuttons">
-            <a href="salesreport.php"><button>ALL REPORTS</button></a>
+            <a href="salesreport.php"><button style="width: max-content">ALL REPORTS</button></a>
             <form method="post">
                 <button id="remover" name="removeButton" value="pendingreports">REMOVE</button>
             </form>
@@ -176,6 +183,10 @@ if (!isset($_SESSION["SORT"])) {
                 <button id="editor" name="editButton" value="pendingreports">EDIT</button>
             </form>
             <input onkeyup="filterTable()" id="search" type="text" placeholder="Search Sales Report...">
+            <form method="get" style="display:flex">
+                <input type="date" name="filterdate" value="<?php echo $_SESSION["chosendate"]?>">
+                <input type="submit" value="Filter Date">
+            </form>
         </div>
         <div class="pageheader">
             <h1>Pending Reports</h1>
@@ -193,9 +204,15 @@ if (!isset($_SESSION["SORT"])) {
 
 <?php
 $conn = mysqli_connect("localhost", "root", "", "mamaflors");
+
 if ($conn->connect_error) {
     die("ERROR".$conn->connect_error);
 } else {
+    $cont = "";
+    if(isset($_GET["filterdate"])){
+        $cont = "AND
+                    salesreport.report_date = '".$_SESSION["chosendate"]."'";
+    }
     $sql = "SELECT
                     salesreport.*,
                     branch.branch_name,
@@ -211,10 +228,17 @@ if ($conn->connect_error) {
                     INNER JOIN product on salesreport.product_ID = product.product_ID)
                     INNER JOIN staff on salesreport.account_ID = staff.staff_ID
                 WHERE
-                    salesreport.status = 'Pending'
-                ORDER BY
-                    salesreport.report_date, salesreport.report_time, salesreport.report_ID
+                    salesreport.status = 'Pending'".$cont."
                     ";
+    if(isset($_GET["sort"])){
+        if($_SESSION["SORT"] == "DESC"){
+            $_SESSION["SORT"] = "ASC";
+        }
+        else{
+            $_SESSION["SORT"] = "DESC";
+        }
+        $sql .= " ORDER BY " . $_GET["sort"] . " " . $_SESSION["SORT"];
+    }
     $result = $conn->query($sql);
     $row = $result->fetch_all(MYSQLI_ASSOC);
     if (sizeof($row) > 0) {
@@ -222,20 +246,20 @@ if ($conn->connect_error) {
                 <tr>
                     <th></th>
                     <th></th>
-                    <th>Report ID</th>
-                    <th>Report Date</th>
-                    <th>First Name</th>
-                    <th>Branch Name</th>
-                    <th>Product Name</th>
-                    <th>Cooked</th>
-                    <th>Reheat</th>
-                    <th>Total Display</th>
-                    <th>Leftover</th>
-                    <th>Pull Out</th>
-                    <th>Total Sold</th>
-                    <th>Estimated Revenue</th>
-                    <th>Remittance</th>
-                    <th>Status</th>
+                    <th><a href='?sort=report_ID'>Report ID</a></th>
+                    <th><a href='?sort=report_date'>Report Date</a></th>
+                    <th><a href='?sort=first_name'>First Name</a></th>
+                    <th><a href='?sort=branch_name'>Branch Name</a></th>
+                    <th><a href='?sort=product_name'>Product Name</a></th>
+                    <th><a href='?sort=cooked_qty'>Cooked</a></th>
+                    <th><a href='?sort=reheat_qty'>Reheat</a></th>
+                    <th><a href='?sort=total_display_qty'>Total Display</a></th>
+                    <th><a href='?sort=left_over_qty'>Leftover</a></th>
+                    <th><a href='?sort=pull_out_qty'>Pull Out</a></th>
+                    <th><a href='?sort=total_sold_qty'>Total Sold</a></th>
+                    <th><a href='?sort=revenue'>Estimated Revenue</a></th>
+                    <th><a href='?sort=remittance'>Remittance</a></th>
+                    <th><a href='?sort=status'>Status</a></th>
                 </tr>
             ";
 

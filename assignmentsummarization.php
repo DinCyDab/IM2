@@ -163,7 +163,7 @@
             <a href="assignment.php"><button style="width: max-content">BRANCH ASSIGNMENT</button></a>
             <form method="get" style="display:flex">
                 <input type="month" name="filterdate" value="<?php echo $_SESSION["date"] ?>" />
-                <input type="submit" value="Filter Date">
+                <input type="submit" value="Filter Month">
             </form>
         </div>
         <?php 
