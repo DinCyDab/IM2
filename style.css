@@ -1,10 +1,10 @@
 :root {
     --main-color: #fff;
-    --secondary-color: #560d0d;
+    --secondary-color: #3d0909;
     --background: #1a1a1a;
     --sign-in: #1a1a1a;
     --sign-in-hover: #2a2a2a;
-    --sidebar: #560d0d;
+    --sidebar: var(--secondary-color);
     --sidebar-hover: #6f0000;
     --sidebar-active: #1a1a1a;
     --action-color: #fa5555;
@@ -156,6 +156,12 @@ body {
     padding: 16px 4px;
 }
 
+.content-actions-wrapper {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
 .search-bar {
     background-color: var(--secondary-color);
     border: 1px solid var(--secondary-color);
@@ -182,7 +188,7 @@ body {
     border-color: var(--action-color);
 }
 
-.add-button-wrapper {
+.button-wrapper {
     position: relative;
 }
 
@@ -196,13 +202,15 @@ body {
     color: var(--main-color);
     font-size: var(--font-small);
     cursor: pointer;
+    margin-left: 8px;
 }
 
 .action-button:hover {
     border-color: var(--action-color-hover);
 }
 
-.action-button:focus, .action-button.active {
+.action-button:focus,
+.action-button.active {
     outline: none;
     color: var(--action-color);
     border-color: var(--action-color);
@@ -212,7 +220,8 @@ body {
     margin-right: 4px;
 }
 
-.icon-button {
+.logout-button,
+.notifications-button {
     padding: 5px;
     position: relative;
     display: flex;
@@ -223,7 +232,8 @@ body {
     cursor: pointer;
 }
 
-.icon-button:before {
+.logout-button:before,
+.notifications-button:before {
     content: '';
     position: absolute;
     height: 100%;
@@ -233,11 +243,13 @@ body {
     opacity: 0%;
 }
 
-.icon-button:hover:before {
+.logout-button:hover:before,
+.notifications-button:hover:before {
     opacity: 30%;
 }
 
-.icon-button:active:before {
+.logout-button:active:before,
+.notifications-button:active:before {
     opacity: 50%;
 }
 
@@ -319,6 +331,10 @@ body {
     align-items: center;
 }
 
+.product-cell form {
+    margin-block-end: 0;
+}
+
 .product-cell button {
     color: var(--main-color);
     border: none;
@@ -340,4 +356,95 @@ body {
 
 .products-row:hover {
     background-color: var(--secondary-color);
+}
+
+.modal-container {
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 9999;
+}
+
+.modal-container.show {
+    visibility: visible;
+}
+
+.modal {
+    color: var(--main-color);
+    position: relative;
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    padding: 30px 50px;
+    width: 400px;
+    max-width: 100%;
+}
+
+.modal h1 {
+    margin: 0;
+    margin-bottom: 30px;
+}
+
+.modal form {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.modal form label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.modal form div {
+    box-sizing: border-box;
+    flex-basis: 50%;
+}
+
+.modal form input[type='text'],
+.modal form input[type='number'],
+.modal form select {
+    padding: 10px 0px 10px 10px;
+    margin-bottom: 16px;
+    border: 1px solid var(--main-color);
+    border-radius: 4px;
+    background-color: var(--background);
+    color: var(--main-color);
+}
+
+.modal form input[type='submit'] {
+    background-color: var(--background);
+    color: var(--main-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: var(--background);
+    border: 1px solid var(--background);
+    cursor: pointer;
+}
+
+.modal form input[type="submit"]:hover {
+    border-color: var(--action-color-hover);
+}
+
+.modal form input[type="submit"]:active {
+    border-color: var(--action-color);
+}
+
+.modal-close-button {
+    top: 10px;
+    right: 10px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    cursor: pointer;
 }

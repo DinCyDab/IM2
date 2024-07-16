@@ -152,16 +152,118 @@ if (isset($_GET['authenticate'])) {
 }
 
 if (isset($_GET["remove"])) {
-    $removeID = $_GET["removeID"];
+    $removeID = $_GET["remove"];
     $tableName = $_GET["tableName"];
     $columnName = $_GET["columnName"];
     $conn = mysqli_connect("localhost", "root", "", "mamaflors");
     if ($conn->connect_error) {
         die("ERROR" . $conn->connect_error);
     } else {
-        $sql = "DELETE FROM $tableName
+        try {
+            $sql = "DELETE FROM $tableName
                 WHERE $columnName = $removeID";
+        $conn->query($sql);
+        } catch (mysqli_sql_exception) {
+            echo "<script>alert('Product is currently in use. Cannot delete it!')</script>";
+        }
+    }
+    $conn->close();
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-product"])) {
+    $productName = $_POST["product-name"];
+    $productDesc = $_POST["product-description"];
+    $productPrice = $_POST["product-price"];
+    $productStatus = $_POST["product-status"];
+
+    $conn = mysqli_connect("localhost", "root", "", "mamaflors");
+
+    if ($conn->connect_error) {
+        die("ERROR" . $conn->connect_error);
+    } else {
+        $sql = "INSERT INTO product(product_name, product_description, product_price, product_status)
+                VALUES('$productName', '$productDesc', $productPrice, '$productStatus')";
         $conn->query($sql);
     }
     $conn->close();
+    header("Location: product.php");
+    exit();
+}
+
+if (isset($_GET["edit"])) {
+    $productid = $_GET["edit"];
+    $conn = mysqli_connect("localhost", "root", "", "mamaflors");
+    if ($conn->connect_error) {
+        die("ERROR" . $conn->connect_error);
+    } else {
+        $sql = "SELECT * FROM product
+                WHERE product_ID = $productid";
+        $result = $conn->query($sql);
+        $row = $result->fetch_all(MYSQLI_ASSOC);
+        if (sizeof($row) > 0) {
+            echo '
+                <div class="modal-container show" id="edit-modal">
+                    <div class="modal">
+                        <h1>Edit Product</h1>
+                        <button class="modal-close-button" onclick="closeEditModal()">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                            </svg>
+                        </button>
+                        <form method="POST">
+                            <div>
+                                <label>Product Name</label>
+                                <input type="text" name="product-name" value="' . $row[0]["product_name"] . '" required>
+                            </div>
+                            <div>
+                                <label>Product Description</label>
+                                <input type="text" name="product-description" value="' . $row[0]["product_description"] . '">
+                            </div>
+                            <div>
+                                <label>Product Price</label>
+                                <input type="number" name="product-price" min="0" max="9999999999" value="' . $row[0]["product_price"] . '" required>
+                            </div>
+                            <div>
+                                <label>Product Status</label>
+                                <select name="product-status" value="' . $row[0]["product_status"] . '">
+                                    <option>Active</option>
+                                    <option>Inactive</option>
+                                </select>
+                            </div>
+                            <input type="submit" value="Submit" name="update-product">
+                        </form>
+                    </div>
+                </div>
+            ';
+        } else {
+            echo "No Product Listed";
+        }
+    }
+    $conn->close();
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update-product"])) {
+    $productname = $_POST["product-name"];
+    $productdescription = $_POST["product-description"];
+    $productprice = $_POST["product-price"];
+    $productstatus = $_POST["product-status"];
+
+    $conn = mysqli_connect("localhost", "root", "", "mamaflors");
+    if ($conn->connect_error) {
+        die("ERROR" . $conn->connect_error);
+    } else {
+        $sql = "UPDATE product
+                    SET
+                        product_name = '$productname',
+                        product_description = '$productdescription',
+                        product_price = '$productprice',
+                        product_status = '$productstatus'
+                    WHERE product_ID = $productid
+                    ";
+        $conn->query($sql);
+    }
+    $conn->close();
+    $_SESSION["showEdit"] = TRUE;
+    header("Location: product.php");
+    exit();
 }
